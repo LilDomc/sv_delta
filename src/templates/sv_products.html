@@ -11,15 +11,19 @@
                     <th>Ime</th>
                     <th>Opis</th>
                     <th>Cena</th>
+                    <th>Ocena</th>
+                    <th>Komentar</th>
                 </tr>
             </thead>
             <tbody>
-                {% for id, Ime_produkta, Opis_produkta, Cena_produkta in products %}
+                {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar in products %}
                     <tr>
                         <td>{{ id }}</td>
                         <td>{{ Ime_produkta }}</td>
                         <td>{{ Opis_produkta }}</td>
                         <td>{{ Cena_produkta }}</td>
+                        <td>{{ Ocena_izdelka }}</td>
+                        <td>{{ Komentar }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
