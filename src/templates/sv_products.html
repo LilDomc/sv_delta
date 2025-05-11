@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Seznam produktov{% endblock %}
+{% block content %}
+    <h1>Seznam produktov</h1>
+
+    <!-- {% if products %} -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ime</th>
+                    <th>Opis</th>
+                    <th>Cena</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id, Ime_produkta, Opis_produkta, Cena_produkta in products %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>{{ Ime_produkta }}</td>
+                        <td>{{ Opis_produkta }}</td>
+                        <td>{{ Cena_produkta }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <!-- {% else %}
+        <p>Ni artiklov za prikaz podatkov.</p>
+    {% endif %} -->
+{% endblock %}

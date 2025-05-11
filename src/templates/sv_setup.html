@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Setup{% endblock %}
+{% block content %}
+    <h1>Nastavitev podatkovne baze</h1>
+    <table>
+        <tr>
+            <th>Tabela</th>
+            <th>Uspeh</th>
+            <th>Ponastavi</th>
+        </tr>
+        {% for table in tables %}
+            <tr>
+                <td>{{ table }}</td>
+                <td>{{ tables[table] }}</td>
+                <td>[<a href="/reset/{{ table }}">reset</a>]</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

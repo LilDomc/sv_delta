@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Seznam obiskovalcev{% endblock %}
+{% block content %}
+    <h1>Seznam obiskovalcev</h1>
+    <table>
+        <tr>
+            <th>Št. obiskovalca</th>
+            <th>Ime</th>
+        </tr>
+        {% for id, name in users %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>{{ name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Pozdrav{% endblock %}
+{% block content %}
+    {% if pozdrav %}
+        <h1>{{ pozdrav }}</h1>
+    {% else %}
+        <h1>Vnesi ime</h1>
+        <form method="POST">
+            <input type="text" name="name" required>
+            <input type="submit" value="Pošlji">
+        </form>
+    {% endif %}
+{% endblock %}
