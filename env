@@ -1,0 +1,5 @@
+DBHOST=db
+DBPORT=5432
+DBUSER=admin
+DBPASS=admin
+DBNAME=delta
