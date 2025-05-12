@@ -1,36 +1,31 @@
 {% extends "base.html" %}
 {% block title %}Seznam produktov{% endblock %}
 {% block content %}
-    <h1>Seznam produktov</h1>
-
-    <!-- {% if products %} -->
-        <table>
-            <thead>
+<h1>Seznam produktov</h1>       <!---spremeni seznam produktov v svoj naslov-->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ime</th>
+                <th>Opis</th>
+                <th>Cena</th>
+                <th>Ocena</th>
+                <th>Komentar</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar, Stock in products %}
                 <tr>
-                    <th>ID</th>
-                    <th>Ime</th>
-                    <th>Opis</th>
-                    <th>Cena</th>
-                    <th>Ocena</th>
-                    <th>Komentar</th>
-                    <th>Stock</th>
+                    <td>{{ id }}</td>
+                    <td>{{ Ime_produkta }}</td>
+                    <td>{{ Opis_produkta }}</td>
+                    <td>{{ Cena_produkta }}</td>
+                    <td>{{ Ocena_izdelka }}</td>
+                    <td>{{ Komentar }}</td>
+                    <td>{{ Stock }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar, Stock in products %}
-                    <tr>
-                        <td>{{ id }}</td>
-                        <td>{{ Ime_produkta }}</td>
-                        <td>{{ Opis_produkta }}</td>
-                        <td>{{ Cena_produkta }}</td>
-                        <td>{{ Ocena_izdelka }}</td>
-                        <td>{{ Komentar }}</td>
-                        <td>{{ Stock }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    <!-- {% else %}
-        <p>Ni artiklov za prikaz podatkov.</p>
-    {% endif %} -->
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
