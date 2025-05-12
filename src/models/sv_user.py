@@ -29,7 +29,8 @@ def setup_db():
             Opis_produkta varchar(255),
             Cena_produkta varchar(255),
             Ocena_izdelka varchar(255),
-            Komentar varchar(255)
+            Komentar varchar(255),
+            Stock varchar(255)
         )
     ''')                                #Ocena izdelka, ko bo input ustvarjen spremeni Ocena_izdelka, v avg rate of specific product
     conn.commit()
@@ -67,11 +68,11 @@ def insert_test_data():     #inserta če je tabela prazna
             $$
             BEGIN
                 IF NOT EXISTS (SELECT 1 FROM products LIMIT 1) THEN
-                    INSERT INTO products (id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar) VALUES
-                    (1, 'Varovalka 100w', 'Description for product 1', '100', '5', 'Zelo dober izdelek!'),
-                    (2, 'Varovalka 200w', 'Description for product 2', '150', '4', 'Solidno'),
-                    (3, 'Varovalka 300w', 'Description for product 3', '200', '3', 'Zadovoljen, vendar sem pričakoval več'),
-                    (4, 'Varovalka 400w', 'Description for product 4', '600', '5', 'Dela kot je treba!');
+                    INSERT INTO products (id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar, Stock) VALUES
+                    (1, 'Varovalka 100w', 'Description for product 1', '100', '5', 'Zelo dober izdelek!', '3'),
+                    (2, 'Varovalka 200w', 'Description for product 2', '150', '4', 'Solidno', '0'),
+                    (3, 'Varovalka 300w', 'Description for product 3', '200', '3', 'Zadovoljen, vendar sem pričakoval več', '1'),
+                    (4, 'Varovalka 400w', 'Description for product 4', '600', '5', 'Dela kot je treba!', '2');
                 END IF;
             END;
             $$;''')

@@ -13,10 +13,11 @@
                     <th>Cena</th>
                     <th>Ocena</th>
                     <th>Komentar</th>
+                    <th>Stock</th>
                 </tr>
             </thead>
             <tbody>
-                {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar in products %}
+                {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar, Stock in products %}
                     <tr>
                         <td>{{ id }}</td>
                         <td>{{ Ime_produkta }}</td>
@@ -24,6 +25,7 @@
                         <td>{{ Cena_produkta }}</td>
                         <td>{{ Ocena_izdelka }}</td>
                         <td>{{ Komentar }}</td>
+                        <td>{{ Stock }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
