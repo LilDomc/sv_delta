@@ -1,10 +1,9 @@
 import db
 
 class User:
-
     def __init__(self, name):
         self.name = name
-        self.save()
+        self.save() # TODO Po mojem mnenju je to slab design, boljše bi bilo da se save kliče posebej, da je koda bolj berljiva ...
 
     def save(self):
         conn = db.get_connection()
@@ -23,7 +22,7 @@ def setup_db():
             id SERIAL PRIMARY KEY,
             name VARCHAR(50) NOT NULL
         );
-        CREATE TABLE IF NOT EXISTS products (
+        CREATE TABLE IF NOT EXISTS products ( 
             id SERIAL PRIMARY KEY,
             Ime_produkta varchar(255),
             Opis_produkta varchar(255),

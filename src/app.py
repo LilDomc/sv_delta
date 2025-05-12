@@ -1,3 +1,4 @@
+import controllers.sv_contact
 from flask import Flask
 
 import controllers.index
@@ -6,10 +7,11 @@ import controllers.sv_setup
 import controllers.sv_users
 import controllers.sv_products
 
-f_app = Flask(__name__)
+f_app = Flask(__name__) # F stands for fu***ng
 #tuki se napiše pot to controllers
 
 if __name__ == "__main__":
+
     app.run(debug=True)
 
 @f_app.get('/')
@@ -35,6 +37,14 @@ def reset_users():
 @f_app.get('/users')
 def users():
     return controllers.sv_users.show_users()
+
+@f_app.get('/kontakt')
+def kontakt():
+    return controllers.sv_contact.show_contact_form()
+
+@f_app.post('/kontakt')
+def kontakt_post():
+    return controllers.sv_contact.save_contact_request()
 
 @f_app.get('/products')
 def products():
