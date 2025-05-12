@@ -10,7 +10,6 @@ f_app = Flask(__name__)
 #tuki se napiše pot to controllers
 
 if __name__ == "__main__":
-    setup_db()
     app.run(debug=True)
 
 @f_app.get('/')
@@ -40,7 +39,4 @@ def users():
 @f_app.get('/products')
 def products():
     return controllers.sv_products.show_products()
-
-
-
 
