@@ -84,7 +84,7 @@ def insert_test_data():     #inserta če je tabela prazna
 def get_products():
     conn = db.get_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM products')
+    cursor.execute('SELECT id, Ime_produkta, Opis_produkta, Cena_produkta, Stock FROM products')
     products = cursor.fetchall()
     conn.commit()
     cursor.close()
