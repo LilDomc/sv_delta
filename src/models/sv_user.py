@@ -72,7 +72,9 @@ def insert_test_data():     #inserta če je tabela prazna
                     (1, 'Varovalka 100w', 'Description for product 1', '100', '5', 'Zelo dober izdelek!', '3'),
                     (2, 'Varovalka 200w', 'Description for product 2', '150', '4', 'Solidno', NULL),
                     (3, 'Varovalka 300w', 'Description for product 3', '200', '3', 'Zadovoljen, vendar sem pričakoval več', '1'),
-                    (4, 'Varovalka 400w', 'Description for product 4', '600', '5', 'Dela kot je treba!', '2');
+                    (4, 'Varovalka 400w', 'Description for product 4', '600', '5', 'Dela kot je treba!', '2'),
+                    (5, 'Varovalka 500w', 'Description for product 5', '700', '5', 'Dela kot je treba!', '5'),
+                    (6, 'Varovalka 600w', 'Description for product 6', '800', '5', 'Dela kot je treba!', '10');
                 END IF;
             END;
             $$;''')
