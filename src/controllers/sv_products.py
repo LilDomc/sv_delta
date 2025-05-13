@@ -19,4 +19,4 @@ def rate_product():
 
 def show_trgovina():
     trgovina = models.sv_trgovina.get_trgovina()
-    return render_template('sv_trgovina.html', trgovina=trgovina)
+    return render_template('sv_trgovina.html', products=trgovina)

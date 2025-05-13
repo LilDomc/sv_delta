@@ -1,23 +1,30 @@
 {% extends "base.html" %}
 {% block title %}Trgovina{% endblock %}
 {% block content %}
-<h1>Trgovina</h1>       <!---spremeni seznam produktov v svoj naslov-->
-    <table>
-        <thead>
-            <tr>
-                <th>Ime</th>
-                <th>Opis</th>
-                <th>Cena</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for Ime_produkta, Opis_produkta, Cena_produkta in products %}
-                <tr>
-                    <td>{{ Ime_produkta }}</td>
-                    <td>{{ Opis_produkta }}</td>
-                    <td>{{ Cena_produkta }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<h1>Trgovina</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Opis</th>
+            <th>Cena</th>
+            <th>Košarica</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product[1] }}</td>  {# Ime_produkta #}
+            <td>{{ product[2] }}</td>  {# Opis_produkta #}
+            <td>{{ product[3] }}</td>  {# Cena_produkta #}
+            <td>
+                <form action="{{ url_for('trgovina_post') }}" method="post">
+                    <input type="hidden" name="productID" value="{{ product[0] }}">
+                    <button type="submit">Dodaj v košarico</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
