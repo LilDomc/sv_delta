@@ -8,13 +8,17 @@ import controllers.sv_users
 import controllers.sv_products
 import models
 import models.sv_backend
+import models.sv_products
+import models.sv_trgovina
+import models.sv_kosarica
+import models.sv_qa
 
 f_app = Flask(__name__) # F stands for fu***ng
 #tuki se napiše pot to controllers
 
 if __name__ == "__main__":
     models.sv_backend.setup_all_db_tables()
-    app.run(debug=True)
+    f_app.run(debug=True)
 
 
 @f_app.get('/')
