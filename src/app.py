@@ -1,4 +1,5 @@
 import controllers.sv_contact
+import controllers.sv_kosarica
 from flask import Flask
 
 import controllers.index
@@ -64,3 +65,7 @@ def rate():
 @f_app.get('/trgovina')
 def trgovina():
     return controllers.sv_products.show_trgovina()
+
+@f_app.route('/trgovina', methods=['POST'])
+def trgovina_post():
+    return controllers.sv_kosarica.add_to_cart()
