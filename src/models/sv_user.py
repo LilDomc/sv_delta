@@ -1,10 +1,9 @@
 import db
 
 class User:
-
     def __init__(self, name):
         self.name = name
-        self.save()
+        self.save() # TODO Po mojem mnenju je to slab design, boljše bi bilo da se save kliče posebej, da je koda bolj berljiva ...
 
     def save(self):
         conn = db.get_connection()
