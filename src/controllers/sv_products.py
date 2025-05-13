@@ -10,4 +10,4 @@ def show_products():
 
 def show_trgovina():
     trgovina = models.sv_user.get_trgovina()
-    return render_template('sv_trgovina.html', trgovina=trgovina)
+    return render_template('sv_trgovina.html', products=trgovina)
