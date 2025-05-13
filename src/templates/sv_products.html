@@ -3,12 +3,26 @@
 {% block content %}
     <h1>Seznam produktov</h1>
     <div class="product-container">
-        {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Stock in products %}
+        {% for productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock in products %}
             <div class="product-card">
                 <h3>{{ Ime_produkta }}</h3>
                 <p>{{ Opis_produkta }}</p>
                 <p>Cena: {{ Cena_produkta }} €</p>
                 <p>Na zalogi: {{ Stock }}</p>
+
+                <form method="POST" action="/rate">
+                    <input type="hidden" name="product_id" value="{{ productID }}">
+                    <label for="rating">Oceni izdelek:</label>
+                    <select name="rating" id="rating">
+                        <option value="5">5 zvezdic</option>
+                        <option value="4">4 zvezdice</option>
+                        <option value="3">3 zvezdice</option>
+                        <option value="2">2 zvezdici</option>
+                        <option value="1">1 zvezdica</option>
+                    </select>
+                    <button type="submit">Oddaj oceno</button>
+                </form>
+
             </div>
             {% if loop.index % 3 == 0 %}
                 <div class="clearfix"></div>

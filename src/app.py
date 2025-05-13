@@ -40,6 +40,10 @@ def users():
 def products():
     return controllers.sv_products.show_products()
 
+@f_app.route('/rate', methods=['POST'])
+def rate():
+    return controllers.sv_products.rate_product()
+
 @f_app.get('/trgovina')
 def trgovina():
     return controllers.sv_products.show_trgovina()
