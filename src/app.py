@@ -10,7 +10,7 @@ f_app = Flask(__name__)
 #tuki se napiše pot to controllers
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    f_app.run(debug=True)
 
 @f_app.get('/')
 def home():

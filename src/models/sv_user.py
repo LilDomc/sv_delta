@@ -1,7 +1,6 @@
 import db
 
 class User:
-
     def __init__(self, name):
         self.name = name
         self.save()
@@ -23,6 +22,8 @@ def setup_db():
             userID SERIAL PRIMARY KEY,
             name VARCHAR(50) NOT NULL
         );
+    ''')
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
             productID SERIAL PRIMARY KEY,
             Ime_produkta varchar(255),
@@ -31,6 +32,8 @@ def setup_db():
             Komentar varchar(255),
             Stock INT
         );
+    ''')
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS rate (
             rateID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
@@ -40,6 +43,16 @@ def setup_db():
             "2_star" INT,
             "1_star" INT,
             average_rating DECIMAL(3,2),
+            FOREIGN KEY (productID) REFERENCES products(productID)
+        );
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS kosarica (
+            kosaricaID SERIAL PRIMARY KEY,
+            productID INT NOT NULL,
+            Ime_produkta varchar(255),
+            Cena_produkta varchar(255),
+            Stock INT NOT NULL DEFAULT 1,
             FOREIGN KEY (productID) REFERENCES products(productID)
         );
     ''')                                #Ocena izdelka, ko bo input ustvarjen spremeni Ocena_izdelka, v avg rate of specific product
