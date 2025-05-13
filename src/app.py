@@ -17,7 +17,6 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-
 @f_app.get('/')
 def home():
     return controllers.index.home()
