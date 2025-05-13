@@ -95,26 +95,7 @@ def insert_test_data():     #inserta če je tabela prazna
 def get_products():
     conn = db.get_connection()
     cursor = conn.cursor()
-    sort_columns = {
-        "name": "Ime_produkta",
-        "price": "CAST(Cena_produkta AS INT)",
-        "stock": "Stock"
-    }
-    directions = ["asc", "desc"]
-
-    column = sort_columns.get(sort_by, "Ime_produkta")
-    direction = order if order in directions else "asc"
-
-    nulls = "NULLS FIRST" if sort_by == "stock" and order == "asc" else \
-        "NULLS LAST" if sort_by == "stock" and order == "desc" else ""
-
-    query = f'''
-        SELECT id, Ime_produkta, Opis_produkta, Cena_produkta, Stock
-        FROM products
-        ORDER BY {column} {direction} {nulls};
-    '''
-
-    cursor.execute(query)
+    cursor.execute('SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock FROM products')
     products = cursor.fetchall()
     conn.commit()
     cursor.close()
