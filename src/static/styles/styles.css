@@ -1,0 +1,207 @@
+body {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
+}
+
+header, footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+}
+
+.content {
+    min-height: calc(100vh - 80px); /* Adjust based on your header and footer height */
+    padding-bottom: 60px; /* Height of the footer */
+}
+
+.main-menu {
+    background-color: #b32971;
+    padding: 0.5em;
+    position: relative;
+}
+
+/* Hide the menu by default on small screens */
+.menu-toggle {
+    display: none;
+}
+
+/* Hamburger icon styling */
+.hamburger-icon {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.hamburger-icon span {
+    width: 100%;
+    height: 5px;
+    background-color: #fff;
+    transition: 0.3s;
+}
+
+/* For smaller screens, show the hamburger icon and hide the menu */
+@media(max-width: 768px) {
+    .hamburger-icon {
+        display: flex;
+    }
+
+    .main-menu ul {
+        display: none;
+        position: absolute;
+        top: 60px;
+        width: 100%;
+        text-align: left;
+        background-color: #b32971;
+        padding: 0;
+    }
+
+    .main-menu ul li {
+        display: block;
+        width: 100%;
+        padding: 0.5em;
+    }
+
+    /* Show the menu when the checkbox is checked */
+    .menu-toggle:checked + .hamburger-icon + .menu-list {
+        display: block;
+    }
+
+    .menu-toggle:checked + .hamburger-icon span:nth-child(1) {
+        transform: rotate(45deg);
+        position: relative;
+        top: 10px;
+    }
+
+    .menu-toggle:checked + .hamburger-icon span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle:checked + .hamburger-icon span:nth-child(3) {
+        transform: rotate(-45deg);
+        position: relative;
+        bottom: 10px;
+    }
+}
+
+/* Menu styling for desktop */
+.main-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.main-menu ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.main-menu ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 0.5em 1em;
+    display: inline-block;
+}
+
+.main-menu ul li a:hover {
+    background-color: #b32971;
+}
+
+.custom-navbar {
+    background-color: #b32971;
+}
+
+.custom-navbar .navbar-brand, 
+.custom-navbar .nav-link {
+    color: #fff;
+}
+
+.custom-navbar .nav-link:hover {
+    background-color: #8d2154;
+}
+
+.custom-navbar .navbar-toggler {
+    border-color: #fff;
+}
+
+.custom-navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.5 12a.5.5 0 010-1h13a.5.5 0 010 1h-13zM1.5 8a.5.5 0 010-1h13a.5.5 0 010 1h-13zM1.5 4a.5.5 0 010-1h13a.5.5 0 010 1h-13z'/%3E%3C/svg%3E");
+}
+
+
+div {
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 10px;
+    width: calc(33.33% - 40px); /* Three items per row */
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    color: #b32971;
+}
+
+.product-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.clearfix {
+    flex-basis: 100%;
+    height: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .product-card {
+        width: calc(50% - 40px); /* Two items per row */
+    }
+}
+
+@media (max-width: 600px) {
+    .product-card {
+        width: calc(100% - 40px); /* One item per row */
+    }
+}

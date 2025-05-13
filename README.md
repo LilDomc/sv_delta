@@ -8,11 +8,7 @@ Unzip the downloaded files into a folder.
 
 Important: The main folder must be named Projekt to ensure proper functionality.
 
-First Run Configuration:
-
-Before starting the application for the first time, open the files sv_products.py and sv_users.py.
-
-Comment out the indicated sections (marked clearly within the files) to avoid errors during the initial run.
+Run the command: Docker compose up -d
 
 Troubleshooting:
 

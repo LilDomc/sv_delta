@@ -2,33 +2,43 @@
 {% block title %}Seznam produktov{% endblock %}
 {% block content %}
     <h1>Seznam produktov</h1>
+    <form method="get" action="/products">
+        <select name="sort">
+            <option value="name_asc" {% if sort_by == 'name' and order == 'asc' %}selected{% endif %}>Name ↑</option>
+            <option value="name_desc" {% if sort_by == 'name' and order == 'desc' %}selected{% endif %}>Name ↓</option>
+            <option value="price_asc" {% if sort_by == 'price' and order == 'asc' %}selected{% endif %}>Price ↑</option>
+            <option value="price_desc" {% if sort_by == 'price' and order == 'desc' %}selected{% endif %}>Price ↓</option>
+            <option value="stock_asc" {% if sort_by == 'stock' and order == 'asc' %}selected{% endif %}>Stock ↑</option>
+            <option value="stock_desc" {% if sort_by == 'stock' and order == 'desc' %}selected{% endif %}>Stock ↓</option>
+        </select>
 
-    <!-- {% if products %} -->
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Ime</th>
-                    <th>Opis</th>
-                    <th>Cena</th>
-                    <th>Ocena</th>
-                    <th>Komentar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar in products %}
-                    <tr>
-                        <td>{{ id }}</td>
-                        <td>{{ Ime_produkta }}</td>
-                        <td>{{ Opis_produkta }}</td>
-                        <td>{{ Cena_produkta }}</td>
-                        <td>{{ Ocena_izdelka }}</td>
-                        <td>{{ Komentar }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    <!-- {% else %}
-        <p>Ni artiklov za prikaz podatkov.</p>
-    {% endif %} -->
+        <button type="submit">Sort</button>
+    </form>
+    <div class="product-container">
+        {% for productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock in products %}
+            <div class="product-card">
+                <h3>{{ Ime_produkta }}</h3>
+                <p>{{ Opis_produkta }}</p>
+                <p>Cena: {{ Cena_produkta }} €</p>
+                <p>Na zalogi: {{ Stock }}</p>
+
+                <form method="POST" action="/rate">
+                    <input type="hidden" name="product_id" value="{{ productID }}">
+                    <label for="rating">Oceni izdelek:</label>
+                    <select name="rating" id="rating">
+                        <option value="5">5 zvezdic</option>
+                        <option value="4">4 zvezdice</option>
+                        <option value="3">3 zvezdice</option>
+                        <option value="2">2 zvezdici</option>
+                        <option value="1">1 zvezdica</option>
+                    </select>
+                    <button type="submit">Oddaj oceno</button>
+                </form>
+
+            </div>
+            {% if loop.index % 3 == 0 %}
+                <div class="clearfix"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}

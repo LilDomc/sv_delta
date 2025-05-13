@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Trgovina{% endblock %}
+{% block content %}
+<h1>Trgovina</h1>       <!---spremeni seznam produktov v svoj naslov-->
+    <table>
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Opis</th>
+                <th>Cena</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for Ime_produkta, Opis_produkta, Cena_produkta in products %}
+                <tr>
+                    <td>{{ Ime_produkta }}</td>
+                    <td>{{ Opis_produkta }}</td>
+                    <td>{{ Cena_produkta }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
