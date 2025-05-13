@@ -2,18 +2,6 @@
 {% block title %}Seznam produktov{% endblock %}
 {% block content %}
     <h1>Seznam produktov</h1>
-    <form method="get" action="/products">
-        <select name="sort">
-            <option value="name_asc" {% if sort_by == 'name' and order == 'asc' %}selected{% endif %}>Name ↑</option>
-            <option value="name_desc" {% if sort_by == 'name' and order == 'desc' %}selected{% endif %}>Name ↓</option>
-            <option value="price_asc" {% if sort_by == 'price' and order == 'asc' %}selected{% endif %}>Price ↑</option>
-            <option value="price_desc" {% if sort_by == 'price' and order == 'desc' %}selected{% endif %}>Price ↓</option>
-            <option value="stock_asc" {% if sort_by == 'stock' and order == 'asc' %}selected{% endif %}>Stock ↑</option>
-            <option value="stock_desc" {% if sort_by == 'stock' and order == 'desc' %}selected{% endif %}>Stock ↓</option>
-        </select>
-
-        <button type="submit">Sort</button>
-    </form>
     <div class="product-container">
         {% for productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock in products %}
             <div class="product-card">
