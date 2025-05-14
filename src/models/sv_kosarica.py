@@ -25,7 +25,7 @@ def dodaj_v_kosarico(product_id):
     # Pridobi podatke o izdelku
     cursor.execute('''
         SELECT productID, Ime_produkta, Cena_produkta 
-        FROM products WHERE productID = %s;
+        FROM products WHERE Ime_produkta = %s;
     ''', (product_id,))
     row = cursor.fetchone()
 

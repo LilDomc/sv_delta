@@ -4,7 +4,7 @@ import models.sv_products
 import models.sv_trgovina
 
 def show_products():
-    #models.sv_qa.setup_db()        TO SE KLIČE V SVOJEM KONTROLERJU ZA VPRAŠANJA IN ODGOVORE!!!!
+    #models.sv_qa.setup_db()        #TO SE KLIČE V SVOJEM KONTROLERJU ZA VPRAŠANJA IN ODGOVORE!!!!
     models.sv_products.setup_db()
     models.sv_products.insert_test_data()
 

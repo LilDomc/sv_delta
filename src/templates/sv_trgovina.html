@@ -6,8 +6,8 @@
 <div class="product-grid">
     {% for product in products %}
     <div class="product-card">
-        <h3>{{ product[1] }}</h3>  {# Ime_produkta #}
-        <p>{{ product[2] }}</p>   {# Opis_produkta #}
+        <h3>{{ product[0] }}</h3>  {# Ime_produkta #}
+        <p>{{ product[1] }}</p>   {# Opis_produkta #}
         <span>{{ product[3] }} €</span>  {# Cena_produkta #}
         <form action="{{ url_for('trgovina_post') }}" method="post">
             <input type="hidden" name="productID" value="{{ product[0] }}">
