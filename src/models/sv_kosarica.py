@@ -16,4 +16,31 @@ def setup_db():
     conn.commit()
     cursor.close()
     conn.close()
+<<<<<<< Updated upstream
     return True
+=======
+    return True
+
+def dodaj_v_kosarico(product_id):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    # Pridobi podatke o izdelku
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Cena_produkta 
+        FROM products WHERE Ime_produkta = %s;
+    ''', (product_id,))
+    row = cursor.fetchone()
+
+    if row:
+        productID, ime, cena = row
+        # Vstavi v kosarico
+        cursor.execute('''
+            INSERT INTO kosarica (productID, Ime_produkta, Cena_produkta)
+            VALUES (%s, %s, %s)
+        ''', (productID, ime, cena))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+>>>>>>> Stashed changes

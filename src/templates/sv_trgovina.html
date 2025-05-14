@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Trgovina{% endblock %}
 {% block content %}
+<<<<<<< Updated upstream
 <h1>Trgovina</h1>       <!---spremeni seznam produktov v svoj naslov-->
     <table>
         <thead>
@@ -20,4 +21,20 @@
             {% endfor %}
         </tbody>
     </table>
+=======
+<h1>Trgovina</h1>
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <h3>{{ product[0] }}</h3>  {# Ime_produkta #}   <!---Začne se vedno na indeksu 0, čene pride do zamika!! na indeksi [1] je v tabeli zapisan opis produkta-->
+        <p>{{ product[1] }}</p>   {# Opis_produkta #}
+        <span>{{ product[2] }} €</span>  {# Cena_produkta #}
+        <form action="{{ url_for('trgovina_post') }}" method="post">
+            <input type="hidden" name="productID" value="{{ product[0] }}">
+            <button type="submit" class="add-to-cart-btn">Dodaj v košarico</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+>>>>>>> Stashed changes
 {% endblock %}
