@@ -4,6 +4,7 @@ from flask import Flask
 
 import controllers.index
 import controllers.sv_hello
+import controllers.sv_qa
 import controllers.sv_setup
 import controllers.sv_users
 import controllers.sv_products
@@ -69,3 +70,7 @@ def trgovina():
 @f_app.route('/trgovina', methods=['POST'])
 def trgovina_post():
     return controllers.sv_kosarica.add_to_cart()
+
+@f_app.get('/vprasanja')
+def qa():
+    return controllers.sv_qa.show_questions()

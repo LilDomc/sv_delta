@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Seznam vprašanj in odgovorov{% endblock %}
+{% block content %}
+<h1>Seznam vprašanj in odgovorov</h1>
+<div class="question-container">
+    {% for qid, q in questions.items() %}
+        <div class="question-card">
+            <h3>{{ q.text }}</h3>
+            <ul>
+                {% for odgovor in q.answers %}
+                    <li>{{ odgovor }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if loop.index % 3 == 0 %}
+            <div class="clearfix"></div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
