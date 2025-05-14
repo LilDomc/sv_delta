@@ -15,6 +15,10 @@ import models.sv_trgovina
 import models.sv_kosarica
 import models.sv_qa
 
+import controllers.sv_registracija
+import controllers.sv_prijava
+import controllers.sv_odjava
+
 f_app = Flask(__name__) # F stands for fu***ng
 #tuki se napiše pot to controllers
 
@@ -74,3 +78,26 @@ def trgovina_post():
 @f_app.get('/vprasanja')
 def qa():
     return controllers.sv_qa.show_questions()
+
+
+@f_app.get('/registracija')
+def registracija_get():
+    return controllers.sv_registracija.prikazi_registracijo()
+
+@f_app.post('/registracija')
+def registracija_post():
+    return controllers.sv_registracija.obdelaj_registracijo()
+
+@f_app.get('/prijava')
+def prijava_get():
+    return controllers.sv_prijava.prikazi_prijavo()
+
+@f_app.post('/prijava')
+def prijava_post():
+    return controllers.sv_prijava.obdelaj_prijavo()
+
+@f_app.get('/odjava')
+def odjava():
+    return controllers.sv_odjava.odjava()
+
+f_app.secret_key = "delta2secure" #NUJNO POTREBEN SUPER SKRIVNI KLJUČ, ZA DELOVANJE SEJ ~ Luka Drofenik
