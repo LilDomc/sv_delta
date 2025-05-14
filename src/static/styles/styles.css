@@ -136,7 +136,6 @@ header, footer {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.5 12a.5.5 0 010-1h13a.5.5 0 010 1h-13zM1.5 8a.5.5 0 010-1h13a.5.5 0 010 1h-13zM1.5 4a.5.5 0 010-1h13a.5.5 0 010 1h-13z'/%3E%3C/svg%3E");
 }
 
-
 div {
     padding: 20px;
 }
@@ -151,13 +150,14 @@ footer {
     bottom: 0;
 }
 
-
+/* Product Container Flex */
 .product-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    justify-content: space-between; /* Ensure items are spaced out evenly */
     padding: 20px;
+    margin: 0 auto; /* Center the container itself */
+    max-width: 1200px; /* Optional: Limit max-width for a more contained layout */
 }
 
 .product-card {
@@ -165,8 +165,8 @@ footer {
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin: 10px;
+    padding: 20px;
+    margin: 15px;
     width: calc(33.33% - 40px); /* Three items per row */
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -179,13 +179,34 @@ footer {
 
 .product-card h3 {
     margin: 0 0 10px;
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #b32971;
 }
 
 .product-card p {
-    margin: 5px 0;
+    margin: 5px 0 10px;
     color: #555;
+}
+
+.product-card span {
+    font-weight: bold;
+    color: #b32971;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.add-to-cart-btn {
+    background-color: #b32971;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #8d2154;
 }
 
 .clearfix {
@@ -203,5 +224,24 @@ footer {
 @media (max-width: 600px) {
     .product-card {
         width: calc(100% - 40px); /* One item per row */
+        margin: 10px; /* Reduce margin on small screens */
+        padding: 15px; /* Slightly reduced padding */
+    }
+
+    .add-to-cart-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .product-card h3 {
+        font-size: 1.1em;
+    }
+
+    .product-card p {
+        font-size: 0.9em;
+    }
+
+    .product-card span {
+        font-size: 1em;
     }
 }
