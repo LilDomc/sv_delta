@@ -1,31 +1,32 @@
 {% extends "base.html" %}
 {% block title %}Seznam produktov{% endblock %}
 {% block content %}
-<h1>Seznam produktov</h1>       <!---spremeni seznam produktov v svoj naslov-->
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ime</th>
-                <th>Opis</th>
-                <th>Cena</th>
-                <th>Ocena</th>
-                <th>Komentar</th>
-                <th>Stock</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for id, Ime_produkta, Opis_produkta, Cena_produkta, Ocena_izdelka, Komentar, Stock in products %}
-                <tr>
-                    <td>{{ id }}</td>
-                    <td>{{ Ime_produkta }}</td>
-                    <td>{{ Opis_produkta }}</td>
-                    <td>{{ Cena_produkta }}</td>
-                    <td>{{ Ocena_izdelka }}</td>
-                    <td>{{ Komentar }}</td>
-                    <td>{{ Stock }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>Seznam produktov</h1>
+    <div class="product-container">
+        {% for productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock in products %}
+            <div class="product-card">
+                <h3>{{ Ime_produkta }}</h3>
+                <p>{{ Opis_produkta }}</p>
+                <p>Cena: {{ Cena_produkta }} €</p>
+                <p>Na zalogi: {{ Stock }}</p>
+
+                <form method="POST" action="/rate">
+                    <input type="hidden" name="product_id" value="{{ productID }}">
+                    <label for="rating">Oceni izdelek:</label>
+                    <select name="rating" id="rating">
+                        <option value="5">5 zvezdic</option>
+                        <option value="4">4 zvezdice</option>
+                        <option value="3">3 zvezdice</option>
+                        <option value="2">2 zvezdici</option>
+                        <option value="1">1 zvezdica</option>
+                    </select>
+                    <button type="submit">Oddaj oceno</button>
+                </form>
+
+            </div>
+            {% if loop.index % 3 == 0 %}
+                <div class="clearfix"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}

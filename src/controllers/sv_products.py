@@ -1,13 +1,22 @@
-from flask import request, render_template
+from flask import request, redirect, render_template
 
-import models.sv_user
+import models.sv_products
+import models.sv_trgovina
 
 def show_products():
-    models.sv_user.insert_test_data()
+    #models.sv_qa.setup_db()        #TO SE KLIČE V SVOJEM KONTROLERJU ZA VPRAŠANJA IN ODGOVORE!!!!
+    models.sv_products.setup_db()
+    models.sv_products.insert_test_data()
 
-    products = models.sv_user.get_products()
+    products = models.sv_products.get_products()
     return render_template('sv_products.html', products=products)
 
+def rate_product():
+    product_id = int(request.form['product_id'])
+    rating_value = int(request.form['rating'])
+    models.sv_products.add_rating(product_id, rating_value)
+    return redirect('/products')
+
 def show_trgovina():
-    trgovina = models.sv_user.get_trgovina()
+    trgovina = models.sv_trgovina.get_trgovina()
     return render_template('sv_trgovina.html', products=trgovina)
