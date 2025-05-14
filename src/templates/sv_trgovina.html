@@ -8,7 +8,7 @@
     <div class="product-card">
         <h3>{{ product[0] }}</h3>  {# Ime_produkta #}
         <p>{{ product[1] }}</p>   {# Opis_produkta #}
-        <span>{{ product[3] }} €</span>  {# Cena_produkta #}
+        <span>{{ product[2] }} €</span>  {# Cena_produkta #}
         <form action="{{ url_for('trgovina_post') }}" method="post">
             <input type="hidden" name="productID" value="{{ product[0] }}">
             <button type="submit" class="add-to-cart-btn">Dodaj v košarico</button>
