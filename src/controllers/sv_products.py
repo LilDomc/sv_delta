@@ -20,3 +20,17 @@ def rate_product():
 def show_trgovina():
     trgovina = models.sv_trgovina.get_trgovina()
     return render_template('sv_trgovina.html', products=trgovina)
+
+
+def insert_product():
+    if request.method == 'POST':
+        name = request.form['name']
+        description = request.form['description']
+        price = float(request.form['price'])
+        stock = int(request.form['stock'])
+
+        models.sv_products.insert_product(name, description, price, stock)
+        return redirect('/products')
+
+    return render_template('sv_insert_product.html')
+
