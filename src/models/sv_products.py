@@ -50,21 +50,17 @@ def insert_test_data():     #inserta če je tabela prazna
     count = cursor.fetchone()[0]
 
     if count == 0:
-        cursor.execute('''
-            DO
-            $$
-            BEGIN
-                IF NOT EXISTS (SELECT 1 FROM products LIMIT 1) THEN
-                    INSERT INTO products (productID, Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock) VALUES
-                    (1, 'Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', '3'),
-                    (2, 'Varovalka 200w', 'Description for product 2', '150', 'Solidno', NULL),
-                    (3, 'Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', '1'),
-                    (4, 'Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', '2'),
-                    (5, 'Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', '5'),
-                    (6, 'Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', '10');
-                END IF;
-            END;
-            $$;''')
+            cursor.executemany('''
+                INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock)
+                VALUES (%s, %s, %s, %s, %s)
+            ''', [
+                ('Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', 3),
+                ('Varovalka 200w', 'Description for product 2', '150', 'Solidno', None),
+                ('Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', 1),
+                ('Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', 2),
+                ('Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', 5),
+                ('Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', 10)
+            ])
 
     conn.commit()
     cursor.close()
@@ -124,3 +120,15 @@ def add_rating(product_id, star_value):
     conn.close()
 
     get_product_avg_rate(product_id)
+
+def insert_product(name, description, price, stock):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock)
+        VALUES (%s, %s, %s, NULL, %s)
+    ''', (name, description, price, stock))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return True

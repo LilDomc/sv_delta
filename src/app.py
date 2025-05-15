@@ -101,3 +101,7 @@ def odjava():
     return controllers.sv_odjava.odjava()
 
 f_app.secret_key = "delta2secure" #NUJNO POTREBEN SUPER SKRIVNI KLJUČ, ZA DELOVANJE SEJ ~ Luka Drofenik
+
+@f_app.route('/insert_product', methods=['GET', 'POST'])
+def insert_product():
+    return controllers.sv_products.insert_product()
