@@ -19,7 +19,8 @@ import controllers.sv_odjava
 
 f_app = Flask(__name__) # F stands for fu***ng
 
-models.sv_backend.setup_all_db_tables()
+models.sv_backend.setup_all_db_tables()     #zakomentirati če se zakomentira funkcija v sv_users
+models.sv_user.insert_test_users()
 
 if __name__ == "__main__":
     f_app.run(debug=True)
