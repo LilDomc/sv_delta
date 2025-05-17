@@ -4,10 +4,12 @@ import models.sv_products
 import models.sv_trgovina
 
 def show_products():
-    models.sv_products.insert_test_data()
+    sort = request.args.get("sort", "name_asc")
+    sort_by, order = sort.split("_")
 
-    products = models.sv_products.get_products()
-    return render_template('sv_products.html', products=products)
+    models.sv_products.insert_test_data()
+    products = models.sv_products.get_products(sort_by, order)
+    return render_template("sv_products.html", products=products, sort_by=sort_by, order=order)
 
 def rate_product():
     product_id = int(request.form['product_id'])
