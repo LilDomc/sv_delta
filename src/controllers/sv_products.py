@@ -7,7 +7,6 @@ def show_products():
     sort = request.args.get("sort", "name_asc")
     sort_by, order = sort.split("_")
 
-    models.sv_products.insert_test_data()
     products = models.sv_products.get_products(sort_by, order)
     return render_template("sv_products.html", products=products, sort_by=sort_by, order=order)
 
