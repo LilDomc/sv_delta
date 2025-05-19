@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Košarica{% endblock %}
+{% block content %}
+    <h1>Košarica</h1>
+
+    {% if not izdelki %}
+        <p>Košarica je prazna.</p>
+    {% else %}
+        <div class="product-container">
+            {% for productID, Ime_produkta, Cena_produkta, Stock in izdelki %}
+                <div class="product-card">
+                    <h3>{{ Ime_produkta }}</h3>
+                    <p>Cena: {{ Cena_produkta }} €</p>
+                    <p>Količina: {{ Stock }}</p>
+                </div>
+                {% if loop.index % 3 == 0 %}
+                    <div class="clearfix"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
