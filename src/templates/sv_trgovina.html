@@ -6,14 +6,31 @@
 <div class="product-grid">
     {% for product in products %}
     <div class="product-card">
-        <h3>{{ product[0] }}</h3>  {# Ime_produkta #}
-        <p>{{ product[1] }}</p>   {# Opis_produkta #}
-        <span>{{ product[2] }} €</span>  {# Cena_produkta #}
+        <h3>{{ product[1] }}</h3>  {# Ime_produkta #}
+        <p>{{ product[2] }}</p>   {# Opis_produkta #}
+        <span>{{ product[3] }} €</span>  {# Cena_produkta #}
         <form action="{{ url_for('trgovina_post') }}" method="post">
             <input type="hidden" name="productID" value="{{ product[0] }}">
             <button type="submit" class="add-to-cart-btn">Dodaj v košarico!</button>
         </form>
+        <form method="POST" action="/rate">
+            <input type="hidden" name="product_id" value="{{ product[0] }}">
+            <label for="rating">Oceni izdelek:</label>
+            <select name="rating" id="rating">
+                <option value="5">5 zvezdic</option>
+                <option value="4">4 zvezdice</option>
+                <option value="3">3 zvezdice</option>
+                <option value="2">2 zvezdici</option>
+                <option value="1">1 zvezdica</option>
+            </select>
+            <button type="submit">Oddaj oceno</button>
+        </form>
+
+        {% if product[4] is not none %}
+            <p>Povprečna ocena: {{ "%.1f"|format(product[4]) }} / 5</p>
+        {% else %}
+            <p>Še brez ocen</p>
+        {% endif %}
     </div>
     {% endfor %}
-</div>
 {% endblock %}
