@@ -25,7 +25,7 @@ def dodaj_v_kosarico(product_id):
     # Pridobi podatke o izdelku
     cursor.execute('''
         SELECT productID, Ime_produkta, Cena_produkta 
-        FROM products WHERE Ime_produkta = %s;
+        FROM products WHERE productID = %s;
     ''', (product_id,))
     row = cursor.fetchone()
 
@@ -40,3 +40,22 @@ def dodaj_v_kosarico(product_id):
     conn.commit()
     cursor.close()
     conn.close()
+
+def izpis_kosarice():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Cena_produkta, Stock 
+        FROM kosarica;
+    ''')
+    izdelki = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    if not izdelki:
+        print("Košarica je prazna.")
+        return
+
+    return izdelki

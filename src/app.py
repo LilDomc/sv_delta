@@ -84,3 +84,11 @@ f_app.secret_key = "delta2secure" #NUJNO POTREBEN SUPER SKRIVNI KLJUČ, ZA DELOV
 @f_app.route('/insert_product', methods=['GET', 'POST'])
 def insert_product():
     return controllers.sv_products.insert_product()
+
+# @f_app.get('/products')
+# def products():
+#     return controllers.sv_products.show_products()
+ 
+@f_app.get('/izpis_kosarice')
+def izpis_kosarice():
+    return controllers.sv_kosarica.izpis_kosarice()

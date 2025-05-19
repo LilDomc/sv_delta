@@ -43,3 +43,7 @@ def insert_product():
 
     return render_template('sv_insert_product.html')
 
+
+def show_checkout():
+    trgovina = models.sv_trgovina.get_trgovina()
+    return render_template('sv_checkout.html', products=trgovina)
