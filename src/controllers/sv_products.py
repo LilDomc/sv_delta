@@ -6,9 +6,10 @@ import models.sv_trgovina
 def show_products():
     sort = request.args.get("sort", "name_asc")
     sort_by, order = sort.split("_")
+    stock_filter = request.args.get("stock_filter", "all")
 
-    products = models.sv_products.get_products(sort_by, order)
-    return render_template("sv_products.html", products=products, sort_by=sort_by, order=order)
+    products = models.sv_products.get_products(sort_by, order, stock_filter)
+    return render_template("sv_products.html", products=products, sort_by=sort_by, order=order, stock_filter=stock_filter)
 
 def rate_product():
     product_id = int(request.form['product_id'])
