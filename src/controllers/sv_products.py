@@ -17,8 +17,10 @@ def rate_product():
     return redirect('/trgovina')
 
 def show_trgovina():
+    sort = request.args.get("sort", "name_asc")
+    sort_by, order = sort.split("_")
     #models.sv_trgovina.get_rate()
-    trgovina = models.sv_trgovina.get_trgovina()
+    trgovina = models.sv_trgovina.get_trgovina(sort_by, order)
     trgovina_test = []
 
     for p in trgovina: 
@@ -28,7 +30,7 @@ def show_trgovina():
         cena = p[3]
         avg_rating = models.sv_trgovina.get_rate(product_id)
         trgovina_test.append((product_id, ime, opis, cena, avg_rating)) 
-    return render_template('sv_trgovina.html', products=trgovina_test)
+    return render_template('sv_trgovina.html', products=trgovina_test, sort_by=sort_by, order=order)
 
 
 def insert_product():
