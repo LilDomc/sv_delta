@@ -1,5 +1,3 @@
-import db
-
 def get_trgovina(sort_by="name", order="asc"):
     conn = db.get_connection()
     cursor = conn.cursor()
@@ -14,7 +12,7 @@ def get_trgovina(sort_by="name", order="asc"):
     direction = order if order in directions else "asc"
 
     query = f'''
-        SELECT Ime_produkta, Opis_produkta, Cena_produkta
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta
         FROM products
         ORDER BY {column} {direction};
     '''
@@ -22,4 +20,4 @@ def get_trgovina(sort_by="name", order="asc"):
     products = cursor.fetchall()
     cursor.close()
     conn.close()
-    return products   
+    return products
