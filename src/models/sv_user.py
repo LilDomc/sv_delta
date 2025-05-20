@@ -31,8 +31,12 @@ def setup_db():
             employeeID SERIAL PRIMARY KEY,
             ime VARCHAR(50) NOT NULL,
             priimek VARCHAR(50) NOT NULL,
+            datum_rojstva INT NOT NULL,
+            naslov VARCHAR(100) NOT NULL,
+            placa INT NOT NULL,
             email VARCHAR(100),
-            naziv VARCHAR(100)
+            naziv VARCHAR(100),
+            datum_zaposlitve DATE NOT NULL DEFAULT CURRENT_DATE
         );
     ''')
     cursor.execute('''
@@ -58,18 +62,19 @@ def setup_db():
 def insert_test_users():        #To se laho zakomentira, ko se bo testiralo vnašanje podatkov na spletni strani in isto zakomentirati klicno funkcijo na app.py!!!
     conn = db.get_connection()
     cursor = conn.cursor()
+
     employees = [
-        ('Janez', 'Novak', 'janez.novak@example.com', 'Vodja prodaje'),
-        ('Tina', 'Horvat', 'tina.horvat@example.com', 'Naziv za Tino'),
+        ('Janez', 'Novak', 19801215, 'Trg republike 1, Ljubljana', 2500, 'janez.novak@example.com', 'Vodja prodaje'),
+        ('Tina', 'Horvat', 19900322, 'Celovška cesta 10, Ljubljana', 2200, 'tina.horvat@example.com', 'Junior designer'),
     ]
 
     employee_ids = {}
-    for ime, priimek, email, naziv in employees:
+    for ime, priimek, datum_rojstva, naslov, placa, email, naziv in employees:
         cursor.execute('''
-            INSERT INTO employees (ime, priimek, email, naziv)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO employees (ime, priimek, datum_rojstva, naslov, placa, email, naziv)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             RETURNING employeeID;
-        ''', (ime, priimek, email, naziv))
+        ''', (ime, priimek, datum_rojstva, naslov, placa, email, naziv))
         emp_id = cursor.fetchone()[0]
         employee_ids[email] = emp_id
 
