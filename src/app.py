@@ -16,6 +16,7 @@ import models.sv_qa
 import controllers.sv_registracija
 import controllers.sv_prijava
 import controllers.sv_odjava
+import controllers.sv_zaposleni
 
 f_app = Flask(__name__) # F stands for fu***ng
 
@@ -92,3 +93,11 @@ def insert_product():
 @f_app.get('/izpis_kosarice')
 def izpis_kosarice():
     return controllers.sv_kosarica.izpis_kosarice()
+
+@f_app.route('/zaposleni', methods=['GET'])
+def zaposleni_get():
+    return controllers.sv_zaposleni.obrazec_zaposlenih()
+
+@f_app.route('/zaposleni', methods=['POST'])
+def zaposleni_post():
+    return controllers.sv_zaposleni.shrani_zaposlenega()
