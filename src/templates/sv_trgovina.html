@@ -3,15 +3,6 @@
 
 {% block content %}
 <h1>Trgovina</h1>
-<form method="get" action="/trgovina">
-    <select name="sort">
-        <option value="name_asc" {% if sort_by == 'name' and order == 'asc' %}selected{% endif %}>Ime ↑</option>
-        <option value="name_desc" {% if sort_by == 'name' and order == 'desc' %}selected{% endif %}>Ime ↓</option>
-        <option value="price_asc" {% if sort_by == 'price' and order == 'asc' %}selected{% endif %}>Cena ↑</option>
-        <option value="price_desc" {% if sort_by == 'price' and order == 'desc' %}selected{% endif %}>Cena ↓</option>
-    </select>
-    <button type="submit">Sort</button>
-</form>
 <div class="product-grid">
     {% for product in products %}
     <div class="product-card">
