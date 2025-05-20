@@ -18,7 +18,7 @@ def setup_db():
     conn.close()
     return True
 
-def get_products(sort_by="Ime_produkta", order="asc"):
+def get_products(sort_by="Ime_produkta", order="asc", stock_filter="all"):
     conn = db.get_connection()
     cursor = conn.cursor()
     sort_columns = {
@@ -33,9 +33,17 @@ def get_products(sort_by="Ime_produkta", order="asc"):
     nulls = "NULLS FIRST" if sort_by == "stock" and order == "asc" else \
             "NULLS LAST" if sort_by == "stock" and order == "desc" else ""
 
+    # Filter pogoj
+    where_clause = ""
+    if stock_filter == "in_stock":
+        where_clause = "WHERE Stock > 0"
+    elif stock_filter == "out_of_stock":
+        where_clause = "WHERE Stock = 0 OR Stock IS NULL"
+
     query = f'''
         SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock
         FROM products
+        {where_clause}
         ORDER BY {column} {direction} {nulls};
     '''
     cursor.execute(query)
