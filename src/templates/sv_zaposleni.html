@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj zaposlenega</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2>Dodaj novega zaposlenega</h2>
+    <form action="/zaposleni" method="post">
+        <div class="mb-3">
+            <label for="ime" class="form-label">Ime</label>
+            <input type="text" class="form-control" id="ime" name="ime" required>
+        </div>
+        <div class="mb-3">
+            <label for="priimek" class="form-label">Priimek</label>
+            <input type="text" class="form-control" id="priimek" name="priimek" required>
+        </div>
+        <div class="mb-3">
+            <label for="datum_rojstva" class="form-label">Datum rojstva</label>
+            <input type="date" class="form-control" id="datum_rojstva" name="datum_rojstva" required>
+        </div>
+        <div class="mb-3">
+            <label for="naslov" class="form-label">Naslov</label>
+            <input type="text" class="form-control" id="naslov" name="naslov" required>
+        </div>
+        <div class="mb-3">
+            <label for="placa" class="form-label">Plača (€)</label>
+            <input type="number" class="form-control" id="placa" name="placa" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email">
+        </div>
+        <div class="mb-3">
+            <label for="naziv" class="form-label">Naziv</label>
+            <input type="text" class="form-control" id="naziv" name="naziv">
+        </div>
+        <button type="submit" class="btn btn-primary">Shrani zaposlenega</button>
+    </form>
+</div>
+</body>
+</html>
