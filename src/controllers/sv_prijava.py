@@ -15,4 +15,4 @@ def obdelaj_prijavo():
         }
         return redirect("/")
     else:
-        return render_template("prijava.html", napaka="Napačen email ali geslo.")
+        return render_template("sv_prijava.html", napaka="Napačen email ali geslo.")
