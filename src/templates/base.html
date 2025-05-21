@@ -43,8 +43,8 @@
                     </li>
                 </ul>
                 <nav>
-                    {% if session.uporabnik %}
-                        <span> | Pozdravljen, {{ session.uporabnik.ime }} {{ session.uporabnik.priimek }} ({{ session.uporabnik.email }})</span>
+                    {% if session.user %}
+                        <span> | Pozdravljen/a, {{ session.user.ime }} {{ session.user.priimek }}</span>
                         <a href="/odjava">Odjava</a>
                     {% else %}
                         <a href="/prijava">Prijava</a>

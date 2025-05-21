@@ -11,7 +11,7 @@ def obdelaj_prijavo():
     if Uporabnik.prijavi(email, geslo):
         session["uporabnik"] = {
             "email": email
-            # Lahko dodaš več info iz baze kasneje
+            # Lahko dodaš več info iz baze kasneje 
         }
         return redirect("/")
     else:
