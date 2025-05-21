@@ -55,6 +55,16 @@ def setup_db():
                 ON DELETE SET NULL
         );
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS prihodi_odhodi (
+            prihodi_odhodiID SERIAL PRIMARY KEY,
+            employeeID INT,
+            datum DATE DEFAULT CURRENT_DATE,        /*DEAFULT get it xD*/
+            prihod TIME DEFAULT CURRENT_TIME,
+            odhod TIME DEFAULT CURRENT_TIME,
+            FOREIGN KEY (employeeID) REFERENCES employees(employeeID)
+        );
+    ''')
     conn.commit()
     cursor.close()
     conn.close()
