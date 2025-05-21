@@ -21,4 +21,4 @@ def obdelaj_registracijo():
         }
         return redirect("/")
     else:
-        return render_template("registracija.html", napaka="Registracija ni uspela.")
+        return render_template("sv_registracija.html", napaka="Registracija ni uspela.")
