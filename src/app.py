@@ -20,6 +20,8 @@ import controllers.sv_zaposleni
 
 f_app = Flask(__name__) # F stands for fu***ng
 
+# to bi mogl bit znotrej main funkcije se mi zdi ... sej ta koda se ne bo uporabljala
+# kot module tko da naceloma ne bi smelo biti problema ampak samo za dobro prakso :) 
 models.sv_backend.setup_all_db_tables()     #zakomentirati če se zakomentira funkcija v sv_users
 models.sv_user.insert_test_users()
 models.sv_products.insert_test_data()
