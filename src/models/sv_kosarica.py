@@ -58,4 +58,17 @@ def izpis_kosarice():
         print("Košarica je prazna.")
         return
 
-    return izdelki
+    #return izdelki
+
+    skupna_vsota = 0
+    for _, _, cena, stock in izdelki:
+        try:
+            cena_float = float(cena.replace(',', '.'))
+            skupna_vsota += cena_float * stock
+        except ValueError:
+            pass  # Ignore if price is not a valid number
+
+    return {
+        "izdelki": izdelki,
+        "skupna_vsota": round(skupna_vsota, 2)
+    }

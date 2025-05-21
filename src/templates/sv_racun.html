@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Račun{% endblock %}
+
+{% block content %}
+<h1>Račun</h1>
+
+<div id="racun-vsebina">
+    <p><strong>Datum in čas:</strong> {{ datum_cas }}</p>
+    <p><strong>Podjetje:</strong> Projekt Delta</p>
+    <hr>
+
+    {% for productID, Ime_produkta, Cena_produkta, Stock in izdelki %}
+        <div>
+            <p><strong>{{ Ime_produkta }}</strong> — {{ Stock }} kos × {{ Cena_produkta }} €</p>
+        </div>
+    {% endfor %}
+
+    <hr>
+    <h3>Skupaj za plačilo: {{ skupna_vsota }} €</h3>
+</div>
+
+<!-- Gumb za kopiranje -->
+<button onclick="copyToClipboard()">Kopiraj račun</button>
+
+<script>
+function copyToClipboard() {
+    const racun = document.getElementById('racun-vsebina').innerText;
+    navigator.clipboard.writeText(racun).then(function() {
+        alert("Račun je kopiran!");
+    }, function(err) {
+        alert("Napaka pri kopiranju: " + err);
+    });
+}
+</script>
+{% endblock %}

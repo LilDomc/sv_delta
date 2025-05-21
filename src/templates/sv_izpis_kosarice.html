@@ -18,5 +18,11 @@
                 {% endif %}
             {% endfor %}
         </div>
+        <hr>
+        <h3>Skupna cena: {{ skupna_vsota }} €</h3>
+        <form action="{{ url_for('racun') }}" method="get">
+            <button type="submit" class="btn btn-success">Plačaj</button>
+        </form>
+
     {% endif %}
 {% endblock %}
