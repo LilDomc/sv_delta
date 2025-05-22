@@ -155,3 +155,22 @@ def insert_product(name, description, price, stock):
 #     cursor.close()
 #     conn.close()
 #     return products
+
+# def get_best_selling_products(limit=5):
+#     conn = db.get_connection()
+#     cursor = conn.cursor()
+
+#     query = '''
+#         SELECT p.productID, p.Ime_produkta, p.Opis_produkta, p.Cena_produkta, p.Stock, COALESCE(s.quantity_sold, 0) AS prodano
+#         FROM products p
+#         LEFT JOIN product_sales s ON p.productID = s.productID
+#         ORDER BY prodano DESC
+#         LIMIT %s;
+#     '''
+#     cursor.execute(query, (limit,))
+#     products = cursor.fetchall()
+
+#     conn.commit()
+#     cursor.close()
+#     conn.close()
+#     return products
