@@ -33,7 +33,6 @@ def show_trgovina():
         trgovina_test.append((product_id, ime, opis, cena, avg_rating)) 
     return render_template('sv_trgovina.html', products=trgovina_test, sort_by=sort_by, order=order)
 
-
 def insert_product():
     if request.method == 'POST':
         name = request.form['name']
@@ -46,7 +45,10 @@ def insert_product():
 
     return render_template('sv_insert_product.html')
 
-
 def show_checkout():
     trgovina = models.sv_trgovina.get_trgovina()
     return render_template('sv_checkout.html', products=trgovina)
+
+def show_best_selling():
+    products = models.sv_products.get_best_selling_products()
+    return render_template("sv_best_selling.html", products=products)

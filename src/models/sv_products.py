@@ -10,7 +10,8 @@ def setup_db():
             Opis_produkta varchar(255),
             Cena_produkta varchar(255),
             Komentar varchar(255),
-            Stock INT
+            Stock INT,
+            Prodano INT
         );
     ''')
     conn.commit()
@@ -62,15 +63,15 @@ def insert_test_data():     #inserta če je tabela prazna
 
     if count == 0:
             cursor.executemany('''
-                INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock, Prodano)
+                VALUES (%s, %s, %s, %s, %s, %s)
             ''', [
-                ('Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', 3),
-                ('Varovalka 200w', 'Description for product 2', '150', 'Solidno', None),
-                ('Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', 1),
-                ('Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', 2),
-                ('Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', 5),
-                ('Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', 10)
+                ('Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', 3, 4),
+                ('Varovalka 200w', 'Description for product 2', '150', 'Solidno', None, 1),
+                ('Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', 1, 5),
+                ('Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', 2, 10),
+                ('Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', 5, 2),
+                ('Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', 10, 3)
             ])
 
     conn.commit()
@@ -143,3 +144,21 @@ def insert_product(name, description, price, stock):
     cursor.close()
     conn.close()
     return True
+
+def get_best_selling_products(limit=5):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    query = '''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock, Prodano
+        FROM products
+        ORDER BY Prodano DESC
+        LIMIT %s;
+    '''
+    cursor.execute(query, (limit,))
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products
