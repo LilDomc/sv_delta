@@ -124,8 +124,6 @@ def add_rating(product_id, star_value):
     conn.close()
 
     get_product_avg_rate(product_id)
-<<<<<<< Updated upstream
-=======
 
 def insert_product(name, description, price, stock):
     conn = db.get_connection()
@@ -156,13 +154,4 @@ def insert_product(name, description, price, stock):
 #     conn.commit()
 #     cursor.close()
 #     conn.close()
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 #     return products
->>>>>>> Stashed changes
-=======
-#     return products
->>>>>>> Stashed changes
-=======
-#     return products
->>>>>>> Stashed changes

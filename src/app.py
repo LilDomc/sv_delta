@@ -69,8 +69,6 @@ def trgovina():
 @f_app.route('/trgovina', methods=['POST'])
 def trgovina_post():
     return controllers.sv_kosarica.add_to_cart()
-<<<<<<< Updated upstream
-=======
 
 @f_app.get('/vprasanja')
 def qa():
@@ -121,11 +119,3 @@ def zaposleni_post():
 # @f_app.get('/najbolj_prodajani')
 # def najbolj_prodajani():
 #     return controllers.sv_products.show_best_selling()
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
