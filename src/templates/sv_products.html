@@ -1,28 +1,38 @@
 {% extends "base.html" %}
 {% block title %}Seznam produktov{% endblock %}
 {% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/work_products.css') }}">
     <h1>Seznam produktov</h1>
-    <form method="get" action="/products">
-        <select name="stock_filter">
-            <option value="all" {% if stock_filter == 'all' %}selected{% endif %}>Vsi</option>
-            <option value="in_stock" {% if stock_filter == 'in_stock' %}selected{% endif %}>Na zalogi</option>
-            <option value="out_of_stock" {% if stock_filter == 'out_of_stock' %}selected{% endif %}>Ni zaloge</option>
-        </select>
-    </form>
 
-    <div class="product-container">
-        {% for productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock in products %}
-            <div class="product-card">
-                <h3>{{ Ime_produkta }}</h3>
-                <p>{{ Opis_produkta }}</p>
-                <p>Cena: {{ Cena_produkta }} €</p>
-                <p>Na zalogi: {{ Stock }}</p>
-            </div>
-            {% if loop.index % 3 == 0 %}
-                <div class="clearfix"></div>
-            {% endif %}
-        {% endfor %}
+<form method="get" action="/products">
+    <select name="stock_filter">
+        <option value="all" {% if stock_filter == 'all' %}selected{% endif %}>Vsi</option>
+        <option value="in_stock" {% if stock_filter == 'in_stock' %}selected{% endif %}>Na zalogi</option>
+        <option value="out_of_stock" {% if stock_filter == 'out_of_stock' %}selected{% endif %}>Ni zaloge</option>
+    </select>
+</form>
+
+<div class="product-table">
+    <div class="product-row header">
+        <span>Koda</span>
+        <span>Slika</span>
+        <span>Ime</span>
+        <span>Opis</span>
+        <span>Cena</span>
+        <span>Zaloga</span>
     </div>
+
+    {% for code, name, description, price, stock in products %}
+    <div class="product-row">
+        <span>{{ code }}</span>
+        <span><img src="{{ url_for('static', filename='images/varovalka.jpg') }}" alt="Varovalka" width="60"></span>
+        <span>{{ name }}</span>
+        <span>{{ description }}</span>
+        <span class="price">{{ price }} €</span>
+        <span class="stock">{{ stock }}</span>
+    </div>
+    {% endfor %}
+</div>
 
     <script>
     document.querySelectorAll('select').forEach(select => {
