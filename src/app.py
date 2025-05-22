@@ -123,6 +123,9 @@ def zaposleni_post():
 #     return controllers.sv_products.show_best_selling()
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

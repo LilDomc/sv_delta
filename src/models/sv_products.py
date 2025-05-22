@@ -157,6 +157,10 @@ def insert_product(name, description, price, stock):
 #     cursor.close()
 #     conn.close()
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+#     return products
+>>>>>>> Stashed changes
+=======
 #     return products
 >>>>>>> Stashed changes
 =======
