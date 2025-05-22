@@ -19,4 +19,12 @@ def rate_product():
 
 def show_trgovina():
     trgovina = models.sv_trgovina.get_trgovina()
+<<<<<<< Updated upstream
     return render_template('sv_trgovina.html', products=trgovina)
+=======
+    return render_template('sv_checkout.html', products=trgovina)
+
+# def show_best_selling():
+#     products = models.sv_products.get_best_selling_products()
+#     return render_template("sv_best_selling.html", products=products)
+>>>>>>> Stashed changes
