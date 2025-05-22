@@ -9,7 +9,7 @@ class User:
     def save(self):
         conn = db.get_connection()
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO users (name) VALUES (%s)', (self.name,))
+        cursor.execute('INSERT INTO users (ime) VALUES (%s)', (self.name,))
         conn.commit()
         cursor.close()
         conn.close()
