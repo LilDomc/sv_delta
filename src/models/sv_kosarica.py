@@ -13,6 +13,22 @@ def setup_db():
             FOREIGN KEY (productID) REFERENCES products(productID)
         );
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS narocila (
+            narocilaID SERIAL PRIMARY KEY,
+            productID INT NOT NULL,
+            userID INT NOT NULL,
+            u_ime varchar(255),
+            u_priimek varchar(255),
+            kolicina INT NOT NULL,
+            p_cena_produkta varchar(255),
+            p_opis_produkta varchar(255),
+            datum_narocila DATE NOT NULL DEFAULT CURRENT_DATE,
+            status_narocila varchar,
+            FOREIGN KEY (productID) REFERENCES products(productID),
+            FOREIGN KEY (userID) REFERENCES users(userID)
+        );
+    ''')
     conn.commit()
     cursor.close()
     conn.close()

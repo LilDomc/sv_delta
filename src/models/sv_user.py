@@ -26,7 +26,6 @@ def setup_db():
         END
         $$;
     ''')
-
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS employees (
             employeeID SERIAL PRIMARY KEY,
