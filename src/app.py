@@ -122,4 +122,7 @@ def zaposleni_post():
 # def najbolj_prodajani():
 #     return controllers.sv_products.show_best_selling()
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
