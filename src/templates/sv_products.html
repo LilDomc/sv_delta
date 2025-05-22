@@ -12,6 +12,11 @@
     </select>
 </form>
 
+<form method="get" action="/products/search"> 
+    <input type="text" name="query" placeholder="Išči po imenu produkta" value="{{ query|default('') }}"> 
+    <button type="submit">Išči</button> 
+</form> 
+
 <div class="product-table">
     <div class="product-row header">
         <span>Koda</span>
