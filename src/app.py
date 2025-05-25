@@ -107,3 +107,7 @@ def najbolj_prodajani():
 @f_app.get('/products/search')
 def products_search():
     return controllers.sv_products.search_products() 
+
+@f_app.get('/kontakt_prebrano')
+def kontakt_prebrano():
+    return controllers.sv_contact.show_all_contact_requests()
