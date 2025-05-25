@@ -105,9 +105,7 @@ f_app.secret_key = "delta2secure" #NUJNO POTREBEN SUPER SKRIVNI KLJUČ, ZA DELOV
 @f_app.route('/insert_product', methods=['GET', 'POST'])
 def insert_product():
     return controllers.sv_products.insert_product()
-<<<<<<< Updated upstream
-=======
- 
+
 @f_app.get('/izpis_kosarice')
 def izpis_kosarice():
     return controllers.sv_kosarica.izpis_kosarice()
@@ -131,4 +129,3 @@ def products_search():
 @f_app.get('/kontakt_prebrano')
 def kontakt_prebrano():
     return controllers.sv_contact.show_all_contact_requests()
->>>>>>> Stashed changes
