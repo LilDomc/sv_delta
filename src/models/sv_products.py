@@ -162,3 +162,21 @@ def get_best_selling_products(limit=5):
     cursor.close()
     conn.close()
     return products
+
+def search_products(query):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock
+        FROM products
+        WHERE Ime_produkta ILIKE %s
+        ORDER BY Ime_produkta ASC
+    ''', (f"%{query}%",))
+
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products 

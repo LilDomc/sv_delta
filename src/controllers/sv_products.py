@@ -52,3 +52,17 @@ def show_checkout():
 def show_best_selling():
     products = models.sv_products.get_best_selling_products()
     return render_template("sv_best_selling.html", products=products)
+
+def search_products():
+    query = request.args.get("query", "").strip()
+
+    if query:
+        products = models.sv_products.search_products(query)
+    else:
+        products = []  
+
+    return render_template(
+        "sv_products.html",
+        products=products,
+        query=query
+    )
