@@ -15,3 +15,15 @@ def setup_db():
     cursor.close()
     conn.close()
     return True
+
+def insert_store(ime, naslov, telefon):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO poslovalnice (ime_poslovalnica, naslov_poslovalnica, telefonska_st)
+        VALUES (%s, %s, %s)
+    ''', (ime, naslov, telefon))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
