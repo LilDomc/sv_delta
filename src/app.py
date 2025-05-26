@@ -22,6 +22,9 @@ import controllers.sv_menjava_gesla
 import controllers.sv_profil
 import controllers.sv_narocila
 
+import controllers.sv_poslovalnica
+
+
 
 f_app = Flask(__name__) # F stands for fu***ng
 
@@ -136,3 +139,13 @@ def seznam_zaposlenih():
 @f_app.route('/vpogled_narocila/<int:narocilo_id>', methods=['GET', 'POST'])
 def vpogled_narocila(narocilo_id):
     return controllers.sv_narocila.izpis_narocila(narocilo_id)
+
+
+@f_app.get('/stores')
+def stores_get():
+    return controllers.sv_poslovalnica.show_store_form()
+
+@f_app.post('/stores')
+def stores_post():
+    return controllers.sv_poslovalnica.save_store()
+
