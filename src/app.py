@@ -12,6 +12,7 @@ import models.sv_products
 import models.sv_trgovina
 import models.sv_kosarica
 import models.sv_qa
+import models.sv_narocila
 
 import controllers.sv_registracija
 import controllers.sv_prijava
@@ -20,7 +21,9 @@ import controllers.sv_zaposleni
 import controllers.sv_menjava_gesla
 import controllers.sv_profil
 import controllers.sv_narocila
+
 import controllers.sv_poslovalnica
+
 
 
 f_app = Flask(__name__) # F stands for fu***ng
@@ -105,6 +108,18 @@ def zaposleni_get():
 def zaposleni_post():
     return controllers.sv_zaposleni.shrani_zaposlenega()
 
+@f_app.get('/menjava_gesla')
+def menjava_gesla_get():
+    return controllers.sv_menjava_gesla.prikazi_menjava_gesla()
+
+@f_app.post('/menjava_gesla')
+def menjava_gesla_post():
+    return controllers.sv_menjava_gesla.obdelaj_menjava_gesla()
+
+@f_app.get('/profil')
+def profil():
+    return controllers.sv_profil.prikazi_profil()
+
 @f_app.route('/najbolj_prodajani', methods=['GET', 'POST'])
 def najbolj_prodajani():
     return controllers.sv_products.show_best_selling()
@@ -125,6 +140,7 @@ def seznam_zaposlenih():
 def vpogled_narocila(narocilo_id):
     return controllers.sv_narocila.izpis_narocila(narocilo_id)
 
+
 @f_app.get('/stores')
 def stores_get():
     return controllers.sv_poslovalnica.show_store_form()
@@ -132,3 +148,4 @@ def stores_get():
 @f_app.post('/stores')
 def stores_post():
     return controllers.sv_poslovalnica.save_store()
+

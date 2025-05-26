@@ -7,21 +7,21 @@ def setup_db():
         CREATE TABLE IF NOT EXISTS kosarica (
             kosaricaID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
-            Ime_produkta varchar(255),
-            Cena_produkta varchar(255),
-            Stock INT NOT NULL DEFAULT 1,
+            ime_produkta varchar(255),
+            cena_produkta varchar(255),
+            stock INT NOT NULL DEFAULT 1,
             FOREIGN KEY (productID) REFERENCES products(productID)
         );
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS narocila (
-            narocilaID SERIAL PRIMARY KEY,
+            narociloID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
             userID INT NOT NULL,
             u_ime varchar(255),
             u_priimek varchar(255),
             kolicina INT NOT NULL,
-            p_cena_produkta varchar(255),
+            p_cena_produkta DECIMAL(10, 2),
             p_opis_produkta varchar(255),
             datum_narocila DATE NOT NULL DEFAULT CURRENT_DATE,
             status_narocila varchar,
