@@ -27,3 +27,11 @@ def insert_store(ime, naslov, telefon):
     cursor.close()
     conn.close()
     
+def get_all_stores():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM poslovalnice")
+    stores = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return stores

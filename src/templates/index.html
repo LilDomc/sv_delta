@@ -22,4 +22,22 @@
         {% endfor %}
     </div>
 </div>
+<div>
+    <h3>Naše poslovalnice</h3>
+    {% if stores %}
+        <div class="row">
+        {% for store in stores %}
+            <div class="col-md-12 mb-3">
+                <div class="card p-3">
+                    <h5 class="card-title">{{ store[1] }}</h5>
+                    <p class="card-text"><strong>Naslov:</strong> {{ store[2] }}</p>
+                    <p class="card-text"><strong>Telefon:</strong> {{ store[3] or "Ni podano" }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p style="color:red;">:warning: Ni nobenih poslovalnic!</p>
+    {% endif %}
+</div>
 {% endblock %}
