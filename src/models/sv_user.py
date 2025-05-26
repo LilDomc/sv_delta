@@ -9,7 +9,7 @@ class User:
     def save(self):
         conn = db.get_connection()
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO users (ime) VALUES (%s)', (self.name,))
+        cursor.execute('INSERT INTO users (name) VALUES (%s)', (self.name,))
         conn.commit()
         cursor.close()
         conn.close()
@@ -26,6 +26,7 @@ def setup_db():
         END
         $$;
     ''')
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS employees (
             employeeID SERIAL PRIMARY KEY,
@@ -124,3 +125,17 @@ def add_user(form):
     conn.commit()
     cursor.close()
     conn.close()
+
+def vsi_zaposleni():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ime, priimek, datum_rojstva, naslov, placa, email, naziv, datum_zaposlitve
+        FROM employees
+        ORDER BY ime, priimek;
+    """)
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return rows

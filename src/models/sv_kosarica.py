@@ -15,7 +15,7 @@ def setup_db():
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS narocila (
-            narocilaID SERIAL PRIMARY KEY,
+            narociloID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
             userID INT NOT NULL,
             u_ime varchar(255),
