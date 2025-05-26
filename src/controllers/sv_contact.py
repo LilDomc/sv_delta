@@ -13,3 +13,7 @@ def save_contact_request():
     contact_form.save()
 
     return render_template('sv_contact_form.html', response="Hvala ker ste nas kontaktirali! Odgovorili vam bomo v najkrajsem moznem času!")
+
+def show_all_contact_requests():
+    messages = models.sv_contact_form.get_contact_messages()
+    return render_template('sv_contact_form_read.html', messages=messages)

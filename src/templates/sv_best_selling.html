@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Najbolj prodajani izdelki{% endblock %}
+{% block content %}
+    <h1>Najbolj prodajani izdelki</h1>
+    <div class="product-container">
+        {% for productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock, prodano in products %}
+            <div class="product-card">
+                <h3>{{ Ime_produkta }}</h3>
+                <p>{{ Opis_produkta }}</p>
+                <p>Cena: {{ Cena_produkta }} €</p>
+                <p>Na zalogi: {{ Stock }}</p>
+                <p>Prodano: {{ prodano }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

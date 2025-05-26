@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Seznam zaposlenih{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Seznam zaposlenih</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Ime</th>
+                <th>Priimek</th>
+                <th>Datum rojstva</th>
+                <th>Naslov</th>
+                <th>Plača (€)</th>
+                <th>Email</th>
+                <th>Naziv</th>
+                <th>Datum zaposlitve</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for z in zaposleni %}
+            <tr>
+                <td>{{ z[0] }}</td>
+                <td>{{ z[1] }}</td>
+                <td>{{ z[2] }}</td>
+                <td>{{ z[3] }}</td>
+                <td>{{ z[4] }}</td>
+                <td>{{ z[5] }}</td>
+                <td>{{ z[6] }}</td>
+                <td>{{ z[7] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
