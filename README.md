@@ -1,24 +1,23 @@
 Project Setup and Usage
-This repository contains a functional Docker setup with a PostgreSQL database. Please follow the instructions below to ensure successful installation and usage.
 
-Getting Started
-Extract the Files:
+This is a college group project repository which contains a functional Docker setup with a PostgreSQL database. Follow the instructions below to ensure a successful installation and usage.
 
-Unzip the downloaded files into a folder.
 
-Important: The main folder must be named Projekt to ensure proper functionality.
 
-Run the command: Docker compose up -d
 
-Troubleshooting:
 
-If you encounter an "Internal Error" or similar issue, perform the following steps:
+## Starting the program
 
-Open the Setup page provided by the professor.
+To run the program, in a terminal write the following command:
 
-Click the Reset button.
+```bash
+  docker compose up -d
+```
 
-Navigate back to the home page.
+If you make any changes in the backend part of the program you have to restart the program with the following command:
 
-Final Note
-The setup might seem a bit problematic, but it works as described. Follow the steps carefully for a smooth experience.
+```bash
+  docker compose downn -v
+```
+
+Then write the first command to start the program again.

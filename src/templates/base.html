@@ -15,6 +15,7 @@
     <header>
         <h1>Projekt Delta</h1>
     </header>
+    {% if not hide_navbar %}
         <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Projekt Delta</a>
@@ -26,16 +27,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Prva stran</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/setup">Nastavi podatkovno bazo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/hello">Pozdrav</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/users">Obiskovalci strani</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/products">Seznam produktov</a>
                     </li>
                     <li class="nav-item">
@@ -44,14 +35,49 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/kontakt">Kontakt</a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="/najbolj_prodajani">Best selling</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/checkout">checkout</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/vprasanja">Q&A</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/insert_product">insert</a>
+                    </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('vpogled_narocila', narocilo_id=1) }}">Vpogled naročila</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/zaposleni">Zaposleni</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/seznam_zaposlenih">Seznam zaposlenih</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/izpis_kosarice">Izpis kosarice</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stores">Poslovalnice</a>
+                    </li>
                 </ul>
+                <nav>
+                    {% if session.user %}
+                        <span> | Pozdravljen/a, <a href="/profil">{{ session.user.ime }} {{ session.user.priimek }} </a>| {{ session.user.role}}</span>
+                        <a href="/odjava">Odjava</a>
+                    {% else %}
+                        <a href="/prijava">Prijava</a>
+                        <a href="/registracija">Registracija</a>
+                    {% endif %}
+                </nav>
             </div>
         </div>
     </nav>
-
+    {% endif %}
     {% block content %}{% endblock %}
     <p>[<a href="/">domov</a>]</p>
     

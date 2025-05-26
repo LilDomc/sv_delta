@@ -3,10 +3,8 @@ import controllers.sv_kosarica
 from flask import Flask
 
 import controllers.index
-import controllers.sv_hello
 import controllers.sv_qa
 import controllers.sv_setup
-import controllers.sv_users
 import controllers.sv_products
 import models
 import models.sv_backend
@@ -14,38 +12,35 @@ import models.sv_products
 import models.sv_trgovina
 import models.sv_kosarica
 import models.sv_qa
+import models.sv_narocila
+
+import controllers.sv_registracija
+import controllers.sv_prijava
+import controllers.sv_odjava
+import controllers.sv_zaposleni
+import controllers.sv_menjava_gesla
+import controllers.sv_profil
+import controllers.sv_narocila
+
+import controllers.sv_poslovalnica
+
+
 
 f_app = Flask(__name__) # F stands for fu***ng
-#tuki se napiše pot to controllers
+
+# to bi mogl bit znotrej main funkcije se mi zdi ... sej ta koda se ne bo uporabljala
+# kot module tko da naceloma ne bi smelo biti problema ampak samo za dobro prakso :) 
+models.sv_backend.setup_all_db_tables()     #zakomentirati če se zakomentira funkcija v sv_users
+models.sv_user.insert_test_users()
+models.sv_products.insert_test_data()
 
 if __name__ == "__main__":
-    models.sv_backend.setup_all_db_tables()
     f_app.run(debug=True)
 
 
 @f_app.get('/')
 def home():
     return controllers.index.home()
-
-@f_app.get('/hello')
-def hello_ask():
-    return controllers.sv_hello.ask_for_name()
-
-@f_app.post('/hello')
-def hello_greet():
-    return controllers.sv_hello.greet_user()
-
-@f_app.get('/setup')
-def setup():
-    return controllers.sv_setup.setup_db()
-
-@f_app.get('/reset/users')
-def reset_users():
-    return controllers.sv_setup.reset_users()
-
-@f_app.get('/users')
-def users():
-    return controllers.sv_users.show_users()
 
 @f_app.get('/kontakt')
 def kontakt():
@@ -74,3 +69,83 @@ def trgovina_post():
 @f_app.get('/vprasanja')
 def qa():
     return controllers.sv_qa.show_questions()
+
+@f_app.get('/registracija')
+def registracija_get():
+    return controllers.sv_registracija.prikazi_registracijo()
+
+@f_app.post('/registracija')
+def registracija_post():
+    return controllers.sv_registracija.obdelaj_registracijo()
+
+@f_app.get('/prijava')
+def prijava_get():
+    return controllers.sv_prijava.prikazi_prijavo()
+
+@f_app.post('/prijava')
+def prijava_post():
+    return controllers.sv_prijava.obdelaj_prijavo()
+
+@f_app.get('/odjava')
+def odjava():
+    return controllers.sv_odjava.odjava()
+
+f_app.secret_key = "delta2secure" #NUJNO POTREBEN SUPER SKRIVNI KLJUČ, ZA DELOVANJE SEJ ~ Luka Drofenik
+
+@f_app.route('/insert_product', methods=['GET', 'POST'])
+def insert_product():
+    return controllers.sv_products.insert_product()
+ 
+@f_app.get('/izpis_kosarice')
+def izpis_kosarice():
+    return controllers.sv_kosarica.izpis_kosarice()
+
+@f_app.route('/zaposleni', methods=['GET'])
+def zaposleni_get():
+    return controllers.sv_zaposleni.obrazec_zaposlenih()
+
+@f_app.route('/zaposleni', methods=['POST'])
+def zaposleni_post():
+    return controllers.sv_zaposleni.shrani_zaposlenega()
+
+@f_app.get('/menjava_gesla')
+def menjava_gesla_get():
+    return controllers.sv_menjava_gesla.prikazi_menjava_gesla()
+
+@f_app.post('/menjava_gesla')
+def menjava_gesla_post():
+    return controllers.sv_menjava_gesla.obdelaj_menjava_gesla()
+
+@f_app.get('/profil')
+def profil():
+    return controllers.sv_profil.prikazi_profil()
+
+@f_app.route('/najbolj_prodajani', methods=['GET', 'POST'])
+def najbolj_prodajani():
+    return controllers.sv_products.show_best_selling()
+
+@f_app.get('/products/search')
+def products_search():
+    return controllers.sv_products.search_products() 
+
+@f_app.get('/kontakt_prebrano')
+def kontakt_prebrano():
+    return controllers.sv_contact.show_all_contact_requests()
+
+@f_app.route('/seznam_zaposlenih')
+def seznam_zaposlenih():
+    return controllers.sv_zaposleni.seznam_zaposlenih()
+
+@f_app.route('/vpogled_narocila/<int:narocilo_id>', methods=['GET', 'POST'])
+def vpogled_narocila(narocilo_id):
+    return controllers.sv_narocila.izpis_narocila(narocilo_id)
+
+
+@f_app.get('/stores')
+def stores_get():
+    return controllers.sv_poslovalnica.show_store_form()
+
+@f_app.post('/stores')
+def stores_post():
+    return controllers.sv_poslovalnica.save_store()
+

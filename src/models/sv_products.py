@@ -6,36 +6,58 @@ def setup_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
             productID SERIAL PRIMARY KEY,
-            Ime_produkta varchar(255),
-            Opis_produkta varchar(255),
-            Cena_produkta varchar(255),
-            Komentar varchar(255),
-            Stock INT
+            ime_produkta varchar(255),
+            opis_produkta varchar(255),
+            cena_produkta NUMERIC(10, 2),
+            komentar varchar(255),
+            stock INT,
+            prodano INT
         );
     ''')
-
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS rate (
-            rateID SERIAL PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS promo_kode (
+            promo_kodeID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
-            "5_star" INT,
-            "4_star" INT,
-            "3_star" INT,
-            "2_star" INT,
-            "1_star" INT,
-            average_rating DECIMAL(3,2),
+            koda varchar(255),
+            vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100),
+            uporaba BOOLEAN DEFAULT FALSE,
             FOREIGN KEY (productID) REFERENCES products(productID)
-        );
+        )
     ''')
     conn.commit()
     cursor.close()
     conn.close()
     return True
 
-def get_products():
+def get_products(sort_by="Ime_produkta", order="asc", stock_filter="all"):
     conn = db.get_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock FROM products')
+    sort_columns = {
+        "name": "Ime_produkta",
+        "price": "CAST(Cena_produkta AS INT)",
+        "stock": "Stock"
+    }
+    directions = ["asc", "desc"]
+
+    column = sort_columns.get(sort_by, "Ime_produkta")
+    direction = order if order in directions else "asc"
+    nulls = "NULLS FIRST" if sort_by == "stock" and order == "asc" else \
+            "NULLS LAST" if sort_by == "stock" and order == "desc" else ""
+
+    # Filter pogoj
+    where_clause = ""
+    if stock_filter == "in_stock":
+        where_clause = "WHERE Stock > 0"
+    elif stock_filter == "out_of_stock":
+        where_clause = "WHERE Stock = 0 OR Stock IS NULL"
+
+    query = f'''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock
+        FROM products
+        {where_clause}
+        ORDER BY {column} {direction} {nulls};
+    '''
+    cursor.execute(query)
     products = cursor.fetchall()
     conn.commit()
     cursor.close()
@@ -50,21 +72,17 @@ def insert_test_data():     #inserta če je tabela prazna
     count = cursor.fetchone()[0]
 
     if count == 0:
-        cursor.execute('''
-            DO
-            $$
-            BEGIN
-                IF NOT EXISTS (SELECT 1 FROM products LIMIT 1) THEN
-                    INSERT INTO products (productID, Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock) VALUES
-                    (1, 'Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', '3'),
-                    (2, 'Varovalka 200w', 'Description for product 2', '150', 'Solidno', NULL),
-                    (3, 'Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', '1'),
-                    (4, 'Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', '2'),
-                    (5, 'Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', '5'),
-                    (6, 'Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', '10');
-                END IF;
-            END;
-            $$;''')
+            cursor.executemany('''
+                INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock, Prodano)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            ''', [
+                ('Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', 3, 4),
+                ('Varovalka 200w', 'Description for product 2', '150', 'Solidno', None, 1),
+                ('Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', 1, 5),
+                ('Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', 2, 10),
+                ('Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', 5, 2),
+                ('Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', 10, 3)
+            ])
 
     conn.commit()
     cursor.close()
@@ -124,3 +142,51 @@ def add_rating(product_id, star_value):
     conn.close()
 
     get_product_avg_rate(product_id)
+
+def insert_product(name, description, price, stock):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock)
+        VALUES (%s, %s, %s, NULL, %s)
+    ''', (name, description, price, stock))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return True
+
+def get_best_selling_products(limit=5):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    query = '''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock, Prodano
+        FROM products
+        ORDER BY Prodano DESC
+        LIMIT %s;
+    '''
+    cursor.execute(query, (limit,))
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products
+
+def search_products(query):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock
+        FROM products
+        WHERE Ime_produkta ILIKE %s
+        ORDER BY Ime_produkta ASC
+    ''', (f"%{query}%",))
+
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products 

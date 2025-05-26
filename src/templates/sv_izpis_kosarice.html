@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Košarica{% endblock %}
+{% block content %}
+    <h1>Košarica</h1>
+
+    {% if not izdelki %}
+        <p>Košarica je prazna.</p>
+    {% else %}
+        <div class="product-container">
+            {% for productID, Ime_produkta, Cena_produkta, Stock in izdelki %}
+                <div class="product-card">
+                    <h3>{{ Ime_produkta }}</h3>
+                    <p>Cena: {{ Cena_produkta }} €</p>
+                    <p>Količina: {{ Stock }}</p>
+                </div>
+                {% if loop.index % 3 == 0 %}
+                    <div class="clearfix"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Izbira države za poštnino -->
+        <div style="margin-top: 30px; margin-bottom:50px;">
+            <h3>Informativni izračun poštnine in časa :</h3>
+            <label for="drzava">Izberi državo:</label>
+            <select id="drzava" onchange="posodobiPostnino()">
+                <option value="">-- Izberi državo --</option>
+                <option value="slo">Slovenija</option>
+                <option value="tujina">Tujina</option>
+            </select>
+
+            <label style="margin-left: 10px" for="regija">Izberi regijo:</label>
+            <select id="regija" onchange="pokaziPostninoRegije()">
+                <option value="">-- Izberi regijo --</option>
+                <option value="osrednjeslovenska">Osrednjeslovenska</option>
+                <option value="podravska">Podravska</option>
+                <option value="gorenjska">Gorenjska</option>
+                <option value="primorska">Primorska</option>
+                <option value="dolenjska">Dolenjska</option>
+            </select>
+        
+
+            <span id="postnina-rezultat" style="margin-top: 20px; font-weight: bold;"></span>
+        </div>
+
+        <script>
+            function posodobiPostnino() {
+                const drzava = document.getElementById("drzava").value;
+                const sloRegije = document.getElementById("slo-regije");
+                const postninaRezultat = document.getElementById("postnina-rezultat");
+                const regijaSelect = document.getElementById("regija");
+
+                postninaRezultat.innerHTML = "";
+
+                if (drzava === "slo") {
+                    sloRegije.style.display = "block";
+                } else if (drzava === "tujina") {
+                    sloRegije.style.display = "none";
+                    postninaRezultat.innerHTML = "Poštnina za tujino: 12.99 € in predviden čas 7 delovnih dni. ";
+                } else {
+                    sloRegije.style.display = "none";
+                }
+            }
+
+            function pokaziPostninoRegije() {
+                const regija = document.getElementById("regija").value;
+                const postninaRezultat = document.getElementById("postnina-rezultat");
+
+                let postnina = "";
+
+                switch (regija) {
+                    case "osrednjeslovenska":
+                        postnina = "3.50 €, in predviden čas 2 dni.";
+                        break;
+                    case "podravska":
+                        postnina = "4.00 €, in predviden čas 3 dni.";
+                        break;
+                    case "gorenjska":
+                        postnina = "3.80 €, in predviden čas 2 dni.";
+                        break;
+                    case "primorska":
+                        postnina = "4.20 €, in predviden čas 4 dni.";
+                        break;
+                    case "dolenjska":
+                        postnina = "3.90 €, in predviden čas 3 dni.";
+                        break;
+                    default:
+                        postnina = "";
+                }
+
+
+                if (postnina) {
+                    postninaRezultat.innerHTML = "Poštnina za izbrano regijo: " + postnina;
+                } else {
+                    postninaRezultat.innerHTML = "";
+                }
+            }
+        </script>
+    {% endif %}
+{% endblock %}
