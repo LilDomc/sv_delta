@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% set hide_navbar = True %}
+{% block content %}
+<h2>Menjava gesla</h2>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
+
+{% if napaka %}
+    <p style="color:red;">{{ napaka }}</p>
+{% endif %}
+
+<form method="post" onsubmit="return preveriGeslo();">
+    <label for="staro_geslo">Staro geslo:</label><br>
+    <input type="password" id="staro_geslo" name="staro_geslo" required><br><br>
+
+    <label for="novo_geslo">Novo geslo:</label><br>
+    <input type="password" id="novo_geslo" name="novo_geslo" required><br><br>
+
+    <label for="novo_geslo2">Ponovi novo geslo:</label><br>
+    <input type="password" id="novo_geslo2" name="novo_geslo2" required><br><br>
+
+    <button type="submit">Zamenjaj geslo</button>
+</form>
+<br>
+<span style="display: inline-block; text-align: center; width: 100%;">
+  <a href="/">Domača stran</a>
+  <a href="/profil" style="margin-left: 10px;">Profil</a>
+</span>
+
+<br><br><br>
+
+<script>
+    function preveriGeslo() {
+        var novo = document.getElementById("novo_geslo").value;
+        var potrdi = document.getElementById("novo_geslo2").value;
+        if (novo !== potrdi) {
+            alert("Novo geslo se ne ujema.");
+            return false;
+        }
+        return true;
+    }
+</script>
+{% endblock %}
