@@ -12,11 +12,13 @@ import models.sv_products
 import models.sv_trgovina
 import models.sv_kosarica
 import models.sv_qa
+import models.sv_narocila
 
 import controllers.sv_registracija
 import controllers.sv_prijava
 import controllers.sv_odjava
 import controllers.sv_zaposleni
+import controllers.sv_narocila
 
 f_app = Flask(__name__) # F stands for fu***ng
 
@@ -111,3 +113,11 @@ def products_search():
 @f_app.get('/kontakt_prebrano')
 def kontakt_prebrano():
     return controllers.sv_contact.show_all_contact_requests()
+
+@f_app.route('/seznam_zaposlenih')
+def seznam_zaposlenih():
+    return controllers.sv_zaposleni.seznam_zaposlenih()
+
+@f_app.route('/vpogled_narocila/<int:narocilo_id>', methods=['GET', 'POST'])
+def vpogled_narocila(narocilo_id):
+    return controllers.sv_narocila.izpis_narocila(narocilo_id)
