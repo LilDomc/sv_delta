@@ -18,7 +18,10 @@ import controllers.sv_registracija
 import controllers.sv_prijava
 import controllers.sv_odjava
 import controllers.sv_zaposleni
+import controllers.sv_menjava_gesla
+import controllers.sv_profil
 import controllers.sv_narocila
+
 
 f_app = Flask(__name__) # F stands for fu***ng
 
@@ -101,6 +104,18 @@ def zaposleni_get():
 @f_app.route('/zaposleni', methods=['POST'])
 def zaposleni_post():
     return controllers.sv_zaposleni.shrani_zaposlenega()
+
+@f_app.get('/menjava_gesla')
+def menjava_gesla_get():
+    return controllers.sv_menjava_gesla.prikazi_menjava_gesla()
+
+@f_app.post('/menjava_gesla')
+def menjava_gesla_post():
+    return controllers.sv_menjava_gesla.obdelaj_menjava_gesla()
+
+@f_app.get('/profil')
+def profil():
+    return controllers.sv_profil.prikazi_profil()
 
 @f_app.route('/najbolj_prodajani', methods=['GET', 'POST'])
 def najbolj_prodajani():

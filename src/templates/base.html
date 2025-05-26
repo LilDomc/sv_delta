@@ -63,7 +63,7 @@
                 </ul>
                 <nav>
                     {% if session.user %}
-                        <span> | Pozdravljen/a, {{ session.user.ime }} {{ session.user.priimek }}</span>
+                        <span> | Pozdravljen/a, <a href="/profil">{{ session.user.ime }} {{ session.user.priimek }} </a>| {{ session.user.role}}</span>
                         <a href="/odjava">Odjava</a>
                     {% else %}
                         <a href="/prijava">Prijava</a>
