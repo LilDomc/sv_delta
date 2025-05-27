@@ -100,6 +100,7 @@ def insert_product():
 def izpis_kosarice():
     return controllers.sv_kosarica.izpis_kosarice()
 
+
 @f_app.route('/zaposleni', methods=['GET'])
 def zaposleni_get():
     return controllers.sv_zaposleni.obrazec_zaposlenih()
