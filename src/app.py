@@ -1,5 +1,6 @@
 import controllers.sv_contact
 import controllers.sv_kosarica
+import controllers.sv_vracilo
 from flask import Flask
 
 import controllers.index
@@ -141,6 +142,9 @@ def seznam_zaposlenih():
 def vpogled_narocila(narocilo_id):
     return controllers.sv_narocila.izpis_narocila(narocilo_id)
 
+@f_app.route('/vracilo', methods=['GET', 'POST'])
+def vracilo():
+    return controllers.sv_vracilo.show_vracilo()
 
 @f_app.get('/stores')
 def stores_get():
@@ -149,4 +153,3 @@ def stores_get():
 @f_app.post('/stores')
 def stores_post():
     return controllers.sv_poslovalnica.save_store()
-
