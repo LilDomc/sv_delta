@@ -173,6 +173,24 @@ def get_best_selling_products(limit=5):
     conn.close()
     return products
 
+
+def get_all_products():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT Ime_produkta
+        FROM products
+        ORDER BY Ime_produkta ASC
+    ''')
+
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products
+
 def search_products(query):
     conn = db.get_connection()
     cursor = conn.cursor()

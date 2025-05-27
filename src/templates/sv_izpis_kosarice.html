@@ -20,81 +20,43 @@
         </div>
 
         <!-- Izbira države za poštnino -->
-        <div style="margin-top: 30px; margin-bottom:50px;">
-            <h3>Informativni izračun poštnine in časa :</h3>
-            <label for="drzava">Izberi državo:</label>
-            <select id="drzava" onchange="posodobiPostnino()">
-                <option value="">-- Izberi državo --</option>
-                <option value="slo">Slovenija</option>
-                <option value="tujina">Tujina</option>
-            </select>
+        <form method="get">
+            <div style="margin-top: 30px; margin-bottom:50px;">
+                <h3>Informativni izračun poštnine in časa :</h3>
 
-            <label style="margin-left: 10px" for="regija">Izberi regijo:</label>
-            <select id="regija" onchange="pokaziPostninoRegije()">
-                <option value="">-- Izberi regijo --</option>
-                <option value="osrednjeslovenska">Osrednjeslovenska</option>
-                <option value="podravska">Podravska</option>
-                <option value="gorenjska">Gorenjska</option>
-                <option value="primorska">Primorska</option>
-                <option value="dolenjska">Dolenjska</option>
-            </select>
-        
+                <label for="drzava">Izberi državo:</label>
+                <select name="drzava">
+                    <option value="">-- Izberi državo --</option>
+                    <option value="slo" {% if request.args.get('drzava') == 'slo' %}selected{% endif %}>Slovenija</option>
+                    <option value="tujina" {% if request.args.get('drzava') == 'tujina' %}selected{% endif %}>Tujina</option>
+                </select>
 
-            <span id="postnina-rezultat" style="margin-top: 20px; font-weight: bold;"></span>
-        </div>
+                <label style="margin-left: 10px" for="regija">Izberi regijo:</label>
+                <select name="regija">
+                    <option value="">-- Izberi regijo --</option>
+                    <option value="osrednjeslovenska" {% if request.args.get('regija') == 'osrednjeslovenska' %}selected{% endif %}>Osrednjeslovenska</option>
+                    <option value="podravska" {% if request.args.get('regija') == 'podravska' %}selected{% endif %}>Podravska</option>
+                    <option value="gorenjska" {% if request.args.get('regija') == 'gorenjska' %}selected{% endif %}>Gorenjska</option>
+                    <option value="primorska" {% if request.args.get('regija') == 'primorska' %}selected{% endif %}>Primorska</option>
+                    <option value="dolenjska" {% if request.args.get('regija') == 'dolenjska' %}selected{% endif %}>Dolenjska</option>
+                </select>
 
-        <script>
-            function posodobiPostnino() {
-                const drzava = document.getElementById("drzava").value;
-                const sloRegije = document.getElementById("slo-regije");
-                const postninaRezultat = document.getElementById("postnina-rezultat");
-                const regijaSelect = document.getElementById("regija");
+                <label style="margin-left: 10px" for="nacin">Nacin dostave:</label>
+                <select name="nacin">
+                    <option value=""></option>
+                    <option value="obicajno" {% if request.args.get('nacin') == 'obicajno' %}selected{% endif %}>Običajno</option>
+                    <option value="prednostno" {% if request.args.get('nacin') == 'prednostno' %}selected{% endif %}>Prednostno</option>
+                    <option value="expres" {% if request.args.get('nacin') == 'expres' %}selected{% endif %}>Expres</option>
+                </select>
 
-                postninaRezultat.innerHTML = "";
-
-                if (drzava === "slo") {
-                    sloRegije.style.display = "block";
-                } else if (drzava === "tujina") {
-                    sloRegije.style.display = "none";
-                    postninaRezultat.innerHTML = "Poštnina za tujino: 12.99 € in predviden čas 7 delovnih dni. ";
-                } else {
-                    sloRegije.style.display = "none";
-                }
-            }
-
-            function pokaziPostninoRegije() {
-                const regija = document.getElementById("regija").value;
-                const postninaRezultat = document.getElementById("postnina-rezultat");
-
-                let postnina = "";
-
-                switch (regija) {
-                    case "osrednjeslovenska":
-                        postnina = "3.50 €, in predviden čas 2 dni.";
-                        break;
-                    case "podravska":
-                        postnina = "4.00 €, in predviden čas 3 dni.";
-                        break;
-                    case "gorenjska":
-                        postnina = "3.80 €, in predviden čas 2 dni.";
-                        break;
-                    case "primorska":
-                        postnina = "4.20 €, in predviden čas 4 dni.";
-                        break;
-                    case "dolenjska":
-                        postnina = "3.90 €, in predviden čas 3 dni.";
-                        break;
-                    default:
-                        postnina = "";
-                }
-
-
-                if (postnina) {
-                    postninaRezultat.innerHTML = "Poštnina za izbrano regijo: " + postnina;
-                } else {
-                    postninaRezultat.innerHTML = "";
-                }
-            }
-        </script>
+                <button style="margin-left: 15px;" type="submit">Izracunaj</button>
+                </br>
+                {% if postnina %}
+                    <p style="margin-top: 20px; font-weight: bold;">{{ postnina }}</p>
+                {% else %}
+                    <p style="margin-top: 20px; color: gray;">Prosim izberite polja za izračun.</p>
+                {% endif %}
+            </div>
+        </form>
     {% endif %}
 {% endblock %}

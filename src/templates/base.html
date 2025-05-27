@@ -55,6 +55,9 @@
                         <a class="nav-link" href="/zaposleni">Zaposleni</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/vracilo">Vračilo izdelka</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/seznam_zaposlenih">Seznam zaposlenih</a>
                     </li>
                     <li>
@@ -78,7 +81,10 @@
         </div>
     </nav>
     {% endif %}
-    {% block content %}{% endblock %}
+
+    <div style="padding: 30px;">
+        {% block content %}{% endblock %}
+    </div>
     <p>[<a href="/">domov</a>]</p>
     
     <footer>
