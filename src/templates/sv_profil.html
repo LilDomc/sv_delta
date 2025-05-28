@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+</head>
+<body>
+    <h1>Tvoj profil</h1>
+
+    {% if session.user %}
+        <p><strong>Ime:</strong> {{ session.user.ime }}</p>
+        <p><strong>Priimek:</strong> {{ session.user.priimek }}</p>
+        <p><strong>Email:</strong> {{ session.user.email }}</p>
+        <p><strong>Vloga:</strong> {{ session.user.role }}</p>
+
+        <a href="/menjava_gesla">Spremeni geslo</a>
+        <br>
+         <a href="/">Domača stran</a>
+    {% else %}
+        <p>Napaka: user ni prijavljen.</p>
+    {% endif %}
+
+</body>
+</html>

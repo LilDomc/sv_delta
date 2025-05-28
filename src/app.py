@@ -1,5 +1,6 @@
 import controllers.sv_contact
 import controllers.sv_kosarica
+import controllers.sv_vracilo
 from flask import Flask
 
 import controllers.index
@@ -12,11 +13,19 @@ import models.sv_products
 import models.sv_trgovina
 import models.sv_kosarica
 import models.sv_qa
+import models.sv_narocila
 
 import controllers.sv_registracija
 import controllers.sv_prijava
 import controllers.sv_odjava
 import controllers.sv_zaposleni
+import controllers.sv_menjava_gesla
+import controllers.sv_profil
+import controllers.sv_narocila
+
+import controllers.sv_poslovalnica
+
+
 
 f_app = Flask(__name__) # F stands for fu***ng
 
@@ -92,6 +101,7 @@ def insert_product():
 def izpis_kosarice():
     return controllers.sv_kosarica.izpis_kosarice()
 
+
 @f_app.route('/zaposleni', methods=['GET'])
 def zaposleni_get():
     return controllers.sv_zaposleni.obrazec_zaposlenih()
@@ -99,6 +109,18 @@ def zaposleni_get():
 @f_app.route('/zaposleni', methods=['POST'])
 def zaposleni_post():
     return controllers.sv_zaposleni.shrani_zaposlenega()
+
+@f_app.get('/menjava_gesla')
+def menjava_gesla_get():
+    return controllers.sv_menjava_gesla.prikazi_menjava_gesla()
+
+@f_app.post('/menjava_gesla')
+def menjava_gesla_post():
+    return controllers.sv_menjava_gesla.obdelaj_menjava_gesla()
+
+@f_app.get('/profil')
+def profil():
+    return controllers.sv_profil.prikazi_profil()
 
 @f_app.route('/najbolj_prodajani', methods=['GET', 'POST'])
 def najbolj_prodajani():
@@ -111,3 +133,23 @@ def products_search():
 @f_app.get('/kontakt_prebrano')
 def kontakt_prebrano():
     return controllers.sv_contact.show_all_contact_requests()
+
+@f_app.route('/seznam_zaposlenih')
+def seznam_zaposlenih():
+    return controllers.sv_zaposleni.seznam_zaposlenih()
+
+@f_app.route('/vpogled_narocila/<int:narocilo_id>', methods=['GET', 'POST'])
+def vpogled_narocila(narocilo_id):
+    return controllers.sv_narocila.izpis_narocila(narocilo_id)
+
+@f_app.route('/vracilo', methods=['GET', 'POST'])
+def vracilo():
+    return controllers.sv_vracilo.show_vracilo()
+
+@f_app.get('/stores')
+def stores_get():
+    return controllers.sv_poslovalnica.show_store_form()
+
+@f_app.post('/stores')
+def stores_post():
+    return controllers.sv_poslovalnica.save_store()

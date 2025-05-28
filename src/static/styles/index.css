@@ -1,0 +1,52 @@
+.content {
+    text-align: center;
+    padding-top: 40px;
+}
+
+/* Section title */
+.content h2, .content h3 {
+    color: #b32971;
+    margin-bottom: 20px;
+}
+
+/* Center cards within row */
+.row {
+    justify-content: center;
+}
+
+/* Card custom styling */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    color: #b32971;
+    font-weight: bold;
+}
+
+/* Price + units sold text */
+.card-text strong {
+    color: #b32971;
+}
+
+.text-muted {
+    color: #888 !important;
+}
+
+/* Pink button override */
+.btn-primary {
+    background-color: #b32971;
+    border-color: #b32971;
+}
+
+.btn-primary:hover {
+    background-color: #8d2154;
+    border-color: #8d2154;
+}

@@ -1,7 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-        <div class="content col-10">
-            <h2>Dobrodošli na Projekt Delta!</h2>
-            <p>Izberite eno od zgornjih možnosti.</p>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+<div class="content col-10">
+    <h2>Dobrodošli na Projekt Delta!</h2>
+    <p>Izberite eno od zgornjih možnosti.</p>
+
+    <h3>Najbolje prodajani produkti</h3>
+    <div class="row">
+        {% for product in top_products %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product[1] }}</h5>
+                    <p class="card-text">{{ product[2] }}</p>
+                    <p class="card-text"><strong>Cena:</strong> €{{ product[3] }}</p>
+                    <p class="card-text"><small class="text-muted">Prodano: {{ product[5] }}</small></p>
+                    <a href="/trgovina" class="btn btn-primary">Kupi</a>
+                </div>
+            </div>
         </div>
+        {% endfor %}
+    </div>
+</div>
+<div>
+    <h3>Naše poslovalnice</h3>
+    {% if stores %}
+        <div class="row">
+        {% for store in stores %}
+            <div class="col-md-12 mb-3">
+                <div class="card p-3">
+                    <h5 class="card-title">{{ store[1] }}</h5>
+                    <p class="card-text"><strong>Naslov:</strong> {{ store[2] }}</p>
+                    <p class="card-text"><strong>Telefon:</strong> {{ store[3] or "Ni podano" }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p style="color:red;">:warning: Ni nobenih poslovalnic!</p>
+    {% endif %}
+</div>
 {% endblock %}
