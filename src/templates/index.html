@@ -23,6 +23,17 @@
     </div>
 </div>
 <div>
+    {% if session.user and session.user.role == 'employee' %}
+    <form action="{{ url_for('arrived') }}" method="post">
+        <button type="submit">Arrived at work</button>
+    </form>
+
+    <form action="{{ url_for('left') }}" method="post">
+        <button type="submit">Leaving work</button>
+    </form>
+{% endif %}
+</div>
+<div>
     <h3>Naše poslovalnice</h3>
     {% if stores %}
         <div class="row">
@@ -37,7 +48,7 @@
         {% endfor %}
         </div>
     {% else %}
-        <p style="color:red;">:warning: Ni nobenih poslovalnic!</p>
+        <p style="color:red;">⚠️ Ni nobenih poslovalnic!</p>
     {% endif %}
 </div>
 {% endblock %}

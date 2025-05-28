@@ -1,7 +1,7 @@
 import controllers.sv_contact
 import controllers.sv_kosarica
 import controllers.sv_vracilo
-from flask import Flask
+from flask import Flask, session, redirect, url_for, request
 
 import controllers.index
 import controllers.sv_qa
@@ -14,6 +14,7 @@ import models.sv_trgovina
 import models.sv_kosarica
 import models.sv_qa
 import models.sv_narocila
+import models.sv_prihodi_odhodi
 
 import controllers.sv_registracija
 import controllers.sv_prijava
@@ -153,3 +154,25 @@ def stores_get():
 @f_app.post('/stores')
 def stores_post():
     return controllers.sv_poslovalnica.save_store()
+
+@f_app.route('/arrived', methods=['POST'])
+def arrived():
+    user = session.get('user')
+    if user and user.get('role') == 'employee':
+        employee_id = user.get('employeeID')
+        if employee_id is not None:
+            models.sv_prihodi_odhodi.log_arrival(employee_id)
+        else:
+            print("[ERROR] employeeID not found in session!")
+    return redirect(url_for('home'))
+
+@f_app.route('/left', methods=['POST'])
+def left():
+    user = session.get('user')
+    if user and user.get('role') == 'employee':
+        employee_id = user.get('employeeID')
+        if employee_id is not None:
+            models.sv_prihodi_odhodi.log_departure(employee_id)
+        else:
+            print("[ERROR] employeeID not found in session!")
+    return redirect(url_for('home'))

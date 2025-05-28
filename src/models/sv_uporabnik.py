@@ -72,6 +72,8 @@ class Uporabnik:
             conn = db.get_connection()
             with conn.cursor() as cursor:
                 hashirano_geslo = Uporabnik._hash_geslo(geslo)
+
+                # Step 1: Verify user exists and get basic info
                 cursor.execute('''
                     SELECT userID, ime, priimek, email, role FROM users
                     WHERE email = %s AND geslo = %s;
@@ -79,25 +81,41 @@ class Uporabnik:
                 user = cursor.fetchone()
 
                 if user:
-                    # Shrani uporabnika v sejo
+                    # Step 2: If role is employee, fetch employeeID from employees table
+                    employee_id = None
+                    if user[4] == 'employee':
+                        cursor.execute('''
+                            SELECT employeeID FROM employees WHERE email = %s;
+                        ''', (email,))
+                        employee_result = cursor.fetchone()
+                        if employee_result:
+                            employee_id = employee_result[0]
+                        else:
+                            print("[WARN] Employee not found in employees table.")
+
+                    # Step 3: Set session with all info
                     session['user'] = {
                         'userID': user[0],
                         'ime': user[1],
                         'priimek': user[2],
                         'email': user[3],
-                        'role': user[4]
+                        'role': user[4],
+                        'employeeID': employee_id
                     }
+
                     print(f"[INFO] Uporabnik {email} uspešno prijavljen.")
                     return True
                 else:
                     print("[WARN] Napačen email ali geslo.")
                     return False
+
         except Exception as e:
             print(f"[ERROR] Napaka pri prijavi: {e}")
             return False
         finally:
             if conn:
                 conn.close()
+
 
     @staticmethod
     def odjavi():
@@ -151,4 +169,3 @@ class Uporabnik:
         finally:
             if conn:
                 conn.close()
-
