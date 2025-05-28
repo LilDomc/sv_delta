@@ -176,3 +176,7 @@ def left():
         else:
             print("[ERROR] employeeID not found in session!")
     return redirect(url_for('home'))
+
+@f_app.get('/order_history')
+def order_history():
+    return controllers.sv_narocila.order_history()
