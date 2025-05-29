@@ -116,3 +116,29 @@ def menjava_gesla_post():
 @f_app.get('/profil')
 def profil():
     return controllers.sv_profil.prikazi_profil()
+
+from controllers import sv_pozabljeno_geslo
+from models import sv_uporabnik
+
+
+@f_app.route("/pozabljeno_geslo/<token>", methods=["GET"])
+def obrazec_ponastavi(token):
+    return sv_pozabljeno_geslo.prikazi_obrazec_za_nastavitev_gesla(token)
+
+@f_app.route("/pozabljeno_geslo/<token>", methods=["POST"])
+def shrani_novo_geslo(token):
+    return sv_pozabljeno_geslo.shrani_novo_geslo(token)
+
+@f_app.route("/pozabljeno_geslo", methods=["POST"])
+def pozabljeno_geslo():
+    return sv_pozabljeno_geslo.zahtevaj_ponastavitev()
+
+@f_app.route("/reset/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    print(f"[DEBUG] Prejeti token iz URL-ja: {token}")
+    email = sv_uporabnik.Uporabnik.preveri_reset_token(token)
+    print(f"[DEBUG] Vrnjeni email iz baze: {email}")
+    if email is None:
+        return "Token ne obstaja ali je potekel"
+    # Nadaljuj z obrazcem za novo geslo ...
+
