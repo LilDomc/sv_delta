@@ -66,7 +66,7 @@ def setup_db():
         );
     ''')
     cursor.execute('''
-        CREATE TABLE password_reset_tokens (
+        CREATE TABLE IF NOT EXISTS password_reset_tokens (
             id_token SERIAL PRIMARY KEY,
             token VARCHAR(64) NOT NULL,
             email VARCHAR(255) NOT NULL,
