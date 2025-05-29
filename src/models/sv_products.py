@@ -20,7 +20,6 @@ def setup_db():
             productID INT NOT NULL,
             koda varchar(255),
             vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100),
-            uporaba BOOLEAN DEFAULT FALSE,
             FOREIGN KEY (productID) REFERENCES products(productID)
         )
     ''')
