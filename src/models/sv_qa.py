@@ -37,19 +37,16 @@ def insert_test_data_qa():     #inserta če je tabela prazna
 
     cursor.execute("""
         INSERT INTO vprasanja (vprasanjeID, vprasanje_tekst) VALUES
-        (1, 'What is the capital of France?'),
-        (2, 'What is 2 + 2?'),
-        (3, 'Which planet is known as the Red Planet?');
+        (1, 'Kako oddam naročilo?'),
+        (2, 'Kaj naj naredim, če prejmem poškodovano varovalko ali napačen izdelek?'),
+        (3, 'Kako preverim, ali je določena varovalka trenutno na zalogi?');
     """)
 
     cursor.execute("""
         INSERT INTO odgovori (odgovoriID, vprasanjeID, odgovor_tekst) VALUES
-        (1, 1, 'Paris'),
-        (2, 1, 'London'),
-        (3, 2, '4'),
-        (4, 2, '5'),
-        (5, 3, 'Mars'),
-        (6, 3, 'Jupiter');
+        (1, 1, 'Izberite željen izdelek, nastavite količino in kliknite »Dodaj v košarico«. Ko zaključite z izbiro, nadaljujete na spletni blagajni, kamor vnesete podatke za dostavo in izberete način plačila.'),
+        (2, 2, 'Takoj nas kontaktirajte po e-pošti in priložite fotografije poškodbe ter embalaže. Po potrditvi bomo organizirali brezplačno zamenjavo ali vračilo. Napako je treba prijaviti najkasneje v 3 dneh po prejemu pošiljke.'),
+        (3, 3, 'Na strani vsakega izdelka je navedeno, ali je varovalka na zalogi in v kakšni količini. Če izdelek ni na zalogi, lahko vpišete svoj e-mail za obvestilo ob ponovni dobavi.');
     """)
 
     conn.commit()

@@ -1,0 +1,23 @@
+{% block content %}
+<div class="container mt-4">
+    <h2>Dodaj novo poslovalnico</h2>
+    {% if response %}
+        <div class="alert alert-success">{{ response }}</div>
+    {% endif %}
+    <form method="post">
+        <div class="mb-3">
+            <label for="ime" class="form-label">Ime poslovalnice</label>
+            <input type="text" class="form-control" id="ime" name="ime" required>
+        </div>
+        <div class="mb-3">
+            <label for="naslov" class="form-label">Naslov</label>
+            <input type="text" class="form-control" id="naslov" name="naslov" required>
+        </div>
+        <div class="mb-3">
+            <label for="telefon" class="form-label">Telefonska številka</label>
+            <input type="text" class="form-control" id="telefon" name="telefon">
+        </div>
+        <button type="submit" class="btn btn-primary">Shrani poslovalnico</button>
+    </form>
+</div>
+{% endblock %}
