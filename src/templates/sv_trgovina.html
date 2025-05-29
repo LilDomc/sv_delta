@@ -21,7 +21,7 @@
         <span>{{ product[3] }} €</span>  {# Cena_produkta #}
 
         <form action="{{ url_for('trgovina_post') }}" method="post">
-            <input type="hidden" name="productID" value="{{ product[0] }}">
+            <input type="hidden" name="product_id" value="{{ product[0] }}">
             <button type="submit" class="add-to-cart-btn">Dodaj v košarico!</button>
         </form>
 

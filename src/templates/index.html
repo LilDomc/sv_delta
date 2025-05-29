@@ -51,4 +51,17 @@
         <p style="color:red;">⚠️ Ni nobenih poslovalnic!</p>
     {% endif %}
 </div>
+
+<h2>Najbolj priljubljeni izdelki</h2>
+<div class="top-products">
+    {% for product in top3_products %}
+        <div class="product-card">
+        <h3>{{ product[1] }}</h3>
+        <p>{{ product[2] }}</p>
+        <p>Cena: €{{ product[3] }}</p>
+        <p>Število klikov: {{ product[4] }}</p>
+        </div>
+    {% endfor %}
+</div>
+
 {% endblock %}
