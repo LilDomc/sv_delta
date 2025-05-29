@@ -201,7 +201,7 @@ class Uporabnik:
 
             with conn.cursor() as cursor:
                 cursor.execute("""
-                    INSERT INTO password_reset_tokens (token, email, created_at)
+                    INSERT INTO password_reset_token (token, email, ustvarjeno)
                     VALUES (%s, %s, %s)
                 """, (token, email, datetime.datetime.utcnow()))
                 conn.commit()
@@ -217,8 +217,8 @@ class Uporabnik:
         try:
             with conn.cursor() as cursor:
                 sql = """
-                    SELECT email FROM password_reset_tokens
-                    WHERE token = %s AND created_at > (NOW() - INTERVAL '1 hour')
+                    SELECT email FROM password_reset_token
+                    WHERE token = %s AND ustvarjeno > (NOW() - INTERVAL '1 hour')
                 """
                 cursor.execute(sql, (token,))
                 result = cursor.fetchone()
@@ -235,7 +235,7 @@ class Uporabnik:
         try:
             conn = db.get_connection()
             with conn.cursor() as cursor:
-                cursor.execute("DELETE FROM password_reset_tokens WHERE token = %s", (token,))
+                cursor.execute("DELETE FROM password_reset_token WHERE token = %s", (token,))
                 conn.commit()
         except Exception as e:
             print(f"[ERROR] Napaka pri brisanju reset tokena: {e}")
@@ -265,9 +265,9 @@ class Uporabnik:
         try:
             conn = db.get_connection()
             with conn.cursor() as cursor:
-                cursor.execute('''SELECT token, email, created_at FROM password_reset_tokens;''')
+                cursor.execute('''SELECT token, email, ustvarjeno FROM password_reset_token;''')
                 rezultati = cursor.fetchall()
-                return rezultati  # seznam dict-ov s ključi: token, email, created_at
+                return rezultati  # seznam dict-ov s ključi: token, email, ustvarjeno
         except Exception as e:
             print(f"[ERROR] Napaka pri pridobivanju reset tokenov: {e}")
             return []
@@ -280,10 +280,10 @@ class Uporabnik:
         try:
             conn = db.get_connection()
             with conn.cursor() as cursor:
-                cursor.execute('''SELECT id_token FROM password_reset_tokens WHERE token = %s''', (token,))
+                cursor.execute('''SELECT tokenid FROM password_reset_token WHERE token = %s''', (token,))
                 rezultat = cursor.fetchone()
                 if rezultat:
-                    return rezultat[0]  # vrni samo id_token
+                    return rezultat[0]  # vrni samo id_token #novi tokenid
                 else:
                     return None  # če ni najden
         except Exception as e:

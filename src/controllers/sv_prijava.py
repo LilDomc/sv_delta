@@ -1,9 +1,8 @@
 import uuid
 import urllib.parse
-
+import requests
 from flask import request, redirect, render_template, session, flash, url_for
 from models.sv_uporabnik import Uporabnik
-#import sv_send
 
 # začasen slovar za shranjevanje tokenov (v praksi uporabi DB ali Redis)
 reset_tokens = {}
@@ -35,7 +34,7 @@ def obdelaj_prijavo():
             base_url = "https://drofenik.eu/faks"
             geslo = "f2ddd40837baa505b8db98b88a73ba222c4034f988dd86890dd9aca9b14835f0"
 
-            email = reset_email#"nameless9876543@gmail.com"
+            email = reset_email
             subject = f"Pozabljeno geslo [{Uporabnik.getTokenID(token)}]"
             message = (
                 "Pozdravljeni!\n\n"
@@ -52,17 +51,19 @@ def obdelaj_prijavo():
 
             # Sestavi URL z zakodiranimi parametri
             url = f"{base_url}/{geslo}/{email_enc}/{subject_enc}/{message_enc}"
-
-            # Pošlji GET zahtevek (ker je tvoj PHP API verjetno GET preko URL)
-            response = requests.get(url)
-
-            # Izpiši rezultat
-            print("Status code:", response.status_code)
-            print("Response:", response.text)
-            #############################
-            flash("Na e-mail smo vam poslali obnovitveni url naslov")
+            print(f"Pošiljam GET zahtevek na URL: {url}")  # Izpis URL
+            
+            # Pošlji GET zahtevek
+            try:
+                response = requests.get(url)
+                response.raise_for_status()  # To bo sprožilo izjemo za napake HTTP
+                print("Status code:", response.status_code)
+                print("Response:", response.text)
+                flash("Na e-mail smo vam poslali obnovitveni url naslov")
+            except requests.exceptions.RequestException as e:
+                print(f"Napaka pri pošiljanju zahtevka: {e}")
+                flash("Prišlo je do napake pri pošiljanju e-pošte.")
         else:
             flash("Uporabnik s tem e-mail naslovom ne obstaja.")
 
         return render_template("sv_prijava.html")
-
