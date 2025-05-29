@@ -11,7 +11,8 @@ def setup_db():
             cena_produkta NUMERIC(10, 2),
             komentar varchar(255),
             stock INT,
-            prodano INT
+            prodano INT,
+            kliki INT DEFAULT 0
         );
     ''')
     cursor.execute('''
@@ -20,7 +21,6 @@ def setup_db():
             productID INT NOT NULL,
             koda varchar(255),
             vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100),
-            uporaba BOOLEAN DEFAULT FALSE,
             FOREIGN KEY (productID) REFERENCES products(productID)
         )
     ''')
@@ -166,6 +166,24 @@ def get_best_selling_products(limit=5):
         LIMIT %s;
     '''
     cursor.execute(query, (limit,))
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products
+
+
+def get_all_products():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT Ime_produkta
+        FROM products
+        ORDER BY Ime_produkta ASC
+    ''')
+
     products = cursor.fetchall()
 
     conn.commit()

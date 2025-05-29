@@ -55,15 +55,22 @@
                         <a class="nav-link" href="/zaposleni">Zaposleni</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/vracilo">Vračilo izdelka</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/seznam_zaposlenih">Seznam zaposlenih</a>
                     </li>
                     <li>
                         <a class="nav-link" href="/izpis_kosarice">Izpis kosarice</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="/stores">Poslovalnice</a>
                     </li>
+                    {% if session.get('user') %}
+                    <li>
+                        <a href="{{ url_for('order_history') }}" class="btn btn-primary">Order History</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <nav>
                     {% if session.user %}
@@ -78,7 +85,10 @@
         </div>
     </nav>
     {% endif %}
-    {% block content %}{% endblock %}
+
+    <div style="padding: 30px;">
+        {% block content %}{% endblock %}
+    </div>
     <p>[<a href="/">domov</a>]</p>
     
     <footer>
