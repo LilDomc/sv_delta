@@ -1,6 +1,5 @@
 import uuid
 import urllib.parse
-import requests
 
 from flask import request, redirect, render_template, session, flash, url_for
 from models.sv_uporabnik import Uporabnik
