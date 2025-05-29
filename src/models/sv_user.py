@@ -65,6 +65,14 @@ def setup_db():
             FOREIGN KEY (employeeID) REFERENCES employees(employeeID)
         );
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS password_reset_token (
+            tokenID SERIAL PRIMARY KEY,
+            token varchar(64) NOT NULL,
+            email varchar(100) NOT NULL,
+            ustvarjeno DATE DEFAULT CURRENT_DATE,
+            FOREIGN KEY (email) REFERENCES users(email))
+    ''')
     conn.commit()
     cursor.close()
     conn.close()

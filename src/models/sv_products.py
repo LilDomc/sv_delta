@@ -11,7 +11,8 @@ def setup_db():
             cena_produkta NUMERIC(10, 2),
             komentar varchar(255),
             stock INT,
-            prodano INT
+            prodano INT,
+            kliki INT DEFAULT 0
         );
     ''')
     cursor.execute('''
