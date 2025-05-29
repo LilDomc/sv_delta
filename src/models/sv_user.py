@@ -66,12 +66,12 @@ def setup_db():
         );
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS password_reset_tokens (
-            id_token SERIAL PRIMARY KEY,
-            token VARCHAR(64) NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (email) REFERENCES users(email));
+        CREATE TABLE IF NOT EXISTS password_reset_token (
+            tokenID SERIAL PRIMARY KEY,
+            token varchar(64) NOT NULL,
+            email varchar(100) NOT NULL,
+            ustvarjeno TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (email) REFERENCES users(email))
     ''')
     conn.commit()
     cursor.close()
