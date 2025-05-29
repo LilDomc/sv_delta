@@ -1,9 +1,18 @@
-from flask import request, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template, session
 import models.sv_kosarica
+import models.sv_products
 
 def add_to_cart():
-    product_id = request.form.get("productID")
-    models.sv_kosarica.dodaj_v_kosarico(product_id)
+    product_id = int(request.form.get("product_id"))
+    
+    # Povečaj klike
+    models.sv_products.povecaj_klike(product_id)
+
+    # Dodaj v košarico (kot že zdaj)
+    kosarica = session.get('kosarica', [])
+    kosarica.append(product_id)
+    session['kosarica'] = kosarica
+
     return redirect(url_for('trgovina'))
 
 def izracunaj_postnino(drzava, regija, nacin):
@@ -49,4 +58,3 @@ def izpis_kosarice():
 
     izdelki = models.sv_kosarica.izpis_kosarice()
     return render_template('sv_izpis_kosarice.html', izdelki=izdelki, postnina=postnina)
-

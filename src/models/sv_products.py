@@ -208,3 +208,30 @@ def search_products(query):
     cursor.close()
     conn.close()
     return products 
+
+def povecaj_klike(productID):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE products
+        SET kliki = kliki + 1
+        WHERE productID = %s;
+    ''', (productID,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def get_top_3_products():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Kliki
+        FROM products
+        ORDER BY Kliki DESC
+        LIMIT 3;
+    ''')
+    top3_products = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return top3_products
