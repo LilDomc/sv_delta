@@ -147,3 +147,20 @@ def vsi_zaposleni():
     conn.close()
 
     return rows
+
+def isci_zaposlene(iskanje):
+    conn = db.get_connection()
+    cur = conn.cursor()
+
+    query = """
+        SELECT ime, priimek, datum_rojstva, naslov, placa, email, naziv, datum_zaposlitve
+        FROM employees
+        WHERE LOWER(ime) LIKE %s OR LOWER(priimek) LIKE %s
+    """
+    param = f"%{iskanje.lower()}%"
+    cur.execute(query, (param, param))
+
+    rezultati = cur.fetchall()
+    cur.close()
+    conn.close()
+    return rezultati
