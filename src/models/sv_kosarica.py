@@ -70,21 +70,48 @@ def dodaj_v_kosarico(product_id):
     cursor.close()
     conn.close()
 
-def izpis_kosarice():
+#def izpis_kosarice():
+#    conn = db.get_connection()
+#    cursor = conn.cursor()
+#
+#    cursor.execute('''
+#        SELECT productID, Ime_produkta, Cena_produkta, Stock 
+#        FROM kosarica;
+#    ''')
+#    izdelki = cursor.fetchall()
+#
+#    cursor.close()
+#    conn.close()
+#
+#    if not izdelki:
+#        print("Košarica je prazna.")
+#        return
+#
+#    return izdelki
+
+def izpis_kosarice_iz_seje(seznam_id):
+    if not seznam_id:
+        return []
+
     conn = db.get_connection()
     cursor = conn.cursor()
 
-    cursor.execute('''
-        SELECT productID, Ime_produkta, Cena_produkta, Stock 
-        FROM kosarica;
-    ''')
+    # Pretvori v tuple in uporabi SQL IN
+    format_strings = ','.join(['%s'] * len(seznam_id))
+    query = f'''
+        SELECT productID, Ime_produkta, Cena_produkta 
+        FROM products
+        WHERE productID IN ({format_strings});
+    '''
+    cursor.execute(query, tuple(seznam_id))
     izdelki = cursor.fetchall()
+
+    # Preštej količine
+    from collections import Counter
+    kolicine = Counter(seznam_id)
+    izdelki_s_kolicino = [(id, ime, cena, kolicine[id]) for id, ime, cena in izdelki]
 
     cursor.close()
     conn.close()
 
-    if not izdelki:
-        print("Košarica je prazna.")
-        return
-
-    return izdelki
+    return izdelki_s_kolicino

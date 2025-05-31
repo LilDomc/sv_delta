@@ -206,3 +206,7 @@ def left():
 @f_app.get('/order_history')
 def order_history():
     return controllers.sv_narocila.order_history()
+
+@f_app.get('/izpis_racuna')
+def izpis_racuna():
+    return controllers.sv_kosarica.izpis_racuna()
