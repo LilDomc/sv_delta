@@ -59,4 +59,11 @@
             </div>
         </form>
     {% endif %}
+    <form method="get" action="{{ url_for('izpis_racuna') }}">
+        <input type="hidden" name="drzava" value="{{ request.args.get('drzava') }}">
+        <input type="hidden" name="regija" value="{{ request.args.get('regija') }}">
+        <input type="hidden" name="nacin" value="{{ request.args.get('nacin') }}">
+        <button type="submit" style="margin-top: 20px;">Račun</button>
+    </form>
+
 {% endblock %}
