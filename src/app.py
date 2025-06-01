@@ -15,6 +15,7 @@ import models.sv_kosarica
 import models.sv_qa
 import models.sv_narocila
 import models.sv_prihodi_odhodi
+import models.sv_promo
 
 import controllers.sv_registracija
 import controllers.sv_prijava
@@ -23,6 +24,7 @@ import controllers.sv_zaposleni
 import controllers.sv_menjava_gesla
 import controllers.sv_profil
 import controllers.sv_narocila
+import controllers.sv_promo
 
 import controllers.sv_poslovalnica
 
@@ -210,3 +212,7 @@ def order_history():
 @f_app.get('/izpis_racuna')
 def izpis_racuna():
     return controllers.sv_kosarica.izpis_racuna()
+
+@f_app.route('/insert_promo', methods=['GET', 'POST'])
+def insert_promo():
+    return controllers.sv_promo.insert_promo()
