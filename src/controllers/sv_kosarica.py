@@ -131,3 +131,43 @@ def izpis_racuna():
                            skupna_cena=f"{skupna_cena:.2f}",
                            postnina=f"{postnina_value:.2f}",
                            skupna_cena_z_postnino=f"{skupna_cena_z_postnino:.2f}")
+
+def dodaj_na_wishlist():
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    product_id = request.form.get("product_id")
+    if not product_id:
+        return "Manjka product_id", 400
+
+    user_id = user["userID"]
+    models.sv_kosarica.dodaj_na_wishlist(product_id, user_id)
+
+    return redirect(url_for("prikazi_wishlist"))
+
+
+def prikazi_wishlist():
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    user_id = user["userID"]
+    izdelki = models.sv_kosarica.pridobi_wishlist_izdelke(user_id)
+
+    return render_template("sv_wishlist.html", wishlist=izdelki)
+
+
+def odstrani_iz_wishlist():
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    product_id = request.form.get("product_id")
+    if not product_id:
+        return "Manjka product_id", 400
+
+    user_id = user["userID"]
+    models.sv_kosarica.odstrani_iz_wishlist(user_id, product_id)
+    return redirect(url_for("prikazi_wishlist"))
+

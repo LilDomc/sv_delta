@@ -43,6 +43,11 @@
         {% else %}
             <p>Še brez ocen</p>
         {% endif %}
+
+        <form action="{{ url_for('dodaj_na_wishlist') }}" method="post">
+            <input type="hidden" name="product_id" value="{{ product[0] }}">
+            <button type="submit" class="wishlist-btn">❤️ Shrani na seznam želja</button>
+        </form>
     </div>
     {% endfor %}
 </div>
