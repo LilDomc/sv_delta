@@ -7,10 +7,12 @@ def setup_db():
         CREATE TABLE IF NOT EXISTS kosarica (
             kosaricaID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
+            userID INt NOT NULL,
             ime_produkta varchar(255),
             cena_produkta varchar(255),
             stock INT NOT NULL DEFAULT 1,
-            FOREIGN KEY (productID) REFERENCES products(productID)
+            FOREIGN KEY (productID) REFERENCES products(productID),
+            FOREIGN KEY (userID) REFERENCES users(userID)
         );
     ''')
     cursor.execute('''
@@ -27,6 +29,15 @@ def setup_db():
             status_narocila varchar,
             FOREIGN KEY (productID) REFERENCES products(productID),
             FOREIGN KEY (userID) REFERENCES users(userID)
+        );
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS wishlist (
+            wishlistID SERIAL PRIMARY KEY,
+            userID INT NOT NULL,
+            productID INT NOT NULL,
+            FOREIGN KEY (userID) REFERENCES users(userID),
+            FOREIGN KEY (productID) REFERENCES products(productID)
         );
     ''')
     conn.commit()
