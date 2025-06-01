@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Seznam želja{% endblock %}
+
+{% block content %}
+<h1>Seznam želja</h1>
+
+<div class="product-container">
+    {% for product in wishlist %}
+    <div class="product-card">
+        <h3>{{ product[1] }}</h3>  {# Ime_produkta #}
+        <span>{{ product[2] }} €</span>  {# Cena_produkta #}
+
+        <!-- Gumb za odstranitev iz wishlista -->
+        <form method="POST" action="/wishlist/odstrani">
+            <input type="hidden" name="product_id" value="{{ product[0] }}">
+            <button type="submit" class="remove-from-wishlist-btn">Odstrani iz seznama želja</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

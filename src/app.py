@@ -210,3 +210,15 @@ def order_history():
 @f_app.get('/izpis_racuna')
 def izpis_racuna():
     return controllers.sv_kosarica.izpis_racuna()
+
+@f_app.route("/wishlist/odstrani", methods=["POST"])
+def wishlist_odstrani():
+    return controllers.sv_kosarica.odstrani_iz_wishlist()
+
+@f_app.route("/wishlist/dodaj", methods=["POST"])
+def dodaj_na_wishlist():
+    return controllers.sv_kosarica.dodaj_na_wishlist()
+
+@f_app.route("/wishlist", methods=["GET"])
+def prikazi_wishlist():
+    return controllers.sv_kosarica.prikazi_wishlist()
