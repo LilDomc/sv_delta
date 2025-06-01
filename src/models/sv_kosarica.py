@@ -45,7 +45,7 @@ def setup_db():
     conn.close()
     return True
 
-def dodaj_v_kosarico(product_id):
+def dodaj_v_kosarico(product_id, user_id):
     conn = db.get_connection()
     cursor = conn.cursor()
 
@@ -61,25 +61,26 @@ def dodaj_v_kosarico(product_id):
         cursor.execute('''
             SELECT Stock
             FROM kosarica
-            WHERE productID = %s;
-        ''', (productID,))
+            WHERE productID = %s AND userID = %s;
+        ''', (productID, user_id))
         existing = cursor.fetchone()
 
         if existing:
             cursor.execute('''
                 UPDATE kosarica
                 SET Stock = Stock + 1
-                WHERE productID = %s;
-                ''', (productID,))
+                WHERE productID = %s AND userID = %s;
+            ''', (productID, user_id))
         else:
             cursor.execute('''
-            INSERT INTO kosarica (productID, Ime_produkta, Cena_produkta, Stock)
-            VALUES (%s, %s, %s, 1)
-        ''', (productID, ime, cena))
+                INSERT INTO kosarica (productID, userID, Ime_produkta, Cena_produkta, Stock)
+                VALUES (%s, %s, %s, %s, 1)
+            ''', (productID, user_id, ime, cena))
 
     conn.commit()
     cursor.close()
     conn.close()
+
 
 #def izpis_kosarice():
 #    conn = db.get_connection()
@@ -100,29 +101,17 @@ def dodaj_v_kosarico(product_id):
 #
 #    return izdelki
 
-def izpis_kosarice_iz_seje(seznam_id):
-    if not seznam_id:
-        return []
-
+def izpis_kosarice_iz_baze(user_id):
     conn = db.get_connection()
     cursor = conn.cursor()
 
-    # Pretvori v tuple in uporabi SQL IN
-    format_strings = ','.join(['%s'] * len(seznam_id))
-    query = f'''
-        SELECT productID, Ime_produkta, Cena_produkta 
-        FROM products
-        WHERE productID IN ({format_strings});
-    '''
-    cursor.execute(query, tuple(seznam_id))
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Cena_produkta, Stock
+        FROM kosarica
+        WHERE userID = %s;
+    ''', (user_id,))
     izdelki = cursor.fetchall()
-
-    # Preštej količine
-    from collections import Counter
-    kolicine = Counter(seznam_id)
-    izdelki_s_kolicino = [(id, ime, cena, kolicine[id]) for id, ime, cena in izdelki]
 
     cursor.close()
     conn.close()
-
-    return izdelki_s_kolicino
+    return izdelki

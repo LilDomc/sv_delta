@@ -5,17 +5,20 @@ from datetime import datetime
 import random
 
 def add_to_cart():
-    product_id = int(request.form.get("product_id"))
-    
-    # Povečaj klike
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    user_id = user["userID"]
+    product_id = request.form.get("product_id")
+    if not product_id:
+        return "Manjka product_id", 400
+
     models.sv_products.povecaj_klike(product_id)
+    models.sv_kosarica.dodaj_v_kosarico(product_id, user_id)
 
-    # Dodaj v košarico (kot že zdaj)
-    kosarica = session.get('kosarica', [])
-    kosarica.append(product_id)
-    session['kosarica'] = kosarica
+    return redirect(url_for("trgovina"))
 
-    return redirect(url_for('trgovina'))
 
 def izracunaj_postnino(drzava, regija, nacin):
     # Base price
@@ -70,8 +73,12 @@ def izpis_kosarice():
     if drzava and regija and nacin:
         postnina = izracunaj_postnino(drzava, regija, nacin)
 
-    kosarica = session.get('kosarica', [])
-    izdelki = models.sv_kosarica.izpis_kosarice_iz_seje(kosarica)
+    user = session.get("user")
+    if not user:
+        return render_template("sv_izpis_kosarice.html", izdelki=[], postnina=postnina)
+
+    user_id = user["userID"]
+    izdelki = models.sv_kosarica.izpis_kosarice_iz_baze(user_id)
 
     return render_template('sv_izpis_kosarice.html', izdelki=izdelki, postnina=postnina)
 
