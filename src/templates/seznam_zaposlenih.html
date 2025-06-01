@@ -5,6 +5,12 @@
 {% block content %}
 <div class="container mt-5">
     <h2>Seznam zaposlenih</h2>
+
+    <form method="get" class="mb-3">
+        <input type="text" name="iskanje" placeholder="Išči po imenu ali priimku" class="form-control" value="{{ iskanje or '' }}">
+        <button type="submit" class="btn btn-primary mt-2">Išči</button>
+    </form>
+
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>

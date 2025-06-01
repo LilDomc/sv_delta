@@ -1,43 +1,34 @@
 {% extends "base.html" %}
 {% set hide_navbar = True %}
 {% block content %}
-<h2>Menjava gesla</h2>
+<h2>Ponastavitev gesla</h2>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
 
 {% if napaka %}
     <p style="color:red;">{{ napaka }}</p>
 {% endif %}
 
-<form method="post" onsubmit="return preveriGeslo();">
-    <label for="staro_geslo">Staro geslo:</label><br>
-    <input type="password" id="staro_geslo" name="staro_geslo" required><br><br>
+<form method="post" id="reset-password-form">
+    <label for="geslo">Novo geslo:</label><br>
+    <input type="password" id="geslo" name="geslo" required><br><br>
 
-    <label for="novo_geslo">Novo geslo:</label><br>
-    <input type="password" id="novo_geslo" name="novo_geslo" required><br><br>
-
-    <label for="novo_geslo2">Ponovi novo geslo:</label><br>
-    <input type="password" id="novo_geslo2" name="novo_geslo2" required>
+    <label for="ponovi_geslo">Ponovi geslo:</label><br>
+    <input type="password" id="ponovi_geslo" name="ponovi_geslo" required>
     <div id="match-text" style="margin-top: 0px;"></div>
     <div id="password-strength-bar" style="height: 1px; width: 0; background-color: transparent; transition: width 0.3s; margin-top: 0px;"></div>
     <div id="strength-text"style="margin-top: 0px;"></div>  
-
-    <button type="submit">Zamenjaj geslo</button><br><br>
+    
+    <button type="submit">Shrani novo geslo</button><br><br>
 </form>
-<br>
-<span style="display: inline-block; text-align: center; width: 100%;">
-  <a href="/">Domača stran</a>
-  <a href="/profil" style="margin-left: 10px;">Profil</a>
-</span>
 
-<br><br><br>
 <script>
-  const novoGeslo = document.getElementById("novo_geslo");
-  const novoGeslo2 = document.getElementById("novo_geslo2");
+  const gesloInput = document.getElementById("geslo");
+  const ponoviGesloInput = document.getElementById("ponovi_geslo");
   const matchText = document.getElementById("match-text");
   const strengthBar = document.getElementById("password-strength-bar");
   const strengthText = document.getElementById("strength-text");
+  const form = document.getElementById("reset-password-form");
 
-  // Preverjanje moči gesla
   function checkStrength(password) {
     let strength = 0;
     if (password.length >= 6) strength += 1;
@@ -65,10 +56,9 @@
     }
   }
 
-  // Preverjanje ujemanja gesel
   function preveriUjemanje() {
-    const geslo = novoGeslo.value;
-    const ponovi = novoGeslo2.value;
+    const geslo = gesloInput.value;
+    const ponovi = ponoviGesloInput.value;
 
     if (ponovi.length === 0) {
       matchText.textContent = "";
@@ -84,23 +74,18 @@
     }
   }
 
-  // Glavna funkcija za preverjanje pri oddaji obrazca
-  function preveriGeslo() {
-    if (novoGeslo.value !== novoGeslo2.value) {
-      alert("Novo geslo se ne ujema.");
-      return false;
-    }
-    return true;
-  }
-
-  // Dodajanje poslušalcev na spremembo vnosa
-  novoGeslo.addEventListener("input", () => {
-    checkStrength(novoGeslo.value);
+  gesloInput.addEventListener("input", () => {
+    checkStrength(gesloInput.value);
     preveriUjemanje();
   });
 
-  novoGeslo2.addEventListener("input", preveriUjemanje);
+  ponoviGesloInput.addEventListener("input", preveriUjemanje);
+
+  form.addEventListener("submit", function(e) {
+    if (gesloInput.value !== ponoviGesloInput.value) {
+      e.preventDefault();
+      alert("Gesli se ne ujemata!");
+    }
+  });
 </script>
-
-
 {% endblock %}

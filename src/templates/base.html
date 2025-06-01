@@ -33,6 +33,9 @@
                         <a class="nav-link" href="/trgovina">Trgovina</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/wishlist">Wishlist</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/kontakt">Kontakt</a>
                     </li>
                     <li>
@@ -63,10 +66,14 @@
                     <li>
                         <a class="nav-link" href="/izpis_kosarice">Izpis kosarice</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="/stores">Poslovalnice</a>
                     </li>
+                    {% if session.get('user') %}
+                    <li>
+                        <a href="{{ url_for('order_history') }}" class="btn btn-primary">Order History</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <nav>
                     {% if session.user %}

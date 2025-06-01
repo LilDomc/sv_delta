@@ -65,6 +65,14 @@ def setup_db():
             FOREIGN KEY (employeeID) REFERENCES employees(employeeID)
         );
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS password_reset_token (
+            tokenID SERIAL PRIMARY KEY,
+            token varchar(64) NOT NULL,
+            email varchar(100) NOT NULL,
+            ustvarjeno DATE DEFAULT CURRENT_DATE,
+            FOREIGN KEY (email) REFERENCES users(email))
+    ''')
     conn.commit()
     cursor.close()
     conn.close()
@@ -139,3 +147,20 @@ def vsi_zaposleni():
     conn.close()
 
     return rows
+
+def isci_zaposlene(iskanje):
+    conn = db.get_connection()
+    cur = conn.cursor()
+
+    query = """
+        SELECT ime, priimek, datum_rojstva, naslov, placa, email, naziv, datum_zaposlitve
+        FROM employees
+        WHERE LOWER(ime) LIKE %s OR LOWER(priimek) LIKE %s
+    """
+    param = f"%{iskanje.lower()}%"
+    cur.execute(query, (param, param))
+
+    rezultati = cur.fetchall()
+    cur.close()
+    conn.close()
+    return rezultati

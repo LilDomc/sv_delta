@@ -1,7 +1,7 @@
 import controllers.sv_contact
 import controllers.sv_kosarica
 import controllers.sv_vracilo
-from flask import Flask
+from flask import Flask, session, redirect, url_for, request
 
 import controllers.index
 import controllers.sv_qa
@@ -14,6 +14,7 @@ import models.sv_trgovina
 import models.sv_kosarica
 import models.sv_qa
 import models.sv_narocila
+import models.sv_prihodi_odhodi
 
 import controllers.sv_registracija
 import controllers.sv_prijava
@@ -122,6 +123,32 @@ def menjava_gesla_post():
 def profil():
     return controllers.sv_profil.prikazi_profil()
 
+
+from controllers import sv_pozabljeno_geslo
+from models import sv_uporabnik
+
+
+@f_app.route("/pozabljeno_geslo/<token>", methods=["GET"])
+def obrazec_ponastavi(token):
+    return sv_pozabljeno_geslo.prikazi_obrazec_za_nastavitev_gesla(token)
+
+@f_app.route("/pozabljeno_geslo/<token>", methods=["POST"])
+def shrani_novo_geslo(token):
+    return sv_pozabljeno_geslo.shrani_novo_geslo(token)
+
+@f_app.route("/pozabljeno_geslo", methods=["POST"])
+def pozabljeno_geslo():
+    return sv_pozabljeno_geslo.zahtevaj_ponastavitev()
+
+@f_app.route("/reset/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    print(f"[DEBUG] Prejeti token iz URL-ja: {token}")
+    email = sv_uporabnik.Uporabnik.preveri_reset_token(token)
+    print(f"[DEBUG] Vrnjeni email iz baze: {email}")
+    if email is None:
+        return "Token ne obstaja ali je potekel"
+    # Nadaljuj z obrazcem za novo geslo ...
+
 @f_app.route('/najbolj_prodajani', methods=['GET', 'POST'])
 def najbolj_prodajani():
     return controllers.sv_products.show_best_selling()
@@ -153,3 +180,45 @@ def stores_get():
 @f_app.post('/stores')
 def stores_post():
     return controllers.sv_poslovalnica.save_store()
+
+@f_app.route('/arrived', methods=['POST'])
+def arrived():
+    user = session.get('user')
+    if user and user.get('role') == 'employee':
+        employee_id = user.get('employeeID')
+        if employee_id is not None:
+            models.sv_prihodi_odhodi.log_arrival(employee_id)
+        else:
+            print("[ERROR] employeeID not found in session!")
+    return redirect(url_for('home'))
+
+@f_app.route('/left', methods=['POST'])
+def left():
+    user = session.get('user')
+    if user and user.get('role') == 'employee':
+        employee_id = user.get('employeeID')
+        if employee_id is not None:
+            models.sv_prihodi_odhodi.log_departure(employee_id)
+        else:
+            print("[ERROR] employeeID not found in session!")
+    return redirect(url_for('home'))
+
+@f_app.get('/order_history')
+def order_history():
+    return controllers.sv_narocila.order_history()
+
+@f_app.get('/izpis_racuna')
+def izpis_racuna():
+    return controllers.sv_kosarica.izpis_racuna()
+
+@f_app.route("/wishlist/odstrani", methods=["POST"])
+def wishlist_odstrani():
+    return controllers.sv_kosarica.odstrani_iz_wishlist()
+
+@f_app.route("/wishlist/dodaj", methods=["POST"])
+def dodaj_na_wishlist():
+    return controllers.sv_kosarica.dodaj_na_wishlist()
+
+@f_app.route("/wishlist", methods=["GET"])
+def prikazi_wishlist():
+    return controllers.sv_kosarica.prikazi_wishlist()
