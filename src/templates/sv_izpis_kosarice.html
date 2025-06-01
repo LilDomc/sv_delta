@@ -31,15 +31,15 @@
                     <option value="tujina" {% if request.args.get('drzava') == 'tujina' %}selected{% endif %}>Tujina</option>
                 </select>
 
-                <label style="margin-left: 10px" for="regija">Izberi regijo:</label>
-                <select name="regija">
-                    <option value="">-- Izberi regijo --</option>
-                    <option value="osrednjeslovenska" {% if request.args.get('regija') == 'osrednjeslovenska' %}selected{% endif %}>Osrednjeslovenska</option>
-                    <option value="podravska" {% if request.args.get('regija') == 'podravska' %}selected{% endif %}>Podravska</option>
-                    <option value="gorenjska" {% if request.args.get('regija') == 'gorenjska' %}selected{% endif %}>Gorenjska</option>
-                    <option value="primorska" {% if request.args.get('regija') == 'primorska' %}selected{% endif %}>Primorska</option>
-                    <option value="dolenjska" {% if request.args.get('regija') == 'dolenjska' %}selected{% endif %}>Dolenjska</option>
-                </select>
+                <label style="margin-left: 10px" for="naslov">Vnesi naslov:</label>
+                    <input
+                            type="text"
+                            name="naslov"
+                            id="naslov"
+                            placeholder="Vnesi naslov"
+                            value="{{ request.args.get('naslov', '') }}"
+                            style="margin-left: 10px"
+                    />
 
                 <label style="margin-left: 10px" for="nacin">Nacin dostave:</label>
                 <select name="nacin">
