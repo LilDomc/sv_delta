@@ -6,12 +6,21 @@ def setup_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
             productID SERIAL PRIMARY KEY,
-            Ime_produkta varchar(255),
-            Opis_produkta varchar(255),
-            Cena_produkta varchar(255),
-            Komentar varchar(255),
-            Stock INT
+            ime_produkta varchar(255),
+            opis_produkta varchar(255),
+            cena_produkta NUMERIC(10, 2),
+            komentar varchar(255),
+            stock INT,
+            prodano INT,
+            kliki INT DEFAULT 0
         );
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS promo_kode (
+            promo_kodeID SERIAL PRIMARY KEY,
+            koda varchar(255),
+            vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100)
+        )
     ''')
     conn.commit()
     cursor.close()
@@ -62,15 +71,15 @@ def insert_test_data():     #inserta če je tabela prazna
 
     if count == 0:
             cursor.executemany('''
-                INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO products (Ime_produkta, Opis_produkta, Cena_produkta, Komentar, Stock, Prodano)
+                VALUES (%s, %s, %s, %s, %s, %s)
             ''', [
-                ('Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', 3),
-                ('Varovalka 200w', 'Description for product 2', '150', 'Solidno', None),
-                ('Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', 1),
-                ('Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', 2),
-                ('Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', 5),
-                ('Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', 10)
+                ('Varovalka 100w', 'Description for product 1', '100', 'Zelo dober izdelek!', 3, 4),
+                ('Varovalka 200w', 'Description for product 2', '150', 'Solidno', None, 1),
+                ('Varovalka 300w', 'Description for product 3', '200', 'Zadovoljen, vendar sem pričakoval več', 1, 5),
+                ('Varovalka 400w', 'Description for product 4', '600', 'Dela kot je treba!', 2, 10),
+                ('Varovalka 500w', 'Description for product 5', '700', 'Dela kot je treba!', 5, 2),
+                ('Varovalka 600w', 'Description for product 6', '800', 'Dela kot je treba!', 10, 3)
             ])
 
     conn.commit()
@@ -143,3 +152,84 @@ def insert_product(name, description, price, stock):
     cursor.close()
     conn.close()
     return True
+
+def get_best_selling_products(limit=5):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    query = '''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock, Prodano
+        FROM products
+        ORDER BY Prodano DESC
+        LIMIT %s;
+    '''
+    cursor.execute(query, (limit,))
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products
+
+
+def get_all_products():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT Ime_produkta
+        FROM products
+        ORDER BY Ime_produkta ASC
+    ''')
+
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products
+
+def search_products(query):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock
+        FROM products
+        WHERE Ime_produkta ILIKE %s
+        ORDER BY Ime_produkta ASC
+    ''', (f"%{query}%",))
+
+    products = cursor.fetchall()
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return products 
+
+def povecaj_klike(productID):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE products
+        SET kliki = kliki + 1
+        WHERE productID = %s;
+    ''', (productID,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def get_top_3_products():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Kliki
+        FROM products
+        ORDER BY Kliki DESC
+        LIMIT 3;
+    ''')
+    top3_products = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return top3_products

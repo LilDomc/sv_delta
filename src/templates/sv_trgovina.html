@@ -12,16 +12,19 @@
     </select>
     <button type="submit">Sort</button>
 </form>
-<div class="product-grid">
+
+<div class="product-container">
     {% for product in products %}
     <div class="product-card">
         <h3>{{ product[1] }}</h3>  {# Ime_produkta #}
         <p>{{ product[2] }}</p>   {# Opis_produkta #}
         <span>{{ product[3] }} €</span>  {# Cena_produkta #}
+
         <form action="{{ url_for('trgovina_post') }}" method="post">
-            <input type="hidden" name="productID" value="{{ product[0] }}">
+            <input type="hidden" name="product_id" value="{{ product[0] }}">
             <button type="submit" class="add-to-cart-btn">Dodaj v košarico!</button>
         </form>
+
         <form method="POST" action="/rate">
             <input type="hidden" name="product_id" value="{{ product[0] }}">
             <label for="rating">Oceni izdelek:</label>
@@ -40,6 +43,12 @@
         {% else %}
             <p>Še brez ocen</p>
         {% endif %}
+
+        <form action="{{ url_for('dodaj_na_wishlist') }}" method="post">
+            <input type="hidden" name="product_id" value="{{ product[0] }}">
+            <button type="submit" class="wishlist-btn">❤️ Shrani na seznam želja</button>
+        </form>
     </div>
     {% endfor %}
+</div>
 {% endblock %}

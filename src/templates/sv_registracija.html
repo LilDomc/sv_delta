@@ -3,11 +3,34 @@
 {% block content %}
 <h2>Registracija</h2>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
+
 {% if napaka %}
     <p style="color:red;">{{ napaka }}</p>
 {% endif %}
 
-<form method="post">
+<style>
+  #password-strength {
+    height: 7px;
+    margin-top: 5px;
+    width: 95%;
+    background-color: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  #password-strength-bar {
+    max-height: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  #strength-text {
+    font-size: 0.9em;
+    margin-top: 4px;
+  }
+</style>
+
+<form method="post" onsubmit="return preveriGesli();">
     <label for="ime">Ime:</label><br>
     <input type="text" id="ime" name="ime" required><br><br>
 
@@ -18,10 +41,79 @@
     <input type="email" id="email" name="email" required><br><br>
 
     <label for="geslo">Geslo:</label><br>
-    <input type="password" id="geslo" name="geslo" required><br><br>
+    <input type="password" id="geslo" name="geslo" required oninput="checkStrength(this.value); preveriUjemanje();"><br>
+
+    <label for="potrdi_geslo">Potrdi geslo:</label><br>
+    <input type="password" id="potrdi_geslo" name="potrdi_geslo" required oninput="preveriUjemanje();">
+    <div id="match-text"></div>
+    <!--<div id="password-strength">-->
+        <div id="password-strength-bar" style="height: 5px;"></div>
+    <!--</div>-->
+    <div id="strength-text"></div>
 
     <button type="submit">Registriraj se</button>
 </form>
 
-<p>Že imate račun? <a href="/prijava">Prijavite se tukaj</a>.</p>
+<p>Že imate račun? <a href="/prijava">Prijavite se tukaj</a>.</p><br><br>
+
+<script>
+  function checkStrength(password) {
+    const bar = document.getElementById("password-strength-bar");
+    const text = document.getElementById("strength-text");
+
+    let strength = 0;
+    if (password.length >= 6) strength += 1;
+    if (password.length >= 10) strength += 1;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/[a-z]/.test(password)) strength += 1;
+    if (/\d/.test(password)) strength += 1;
+    if (/[\W_]/.test(password)) strength += 1;
+
+    let percentage = (strength / 6) * 100;
+    bar.style.width = percentage + "%";
+
+    if (strength <= 2) {
+      bar.style.backgroundColor = "red";
+      text.textContent = "Šibko geslo";
+      text.style.color = "red";
+    } else if (strength <= 4) {
+      bar.style.backgroundColor = "orange";
+      text.textContent = "Srednje močno geslo";
+      text.style.color = "orange";
+    } else {
+      bar.style.backgroundColor = "green";
+      text.textContent = "Močno geslo";
+      text.style.color = "green";
+    }
+  }
+
+  function preveriUjemanje() {
+    const geslo = document.getElementById("geslo").value;
+    const potrdi = document.getElementById("potrdi_geslo").value;
+    const text = document.getElementById("match-text");
+
+    if (potrdi.length === 0) {
+      text.textContent = "";
+      return;
+    }
+
+    if (geslo === potrdi) {
+      text.textContent = "Gesli se ujemata";
+      text.style.color = "green";
+    } else {
+      text.textContent = "Gesli se NE ujemata!";
+      text.style.color = "red";
+    }
+  }
+
+  function preveriGesli() {
+    const geslo = document.getElementById("geslo").value;
+    const potrdi = document.getElementById("potrdi_geslo").value;
+    if (geslo !== potrdi) {
+      alert("Gesli se ne ujemata!");
+      return false;
+    }
+    return true;
+  }
+</script>
 {% endblock %}

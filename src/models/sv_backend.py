@@ -4,6 +4,9 @@ import models.sv_products
 import models.sv_kosarica
 import models.sv_qa
 import models.sv_rate
+import models.sv_poslovalnica
+import models.sv_vracila
+
 
 
 def setup_all_db_tables():
@@ -14,5 +17,7 @@ def setup_all_db_tables():
     tables['kosarica'] = models.sv_kosarica.setup_db()
     tables['qa'] = models.sv_qa.setup_db()
     tables['rate'] = models.sv_rate.setup_db()
+    tables['poslovalnice'] = models.sv_poslovalnica.setup_db()
+    tables['vracila'] = models.sv_vracila.setup_db()
 
     return tables # returns all the tables that were initilized 

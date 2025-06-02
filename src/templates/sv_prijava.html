@@ -1,13 +1,32 @@
 {% extends "base.html" %}
 {% set hide_navbar = True %}
 {% block content %}
-<h2>Prijava</h2>
+<h2 id="login-title">Prijava</h2>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
+
 {% if napaka %}
-    <p style="color:red;">{{ napaka }}</p>
+  <p style="color:red;">{{ napaka }}</p>
 {% endif %}
 
-<form method="post">
+{% if alert_link %}
+  <script>
+    alert("Povezava za ponastavitev gesla:\n\n{{ alert_link }}");
+  </script>
+{% endif %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color:green;">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- PRIJAVA -->
+<div id="login-form-container">
+  <form method="post" action="/prijava">
+    <input type="hidden" name="action" value="login">
+
     <label for="email">Email:</label><br>
     <input type="email" id="email" name="email" required><br><br>
 
@@ -15,7 +34,39 @@
     <input type="password" id="geslo" name="geslo" required><br><br>
 
     <button type="submit">Prijava</button>
-</form>
+  </form>
 
-<p>Nimate računa? <a href="/registracija">Registrirajte se tukaj</a>.</p>
+  <p>Nimate računa? <a href="/registracija">Registrirajte se tukaj</a>.</p>
+
+  <p><a href="#" id="forgot-password-link">Pozabljeno geslo?</a></p>
+</div>
+
+<br><br>
+
+<!-- PONASTAVITEV GESLA (skrito privzeto) -->
+<div id="reset-container" style="display:none;">
+  <hr>
+  <h3>Ponastavi geslo</h3>
+  <form method="post" action="/prijava">
+    <input type="hidden" name="action" value="reset">
+
+    <label for="reset_email">Vnesite vaš email naslov:</label><br>
+    <input type="email" id="reset_email" name="reset_email" required><br><br>
+
+    <button type="submit">Pošlji povezavo</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('forgot-password-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    // skrij prijavni naslov in obrazec
+    document.getElementById('login-title').style.display = 'none';
+    document.getElementById('login-form-container').style.display = 'none';
+
+    // prikaži reset obrazec
+    document.getElementById('reset-container').style.display = 'block';
+  });
+</script>
+
 {% endblock %}

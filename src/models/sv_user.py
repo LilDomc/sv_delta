@@ -55,6 +55,24 @@ def setup_db():
                 ON DELETE SET NULL
         );
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS prihodi_odhodi (
+            prihodi_odhodiID SERIAL PRIMARY KEY,
+            employeeID INT,
+            datum DATE DEFAULT CURRENT_DATE,        /*DEAFULT get it xD*/
+            prihod TIME DEFAULT CURRENT_TIME,
+            odhod TIME DEFAULT CURRENT_TIME,
+            FOREIGN KEY (employeeID) REFERENCES employees(employeeID)
+        );
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS password_reset_token (
+            tokenID SERIAL PRIMARY KEY,
+            token varchar(64) NOT NULL,
+            email varchar(100) NOT NULL,
+            ustvarjeno DATE DEFAULT CURRENT_DATE,
+            FOREIGN KEY (email) REFERENCES users(email))
+    ''')
     conn.commit()
     cursor.close()
     conn.close()
@@ -115,3 +133,34 @@ def add_user(form):
     conn.commit()
     cursor.close()
     conn.close()
+
+def vsi_zaposleni():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ime, priimek, datum_rojstva, naslov, placa, email, naziv, datum_zaposlitve
+        FROM employees
+        ORDER BY ime, priimek;
+    """)
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return rows
+
+def isci_zaposlene(iskanje):
+    conn = db.get_connection()
+    cur = conn.cursor()
+
+    query = """
+        SELECT ime, priimek, datum_rojstva, naslov, placa, email, naziv, datum_zaposlitve
+        FROM employees
+        WHERE LOWER(ime) LIKE %s OR LOWER(priimek) LIKE %s
+    """
+    param = f"%{iskanje.lower()}%"
+    cur.execute(query, (param, param))
+
+    rezultati = cur.fetchall()
+    cur.close()
+    conn.close()
+    return rezultati

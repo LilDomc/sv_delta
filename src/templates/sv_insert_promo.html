@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Dodaj promo kodo{% endblock %}
+{% block content %}
+
+<div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow">
+  <h1 class="text-2xl font-bold mb-4">Dodaj novo promocijsko kodo</h1>
+  <form method="POST" action="/insert_promo">
+    <label class="block mb-2">Ime kode</label>
+    <input name="koda" type="text" required class="w-full mb-4 p-2 border rounded">
+
+    <label class="block mb-2">Popust (%)</label>
+    <input name="vrednost" type="number" step="0.01" min="1" max="100" required class="w-full mb-6 p-2 border rounded">
+
+    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Dodaj kodo</button>
+  </form>
+</div>
+
+{% endblock %}

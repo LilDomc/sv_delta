@@ -18,5 +18,52 @@
                 {% endif %}
             {% endfor %}
         </div>
+
+        <!-- Izbira države za poštnino -->
+        <form method="get">
+            <div style="margin-top: 30px; margin-bottom:50px;">
+                <h3>Informativni izračun poštnine in časa :</h3>
+
+                <label for="drzava">Izberi državo:</label>
+                <select name="drzava">
+                    <option value="">-- Izberi državo --</option>
+                    <option value="slo" {% if request.args.get('drzava') == 'slo' %}selected{% endif %}>Slovenija</option>
+                    <option value="tujina" {% if request.args.get('drzava') == 'tujina' %}selected{% endif %}>Tujina</option>
+                </select>
+
+                <label style="margin-left: 10px" for="naslov">Vnesi naslov:</label>
+                    <input
+                            type="text"
+                            name="naslov"
+                            id="naslov"
+                            placeholder="Vnesi naslov"
+                            value="{{ request.args.get('naslov', '') }}"
+                            style="margin-left: 10px"
+                    />
+
+                <label style="margin-left: 10px" for="nacin">Nacin dostave:</label>
+                <select name="nacin">
+                    <option value=""></option>
+                    <option value="obicajno" {% if request.args.get('nacin') == 'obicajno' %}selected{% endif %}>Običajno</option>
+                    <option value="prednostno" {% if request.args.get('nacin') == 'prednostno' %}selected{% endif %}>Prednostno</option>
+                    <option value="expres" {% if request.args.get('nacin') == 'expres' %}selected{% endif %}>Expres</option>
+                </select>
+
+                <button style="margin-left: 15px;" type="submit">Izracunaj</button>
+                </br>
+                {% if postnina %}
+                    <p style="margin-top: 20px; font-weight: bold;">{{ postnina }}</p>
+                {% else %}
+                    <p style="margin-top: 20px; color: gray;">Prosim izberite polja za izračun.</p>
+                {% endif %}
+            </div>
+        </form>
     {% endif %}
+    <form method="get" action="{{ url_for('izpis_racuna') }}">
+        <input type="hidden" name="drzava" value="{{ request.args.get('drzava') }}">
+        <input type="hidden" name="regija" value="{{ request.args.get('regija') }}">
+        <input type="hidden" name="nacin" value="{{ request.args.get('nacin') }}">
+        <button type="submit" style="margin-top: 20px;">Račun</button>
+    </form>
+
 {% endblock %}
