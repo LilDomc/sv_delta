@@ -51,21 +51,21 @@ def get_orders_by_user(user_id):
     conn.close()
     return orders
 
-def shrani_narocilo(user_id, izdelki, u_ime, u_priimek, status="V obdelavi"):
+def shrani_narocilo():
     conn = db.get_connection()
-    cursor = conn.cursor()
-
-    for izdelek in izdelki:
-        productID = izdelek['productID']
-        kolicina = izdelek['kolicina']
-        cena = izdelek['cena']
-        opis = izdelek.get('opis', '')
-
-        cursor.execute('''
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute('''
             INSERT INTO narocila (productID, userID, u_ime, u_priimek, kolicina, p_cena_produkta, p_opis_produkta, status_narocila)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        ''', (productID, user_id, u_ime, u_priimek, kolicina, cena, opis, status)
-        )
+            SELECT k.productID, k.userID, u.ime, u.priimek, k.stock,
+                CAST(k.cena_produkta AS DECIMAL(10, 2)),
+                p.opis_produkta,'pending'
+            FROM 
+                kosarica k
+            JOIN 
+                users u ON k.userID = u.userID
+            JOIN 
+                products p ON k.productID = p.productID;
+    ''')
     conn.commit()
     cursor.close()
     conn.close()
