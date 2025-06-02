@@ -226,3 +226,7 @@ def prikazi_wishlist():
 @f_app.route('/insert_promo', methods=['GET', 'POST'])
 def insert_promo():
     return controllers.sv_promo.insert_promo()
+
+@f_app.get('/vracila')
+def show_all_vracila():
+    return controllers.sv_vracilo.show_all_vracila()
