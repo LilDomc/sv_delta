@@ -209,10 +209,6 @@ def order_history():
 def izpis_racuna():
     return controllers.sv_kosarica.izpis_racuna()
 
-@f_app.route('/izpis_racuna', methods=['POST'])
-def shrani_racun():
-    return controllers.sv_narocila.shrani_narocilo()
-
 @f_app.route("/wishlist/odstrani", methods=["POST"])
 def wishlist_odstrani():
     return controllers.sv_kosarica.odstrani_iz_wishlist()

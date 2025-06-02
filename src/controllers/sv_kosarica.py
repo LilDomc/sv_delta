@@ -1,5 +1,6 @@
 from flask import request, redirect, url_for, render_template, session
 import models.sv_kosarica
+import models.sv_narocila
 import models.sv_products
 from datetime import datetime
 import random
@@ -72,6 +73,7 @@ def izpis_kosarice():
     return render_template('sv_izpis_kosarice.html', izdelki=izdelki, postnina=postnina)
 
 def izpis_racuna():
+    models.sv_narocila.shrani_narocilo()
     drzava = request.args.get('drzava', 'ni izbrano')
     regija = request.args.get('regija', 'ni izbrano')
     nacin = request.args.get('nacin', 'ni izbrano')
