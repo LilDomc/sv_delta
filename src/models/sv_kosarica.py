@@ -7,7 +7,7 @@ def setup_db():
         CREATE TABLE IF NOT EXISTS kosarica (
             kosaricaID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
-            userID INt NOT NULL,
+            userID INT NOT NULL,
             ime_produkta varchar(255),
             cena_produkta varchar(255),
             stock INT NOT NULL DEFAULT 1,
@@ -115,3 +115,54 @@ def izpis_kosarice_iz_baze(user_id):
     cursor.close()
     conn.close()
     return izdelki
+
+def dodaj_na_wishlist(product_id, user_id):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    # Preveri, če je že v wishlist
+    cursor.execute('''
+        SELECT 1 FROM wishlist
+        WHERE userID = %s AND productID = %s;
+    ''', (user_id, product_id))
+    exists = cursor.fetchone()
+
+    if not exists:
+        cursor.execute('''
+            INSERT INTO wishlist (userID, productID)
+            VALUES (%s, %s);
+        ''', (user_id, product_id))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+def pridobi_wishlist_izdelke(user_id):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT p.productID, p.Ime_produkta, p.Opis_produkta, p.Cena_produkta
+        FROM wishlist w
+        JOIN products p ON w.productID = p.productID
+        WHERE w.userID = %s;
+    ''', (user_id,))
+    izdelki = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    return izdelki
+
+def odstrani_iz_wishlist(user_id, product_id):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        DELETE FROM wishlist
+        WHERE userID = %s AND productID = %s;
+    ''', (user_id, product_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+

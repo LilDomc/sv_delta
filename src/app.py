@@ -1,22 +1,12 @@
+from flask import Flask, session, redirect, url_for, request
+
 import controllers.sv_contact
 import controllers.sv_kosarica
 import controllers.sv_vracilo
-from flask import Flask, session, redirect, url_for, request
-
 import controllers.index
 import controllers.sv_qa
 import controllers.sv_setup
 import controllers.sv_products
-import models
-import models.sv_backend
-import models.sv_products
-import models.sv_trgovina
-import models.sv_kosarica
-import models.sv_qa
-import models.sv_narocila
-import models.sv_prihodi_odhodi
-import models.sv_promo
-
 import controllers.sv_registracija
 import controllers.sv_prijava
 import controllers.sv_odjava
@@ -27,6 +17,20 @@ import controllers.sv_narocila
 import controllers.sv_promo
 
 import controllers.sv_poslovalnica
+from controllers import sv_pozabljeno_geslo
+
+import models
+import models.sv_backend
+import models.sv_products
+import models.sv_trgovina
+import models.sv_kosarica
+import models.sv_qa
+import models.sv_narocila
+import models.sv_prihodi_odhodi
+import models.sv_promo
+from models import sv_uporabnik
+
+
 
 
 
@@ -34,8 +38,8 @@ f_app = Flask(__name__) # F stands for fu***ng
 
 # to bi mogl bit znotrej main funkcije se mi zdi ... sej ta koda se ne bo uporabljala
 # kot module tko da naceloma ne bi smelo biti problema ampak samo za dobro prakso :) 
-models.sv_backend.setup_all_db_tables()     #zakomentirati če se zakomentira funkcija v sv_users
-models.sv_user.insert_test_users()
+models.sv_backend.setup_all_db_tables()     
+models.sv_user.insert_test_users()      #zakomentirati če se zakomentira funkcija v sv_users
 models.sv_products.insert_test_data()
 
 if __name__ == "__main__":
@@ -104,7 +108,6 @@ def insert_product():
 def izpis_kosarice():
     return controllers.sv_kosarica.izpis_kosarice()
 
-
 @f_app.route('/zaposleni', methods=['GET'])
 def zaposleni_get():
     return controllers.sv_zaposleni.obrazec_zaposlenih()
@@ -124,11 +127,6 @@ def menjava_gesla_post():
 @f_app.get('/profil')
 def profil():
     return controllers.sv_profil.prikazi_profil()
-
-
-from controllers import sv_pozabljeno_geslo
-from models import sv_uporabnik
-
 
 @f_app.route("/pozabljeno_geslo/<token>", methods=["GET"])
 def obrazec_ponastavi(token):
@@ -212,6 +210,18 @@ def order_history():
 @f_app.get('/izpis_racuna')
 def izpis_racuna():
     return controllers.sv_kosarica.izpis_racuna()
+
+@f_app.route("/wishlist/odstrani", methods=["POST"])
+def wishlist_odstrani():
+    return controllers.sv_kosarica.odstrani_iz_wishlist()
+
+@f_app.route("/wishlist/dodaj", methods=["POST"])
+def dodaj_na_wishlist():
+    return controllers.sv_kosarica.dodaj_na_wishlist()
+
+@f_app.route("/wishlist", methods=["GET"])
+def prikazi_wishlist():
+    return controllers.sv_kosarica.prikazi_wishlist()
 
 @f_app.route('/insert_promo', methods=['GET', 'POST'])
 def insert_promo():

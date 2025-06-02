@@ -1,5 +1,6 @@
 from flask import request, redirect, url_for, render_template, session
 import models.sv_kosarica
+import models.sv_narocila
 import models.sv_products
 from datetime import datetime
 import random
@@ -20,7 +21,7 @@ def add_to_cart():
     return redirect(url_for("trgovina"))
 
 
-def izracunaj_postnino(drzava, regija, nacin):
+def izracunaj_postnino(drzava, nacin):
     # Base price
     base_price = 2.0
 
@@ -29,16 +30,6 @@ def izracunaj_postnino(drzava, regija, nacin):
         base_price += 5.0
     elif drzava == "slo":
         base_price += 1.0
-
-    # Region adjustment
-    region_modifiers = {
-        "osrednjeslovenska": 0.0,
-        "podravska": 0.5,
-        "gorenjska": 0.7,
-        "primorska": 1.0,
-        "dolenjska": 0.6
-    }
-    base_price += region_modifiers.get(regija, 0.0)
 
     # Delivery method adjustment
     if nacin == "obicajno":
@@ -67,11 +58,10 @@ def izracunaj_postnino(drzava, regija, nacin):
 def izpis_kosarice():
     postnina = None
     drzava = request.args.get('drzava')
-    regija = request.args.get('regija')
     nacin = request.args.get('nacin')
 
-    if drzava and regija and nacin:
-        postnina = izracunaj_postnino(drzava, regija, nacin)
+    if drzava  and nacin:
+        postnina = izracunaj_postnino(drzava, nacin)
 
     user = session.get("user")
     if not user:
@@ -83,12 +73,17 @@ def izpis_kosarice():
     return render_template('sv_izpis_kosarice.html', izdelki=izdelki, postnina=postnina)
 
 def izpis_racuna():
+    models.sv_narocila.shrani_narocilo()
     drzava = request.args.get('drzava', 'ni izbrano')
     regija = request.args.get('regija', 'ni izbrano')
     nacin = request.args.get('nacin', 'ni izbrano')
+    user = session.get("user")
 
-    kosarica = session.get('kosarica', [])
-    izdelki_raw = models.sv_kosarica.izpis_kosarice_iz_seje(kosarica)
+    if not user:
+        return redirect("/prijava")
+
+    user_id = user["userID"]
+    izdelki_raw = models.sv_kosarica.izpis_kosarice_iz_baze(user_id)
 
     izdelki = []
     skupna_cena = 0
@@ -110,7 +105,7 @@ def izpis_racuna():
         })
 
     # Poštnina
-    postnina_str = izracunaj_postnino(drzava, regija, nacin)
+    postnina_str = izracunaj_postnino(drzava, nacin)
     try:
         postnina_value = float(postnina_str.replace("Informativna poštnina:", "").replace("EUR", "").strip())
     except:
@@ -125,9 +120,48 @@ def izpis_racuna():
                            cas=datum_cas,
                            stevilka_racuna=stevilka_racuna,
                            drzava=drzava,
-                           regija=regija,
                            nacin=nacin,
                            izdelki=izdelki,
                            skupna_cena=f"{skupna_cena:.2f}",
                            postnina=f"{postnina_value:.2f}",
                            skupna_cena_z_postnino=f"{skupna_cena_z_postnino:.2f}")
+
+def dodaj_na_wishlist():
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    product_id = request.form.get("product_id")
+    if not product_id:
+        return "Manjka product_id", 400
+
+    user_id = user["userID"]
+    models.sv_kosarica.dodaj_na_wishlist(product_id, user_id)
+
+    return redirect(url_for("prikazi_wishlist"))
+
+
+def prikazi_wishlist():
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    user_id = user["userID"]
+    izdelki = models.sv_kosarica.pridobi_wishlist_izdelke(user_id)
+
+    return render_template("sv_wishlist.html", wishlist=izdelki)
+
+
+def odstrani_iz_wishlist():
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    product_id = request.form.get("product_id")
+    if not product_id:
+        return "Manjka product_id", 400
+
+    user_id = user["userID"]
+    models.sv_kosarica.odstrani_iz_wishlist(user_id, product_id)
+    return redirect(url_for("prikazi_wishlist"))
+

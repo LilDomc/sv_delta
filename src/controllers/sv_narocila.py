@@ -1,5 +1,7 @@
 from flask import redirect, request, session, render_template, url_for, session
+import models.sv_kosarica
 import models.sv_narocila
+
 
 def izpis_narocila(narocilo_id):
     if request.method == 'POST':
