@@ -50,3 +50,22 @@ def get_orders_by_user(user_id):
     cursor.close()
     conn.close()
     return orders
+
+def shrani_narocilo(user_id, izdelki, u_ime, u_priimek, status="V obdelavi"):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    for izdelek in izdelki:
+        productID = izdelek['productID']
+        kolicina = izdelek['kolicina']
+        cena = izdelek['cena']
+        opis = izdelek.get('opis', '')
+
+        cursor.execute('''
+            INSERT INTO narocila (productID, userID, u_ime, u_priimek, kolicina, p_cena_produkta, p_opis_produkta, status_narocila)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        ''', (productID, user_id, u_ime, u_priimek, kolicina, cena, opis, status)
+        )
+    conn.commit()
+    cursor.close()
+    conn.close()

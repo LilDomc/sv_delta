@@ -7,7 +7,7 @@ def setup_db():
         CREATE TABLE IF NOT EXISTS kosarica (
             kosaricaID SERIAL PRIMARY KEY,
             productID INT NOT NULL,
-            userID INt NOT NULL,
+            userID INT NOT NULL,
             ime_produkta varchar(255),
             cena_produkta varchar(255),
             stock INT NOT NULL DEFAULT 1,

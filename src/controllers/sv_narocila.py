@@ -1,5 +1,32 @@
 from flask import redirect, request, session, render_template, url_for, session
+import models.sv_kosarica
 import models.sv_narocila
+
+def shrani_narocilo():
+    user = session.get('user')
+    if not user:
+        return redirect(url_for('/prijava'))
+    
+    user_id = user.get('userID')
+    u_ime = user.get('ime')
+    u_priimek = user.get('priimek')
+
+
+    kosarica_izdelki = models.sv_kosarica.izpis_kosarice_iz_baze(user_id)
+
+    izdelki = []
+    for productID, ime_produkta, cena_produkta, kolicina in kosarica_izdelki:
+        izdelki.append({
+            'productID': productID,
+            'kolicina': kolicina,
+            'cena': cena_produkta,
+            'ime': ime_produkta
+        })
+    if not izdelki:
+        return redirect(url_for('izpis_kosarice'))
+    
+    models.sv_narocila.shrani_narocilo(user_id, izdelki, u_ime, u_priimek)
+    return redirect(url_for('order_history'))
 
 def izpis_narocila(narocilo_id):
     if request.method == 'POST':
