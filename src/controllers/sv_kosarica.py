@@ -75,9 +75,13 @@ def izpis_racuna():
     drzava = request.args.get('drzava', 'ni izbrano')
     regija = request.args.get('regija', 'ni izbrano')
     nacin = request.args.get('nacin', 'ni izbrano')
+    user = session.get("user")
 
-    kosarica = session.get('kosarica', [])
-    izdelki_raw = models.sv_kosarica.izpis_kosarice_iz_seje(kosarica)
+    if not user:
+        return redirect("/prijava")
+
+    user_id = user["userID"]
+    izdelki_raw = models.sv_kosarica.izpis_kosarice_iz_baze(user_id)
 
     izdelki = []
     skupna_cena = 0
@@ -99,7 +103,7 @@ def izpis_racuna():
         })
 
     # Poštnina
-    postnina_str = izracunaj_postnino(drzava, regija, nacin)
+    postnina_str = izracunaj_postnino(drzava, nacin)
     try:
         postnina_value = float(postnina_str.replace("Informativna poštnina:", "").replace("EUR", "").strip())
     except:
@@ -114,7 +118,6 @@ def izpis_racuna():
                            cas=datum_cas,
                            stevilka_racuna=stevilka_racuna,
                            drzava=drzava,
-                           regija=regija,
                            nacin=nacin,
                            izdelki=izdelki,
                            skupna_cena=f"{skupna_cena:.2f}",
