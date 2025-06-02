@@ -14,6 +14,7 @@ import controllers.sv_zaposleni
 import controllers.sv_menjava_gesla
 import controllers.sv_profil
 import controllers.sv_narocila
+import controllers.sv_promo
 
 import controllers.sv_poslovalnica
 from controllers import sv_pozabljeno_geslo
@@ -26,6 +27,7 @@ import models.sv_kosarica
 import models.sv_qa
 import models.sv_narocila
 import models.sv_prihodi_odhodi
+import models.sv_promo
 from models import sv_uporabnik
 
 
@@ -220,3 +222,7 @@ def dodaj_na_wishlist():
 @f_app.route("/wishlist", methods=["GET"])
 def prikazi_wishlist():
     return controllers.sv_kosarica.prikazi_wishlist()
+
+@f_app.route('/insert_promo', methods=['GET', 'POST'])
+def insert_promo():
+    return controllers.sv_promo.insert_promo()

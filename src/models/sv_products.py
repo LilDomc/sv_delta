@@ -18,10 +18,8 @@ def setup_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS promo_kode (
             promo_kodeID SERIAL PRIMARY KEY,
-            productID INT NOT NULL,
             koda varchar(255),
-            vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100),
-            FOREIGN KEY (productID) REFERENCES products(productID)
+            vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100)
         )
     ''')
     conn.commit()
