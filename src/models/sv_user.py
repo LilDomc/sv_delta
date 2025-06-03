@@ -70,7 +70,7 @@ def setup_db():
             tokenID SERIAL PRIMARY KEY,
             token varchar(64) NOT NULL,
             email varchar(100) NOT NULL,
-            ustvarjeno DATE DEFAULT CURRENT_DATE,
+            ustvarjeno TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (email) REFERENCES users(email))
     ''')
     conn.commit()
