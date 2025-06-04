@@ -73,6 +73,7 @@ def setup_db():
             ustvarjeno TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (email) REFERENCES users(email))
     ''')
+    
     conn.commit()
     cursor.close()
     conn.close()
