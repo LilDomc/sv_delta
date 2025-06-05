@@ -15,6 +15,7 @@ import controllers.sv_menjava_gesla
 import controllers.sv_profil
 import controllers.sv_narocila
 import controllers.sv_promo
+import controllers.sv_qa_insert
 
 import controllers.sv_poslovalnica
 from controllers import sv_pozabljeno_geslo
@@ -28,6 +29,7 @@ import models.sv_qa
 import models.sv_narocila
 import models.sv_prihodi_odhodi
 import models.sv_promo
+import models.sv_qa_insert
 from models import sv_uporabnik
 
 
@@ -226,3 +228,16 @@ def prikazi_wishlist():
 @f_app.route('/insert_promo', methods=['GET', 'POST'])
 def insert_promo():
     return controllers.sv_promo.insert_promo()
+<<<<<<< Updated upstream
+=======
+
+@f_app.get('/vracila')
+@login_required(role='employee')  # employee only
+def show_all_vracila():
+    return controllers.sv_vracilo.show_all_vracila()
+
+@f_app.route('/insert_qa', methods=['GET', 'POST'])
+@login_required(role='employee')  # employee only
+def insert_qa():
+    return controllers.sv_qa_insert.insert_question()
+>>>>>>> Stashed changes
