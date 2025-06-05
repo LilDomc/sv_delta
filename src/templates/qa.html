@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Seznam vprašanj in odgovorov{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/sv_qa.css') }}">
 <h1>Seznam vprašanj in odgovorov</h1>
-<div class="question-container">
+<div class="qa-container">
     {% for qid, q in questions.items() %}
-        <div class="question-card">
-            <h3>{{ q.text }}</h3>
-            <ul>
-                {% for odgovor in q.answers %}
-                    <li>{{ odgovor }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% if loop.index % 3 == 0 %}
-            <div class="clearfix"></div>
-        {% endif %}
+    <div class="question-card">
+        <h3 class="question-text">{{ q.text }}</h3>
+        <ul class="answer-list">
+        {% for odgovor in q.answers %}
+        <li class="answer-item">{{ odgovor }}</li>
+        {% endfor %}
+        </ul>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

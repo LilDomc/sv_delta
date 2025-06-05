@@ -1,33 +1,27 @@
-<!DOCTYPE html>
-<html lang="sl">
-<head>
-    <meta charset="UTF-8">
-    <title>Kontaktni obrazec</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/contact.css') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+{% block title %}Kontaktni obrazec{% endblock %}
 
-</head>
-<body>
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/basic_form.css') }}">
+<div class="vracilo-wrapper">
+    <div class="form-container">
+        <h2>Kontaktirajte nas</h2>
+        <form method="POST" action="/kontakt">
+            <label for="name">Ime</label>
+            <input type="text" id="name" name="name" required>
 
-<div class="form-container">
-    <h2>Kontaktirajte nas</h2>
-    <form method="POST" action="/kontakt">
-        <label for="name">Ime</label>
-        <input type="text" id="name" name="name" required>
+            <label for="email">E-pošta</label>
+            <input type="email" id="email" name="email" required>
 
-        <label for="email">E-pošta</label>
-        <input type="email" id="email" name="email" required>
+            <label for="message">Sporočilo</label>
+            <textarea id="message" name="message" required></textarea>
 
-        <label for="message">Sporočilo</label>
-        <textarea id="message" name="message" required></textarea>
+            <button type="submit" class="submit-btn">Pošlji</button>
+        </form>
 
-        <button type="submit" class="submit-btn">Pošlji</button>
-    </form>
-
-    {% if response %}
+        {% if response %}
         <div class="response-message">{{ response }}</div>
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
-
-</body>
-</html>
+{% endblock %}

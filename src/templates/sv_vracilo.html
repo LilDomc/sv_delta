@@ -2,32 +2,37 @@
 {% block title %}Vračilo{% endblock %}
 
 {% block content %}
-<h2 style="margin-top: 20px;">Obrazec za vračilo izdelka</h2>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/basic_form.css') }}">
+<div class="vracilo-wrapper">
+    <div class="form-container">
+        <h2>Obrazec za vračilo izdelka</h2>
+        <form method="post">
+        <label for="ime">Vaše ime:</label>
+        <input type="text" name="ime" required value="{{ uporabnik.ime }}">
 
-<form method="post" style="margin-top: 20px; max-width: 500px;">
-    <label for="ime">Vaše ime:</label>
-    <input type="text" name="ime" required class="form-control" value="{{ uporabnik.ime }}" />
+        <label for="email">E-pošta:</label>
+        <input type="email" name="email" required value="{{ uporabnik.email }}">
 
-    <label for="email" style="margin-top: 10px;">E-pošta:</label>
-    <input type="email" name="email" required class="form-control" value="{{ uporabnik.email }}" />
-
-    <label for="izdelek" style="margin-top: 10px;">Izdelek, ki ga želite vrniti:</label>
-    <select name="izdelek" required class="form-control">
-        <option value="">-- Izberi izdelek --</option>
-        {% for item in izdelki %}
+        <label for="izdelek">Izdelek, ki ga želite vrniti:</label>
+        <select name="izdelek" required>
+            <option value="">-- Izberi izdelek --</option>
+            {% for item in izdelki %}
             <option value="{{ item|lower }}">{{ item }}</option>
-        {% endfor %}
-    </select>
+            {% endfor %}
+        </select>
 
-    <label for="razlog" style="margin-top: 10px;">Razlog za vračilo:</label>
-    <textarea name="razlog" required class="form-control" rows="4" placeholder="Npr. napačna velikost, poškodovan izdelek ..."></textarea>
+        <label for="razlog">Razlog za vračilo:</label>
+        <textarea name="razlog" required placeholder="Npr. napačna velikost, poškodovan izdelek ..."></textarea>
 
-    <button type="submit" style="margin-top: 15px;" class="btn btn-primary">Pošlji zahtevo</button>
-</form>
+        <button type="submit" class="submit-btn">Pošlji zahtevo</button>
+        </form>
 
-{% if potrjeno %}
-    <p style="margin-top: 20px; color: green; font-weight: bold;">
+        {% if potrjeno %}
+        <div class="response-message">
         Zahteva za vračilo je bila uspešno poslana. Kontaktirali vas bomo na vneseni e-poštni naslov.
-    </p>
-{% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
+
