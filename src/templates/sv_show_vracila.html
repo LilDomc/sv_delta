@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Seznam Vračil{% endblock %}
+
+{% block content %}
+<h2 style="margin-top: 20px;">Seznam prejetih vračil</h2>
+
+<table class="table table-striped" style="margin-top: 20px;">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Ime</th>
+      <th>Email</th>
+      <th>Izdelek</th>
+      <th>Razlog</th>
+      <th>Datum</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v in vracila %}
+    <tr>
+      <td>{{ v[0] }}</td>
+      <td>{{ v[1] }}</td>
+      <td>{{ v[2] }}</td>
+      <td>{{ v[3] }}</td>
+      <td>{{ v[4] }}</td>
+      <td>{{ v[5].strftime('%d.%m.%Y %H:%M') }}</td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="6">Ni še nobenih vračil.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

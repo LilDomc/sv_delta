@@ -1,0 +1,35 @@
+.qa-container {
+    max-width: 800px;       /* limit width for better readability */
+    margin: 20px auto;      /* center container horizontally */
+    padding: 0 10px;
+    display: block;         /* default block layout */
+}
+
+.question-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.question-text {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #222;
+    text-align: left;
+}
+
+.answer-list {
+    list-style-type: disc;
+    margin-left: 20px;
+    color: #444;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.answer-item {
+    margin-bottom: 8px;
+}

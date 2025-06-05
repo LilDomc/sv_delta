@@ -25,3 +25,6 @@ def show_vracilo():
 
     return render_template('sv_vracilo.html', potrjeno=potrjeno, uporabnik=uporabnik, izdelki=izdelki)
 
+def show_all_vracila():
+    vracila = models.sv_vracila.get_all_vracila()
+    return render_template('sv_show_vracila.html', vracila=vracila)
