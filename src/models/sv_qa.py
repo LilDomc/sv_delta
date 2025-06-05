@@ -18,6 +18,19 @@ def setup_db():
             FOREIGN KEY (vprasanjeID) REFERENCES vprasanja(vprasanjeID)
         );
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS quora (
+            quoraID SERIAL PRIMARY KEY,
+            vprasanjeID INT NOT NULL,
+            odgovorID INT NOT NULL,
+            userID INT NOT NULL,
+            title varchar(255),
+            body varchar(255),
+            FOREIGN KEY (vprasanjeID) REFERENCES vprasanja(vprasanjeID),
+            FOREIGN KEY (odgovorID) REFERENCES odgovori(odgovoriID),
+            FOREIGN KEY (userID) REFERENCES users(userID)
+        );
+    ''')
     conn.commit()
     cursor.close()
     conn.close()
