@@ -33,8 +33,9 @@
         {% if session.user %}
             {% if session.user.role == 'user' %}
                 <li class="nav-item"><a class="nav-link" href="/wishlist">Wishlist</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('order_history') }}">Order History</a></li>
+                <li class="nav-item"><a class="nav-link" href="/order_history">Order History</a></li>
                 <li class="nav-item"><a class="nav-link" href="/vracila">Vračila</a></li>
+                <li class="nav-item"><a class="nav-link" href="/izpis_kosarice">Košarica</a></li>
             {% elif session.user.role == 'employee' %}
                 <li class="nav-item"><a class="nav-link" href="/products">Seznam produktov</a></li>
                 <li class="nav-item"><a class="nav-link" href="/insert_product">Insert</a></li>
