@@ -65,5 +65,18 @@
         <input type="hidden" name="nacin" value="{{ request.args.get('nacin') }}">
         <button type="submit" style="margin-top: 20px;">Račun</button>
     </form>
+    <form method="post" action="/checkouts">
+    <label for="placilna_metoda">Izberi plačilno metodo:</label>
+    <select name="placilna_metoda" id="placilna_metoda" required>
+        <option value="">-- Izberi metodo --</option>
+        <option value="visa">Visa</option>
+        <option value="debit">Debit</option>
+        <option value="flik">Flik</option>
+        <option value="prevzem">Ob prevzemu</option>
+        <option value="paypal">PayPal</option>
+    </select>
+    <button type="submit">Potrdi plačilo</button>
+    </form>
+
 
 {% endblock %}
