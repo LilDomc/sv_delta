@@ -32,3 +32,11 @@ def insert_vracilo(ime, email, izdelek, razlog):
     cursor.close()
     conn.close()
     
+def get_all_vracila():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM vracila ORDER BY datum_vnosa DESC')
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows

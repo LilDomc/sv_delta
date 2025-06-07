@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Order History</h2>
+
+{% if orders %}
+    <ul class="order-history-list">
+    {% for order in orders %}
+        <li>
+            <strong>Order ID:</strong> {{ order.narociloID }} <br>
+            <strong>Date:</strong> {{ order.datum_narocila }} <br>
+            <strong>Status:</strong> {{ order.status_narocila }} <br>
+            <strong>Product:</strong> {{ order.ime_produkta }} <br>
+            <strong>Description:</strong> {{ order.opis_produkta }} <br>
+            <strong>Quantity:</strong> {{ order.kolicina }} <br>
+            <strong>Price per unit:</strong> {{ order.p_cena }}€ <br>
+            <strong>Total:</strong> {{ order.kolicina * order.cena_produkta }}€
+            <hr>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No past orders found.</p>
+{% endif %}
+{% endblock %}

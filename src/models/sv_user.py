@@ -65,6 +65,15 @@ def setup_db():
             FOREIGN KEY (employeeID) REFERENCES employees(employeeID)
         );
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS password_reset_token (
+            tokenID SERIAL PRIMARY KEY,
+            token varchar(64) NOT NULL,
+            email varchar(100) NOT NULL,
+            ustvarjeno TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (email) REFERENCES users(email))
+    ''')
+    
     conn.commit()
     cursor.close()
     conn.close()
@@ -77,6 +86,7 @@ def insert_test_users():        #To se laho zakomentira, ko se bo testiralo vna≈
     employees = [
         ('Janez', 'Novak', '19801215', 'Trg republike 1, Ljubljana', 2500, 'janez.novak@example.com', 'Vodja prodaje'),
         ('Tina', 'Horvat', '19900322', 'Celov≈°ka cesta 10, Ljubljana', 2200, 'tina.horvat@example.com', 'Junior designer'),
+        ('Admin', 'Admin', '19850422', 'Trg nimam blage 69', 5000, 'admin@delta.com', 'Administrator'),
     ]
 
     employee_ids = {}
@@ -94,6 +104,7 @@ def insert_test_users():        #To se laho zakomentira, ko se bo testiralo vna≈
         ('Marko', 'Zupan', 'marko.zupan@example.com', '123456', 'user', None),
         ('Tina', 'Horvat', 'tina.horvat@example.com', 'securepass', 'employee', employee_ids.get('tina.horvat@example.com')),
         ('Janez', 'Novak', 'janez.novak@example.com', 'vodjageslo', 'employee', employee_ids.get('janez.novak@example.com')),
+        ('Admin', 'Admin', 'admin@delta.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'employee', employee_ids.get('admin@delta.com')),
     ]
 
     for user in test_users:
@@ -139,3 +150,20 @@ def vsi_zaposleni():
     conn.close()
 
     return rows
+
+def isci_zaposlene(iskanje):
+    conn = db.get_connection()
+    cur = conn.cursor()
+
+    query = """
+        SELECT ime, priimek, datum_rojstva, naslov, placa, email, naziv, datum_zaposlitve
+        FROM employees
+        WHERE LOWER(ime) LIKE %s OR LOWER(priimek) LIKE %s
+    """
+    param = f"%{iskanje.lower()}%"
+    cur.execute(query, (param, param))
+
+    rezultati = cur.fetchall()
+    cur.close()
+    conn.close()
+    return rezultati

@@ -31,15 +31,15 @@
                     <option value="tujina" {% if request.args.get('drzava') == 'tujina' %}selected{% endif %}>Tujina</option>
                 </select>
 
-                <label style="margin-left: 10px" for="regija">Izberi regijo:</label>
-                <select name="regija">
-                    <option value="">-- Izberi regijo --</option>
-                    <option value="osrednjeslovenska" {% if request.args.get('regija') == 'osrednjeslovenska' %}selected{% endif %}>Osrednjeslovenska</option>
-                    <option value="podravska" {% if request.args.get('regija') == 'podravska' %}selected{% endif %}>Podravska</option>
-                    <option value="gorenjska" {% if request.args.get('regija') == 'gorenjska' %}selected{% endif %}>Gorenjska</option>
-                    <option value="primorska" {% if request.args.get('regija') == 'primorska' %}selected{% endif %}>Primorska</option>
-                    <option value="dolenjska" {% if request.args.get('regija') == 'dolenjska' %}selected{% endif %}>Dolenjska</option>
-                </select>
+                <label style="margin-left: 10px" for="naslov">Vnesi naslov:</label>
+                    <input
+                            type="text"
+                            name="naslov"
+                            id="naslov"
+                            placeholder="Vnesi naslov"
+                            value="{{ request.args.get('naslov', '') }}"
+                            style="margin-left: 10px"
+                    />
 
                 <label style="margin-left: 10px" for="nacin">Nacin dostave:</label>
                 <select name="nacin">
@@ -59,4 +59,24 @@
             </div>
         </form>
     {% endif %}
+    <form method="get" action="{{ url_for('izpis_racuna') }}">
+        <input type="hidden" name="drzava" value="{{ request.args.get('drzava') }}">
+        <input type="hidden" name="regija" value="{{ request.args.get('regija') }}">
+        <input type="hidden" name="nacin" value="{{ request.args.get('nacin') }}">
+        <button type="submit" style="margin-top: 20px;">Račun</button>
+    </form>
+    <form method="post" action="/checkouts">
+    <label for="placilna_metoda">Izberi plačilno metodo:</label>
+    <select name="placilna_metoda" id="placilna_metoda" required>
+        <option value="">-- Izberi metodo --</option>
+        <option value="visa">Visa</option>
+        <option value="debit">Debit</option>
+        <option value="flik">Flik</option>
+        <option value="prevzem">Ob prevzemu</option>
+        <option value="paypal">PayPal</option>
+    </select>
+    <button type="submit">Potrdi plačilo</button>
+    </form>
+
+
 {% endblock %}

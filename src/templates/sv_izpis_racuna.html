@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Račun{% endblock %}
+
+{% block content %}
+    <h1>Račun</h1>
+
+    <p><strong>Podjetje:</strong> Projekt Delta</p>
+    <p><strong>Datum in čas:</strong> {{ cas }}</p>
+    <p><strong>Številka računa:</strong> {{ stevilka_racuna }}</p>
+    <p><strong>Naslov za dostavo:</strong> {{ drzava }}, {{ regija }}</p>
+    <p><strong>Način pošiljanja:</strong> {{ nacin }}</p>
+
+    <h3>Izdelki:</h3>
+    <ul>
+        {% for izdelek in izdelki %}
+            <li>
+                {{ izdelek.ime }} - {{ izdelek.kolicina }} x {{ izdelek.cena }} € = {{ izdelek.skupaj }} €
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Skupna cena izdelkov: {{ skupna_cena }} €</h3>
+    <h3>Poštnina: {{ postnina }} €</h3>
+    <h2>Končna cena: {{ skupna_cena_z_postnino }} €</h2>
+
+    <!-- Gumb za kopiranje računa -->
+    <button onclick="kopirajRacun()">Kopiraj račun</button>
+
+    <!-- Skrito besedilo računa za kopiranje -->
+    <textarea id="racunTekst" style="display: none;">
+Podjetje: Projekt Delta
+Datum in čas: {{ cas }}
+Številka računa: {{ stevilka_racuna }}
+Naslov za dostavo: {{ drzava }}, {{ regija }}
+Način pošiljanja: {{ nacin }}
+
+Izdelki:
+{% for izdelek in izdelki %}
+- {{ izdelek.ime }} - {{ izdelek.kolicina }} x {{ izdelek.cena }} € = {{ izdelek.skupaj }} €
+{% endfor %}
+
+Skupna cena izdelkov: {{ skupna_cena }} €
+Poštnina: {{ postnina }} €
+Končna cena: {{ skupna_cena_z_postnino }} €
+    </textarea>
+
+    <!-- JS za kopiranje -->
+    <script>
+        function kopirajRacun() {
+            const textarea = document.getElementById("racunTekst");
+            textarea.style.display = "block";
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // za mobilne naprave
+            document.execCommand("copy");
+            textarea.style.display = "none";
+            alert("Račun je bil kopiran v odložišče!");
+        }
+    </script>
+{% endblock %}

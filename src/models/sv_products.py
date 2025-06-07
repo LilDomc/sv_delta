@@ -12,17 +12,15 @@ def setup_db():
             cena_produkta NUMERIC(10, 2),
             komentar varchar(255),
             stock INT,
-            prodano INT
+            prodano INT,
+            kliki INT DEFAULT 0
         );
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS promo_kode (
             promo_kodeID SERIAL PRIMARY KEY,
-            productID INT NOT NULL,
             koda varchar(255),
-            vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100),
-            uporaba BOOLEAN DEFAULT FALSE,
-            FOREIGN KEY (productID) REFERENCES products(productID)
+            vrednost_kode NUMERIC(5, 2) NOT NULL CHECK (vrednost_kode >= 0 AND vrednost_kode <= 100)
         )
     ''')
     conn.commit()
@@ -209,3 +207,30 @@ def search_products(query):
     cursor.close()
     conn.close()
     return products 
+
+def povecaj_klike(productID):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE products
+        SET kliki = kliki + 1
+        WHERE productID = %s;
+    ''', (productID,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def get_top_3_products():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Kliki
+        FROM products
+        ORDER BY Kliki DESC
+        LIMIT 3;
+    ''')
+    top3_products = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return top3_products
