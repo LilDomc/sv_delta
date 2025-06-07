@@ -6,6 +6,7 @@ def setup_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
             productID SERIAL PRIMARY KEY,
+            date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             ime_produkta varchar(255),
             opis_produkta varchar(255),
             cena_produkta NUMERIC(10, 2),
@@ -52,7 +53,7 @@ def get_products(sort_by="Ime_produkta", order="asc", stock_filter="all"):
         where_clause = "WHERE Stock = 0 OR Stock IS NULL"
 
     query = f'''
-        SELECT productID, Ime_produkta, Opis_produkta, Cena_produkta, Stock
+        SELECT productID, date_added, Ime_produkta, Opis_produkta, Cena_produkta, Stock
         FROM products
         {where_clause}
         ORDER BY {column} {direction} {nulls};

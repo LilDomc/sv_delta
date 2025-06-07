@@ -1,4 +1,5 @@
 from flask import request, redirect, render_template
+from datetime import datetime, timedelta
 
 import models.sv_products
 import models.sv_trgovina
@@ -8,7 +9,27 @@ def show_products():
     sort_by, order = sort.split("_")
     stock_filter = request.args.get("stock_filter", "all")
 
-    products = models.sv_products.get_products(sort_by, order, stock_filter)
+    products_fetched_from_db = models.sv_products.get_products(sort_by, order, stock_filter)
+    products = []
+
+    for product in products_fetched_from_db:
+        productID, date_added, name, description, price, stock = product
+        
+        is_new_product = False
+        if date_added:
+            seven_days_ago = datetime.now() - timedelta(days=7)
+            if date_added > seven_days_ago:
+                is_new_product = True
+        
+        products.append({
+            'code': productID,
+            'name': name,
+            'description': description,
+            'price': price,
+            'stock': stock,
+            'is_new': is_new_product
+        })
+
     return render_template("sv_products.html", products=products, sort_by=sort_by, order=order, stock_filter=stock_filter)
 
 def rate_product():

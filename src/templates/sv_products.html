@@ -27,14 +27,17 @@
         <span>Zaloga</span>
     </div>
 
-    {% for code, name, description, price, stock in products %}
+    {% for product in products %}
     <div class="product-row">
-        <span>{{ code }}</span>
+        <span>{{ product.code }}</span>
         <span><img src="{{ url_for('static', filename='images/varovalka.jpg') }}" alt="Varovalka" width="60"></span>
-        <span>{{ name }}</span>
-        <span>{{ description }}</span>
-        <span class="price">{{ price }} €</span>
-        <span class="stock">{{ stock }}</span>
+        <span>{{ product.name }}</span>
+        <span>{{ product.description }}</span>
+        <span class="price">{{ product.price }} €</span>
+        <span class="stock">{{ product.stock }}</span>
+        {% if product.is_new %}
+            <div class="product-new-ribbon"> NOVO </div>
+        {% endif %}
     </div>
     {% endfor %}
 </div>
