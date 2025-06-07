@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Izberite datum dostave{% endblock %}
+{% block content %}
+    <h1>Izberite datum dostave</h1>
+
+    <form method="post">
+        <label for="datum_dostave">Datum dostave:</label>
+        <input type="date" id="datum_dostave" name="datum_dostave" min="{{ min_date }}" required>
+        <button type="submit">Potrdi</button>
+    </form>
+
+    {% if izbran_datum %}
+        <p><strong>Izbran datum dostave:</strong> {{ izbran_datum }}</p>
+    {% endif %}
+{% endblock %}
