@@ -59,6 +59,20 @@
             </div>
         </form>
     {% endif %}
+
+    <h2>Promo koda</h2>
+    <form method="post">
+        <label for="promo_koda">Promo koda:</label>
+        <input type="text" name="promo_koda" value="{{ vnesena_koda }}">
+        <button type="submit">Uporabi kodo</button>
+    </form>
+
+    {% if popust %}
+    <p>Popust: -{{ popust }} €</p>
+    {% endif %}
+
+    <p><strong>Za plačilo:</strong> {{ koncna_cena }} €</p>
+
     <form method="get" action="{{ url_for('izpis_racuna') }}">
         <input type="hidden" name="drzava" value="{{ request.args.get('drzava') }}">
         <input type="hidden" name="regija" value="{{ request.args.get('regija') }}">

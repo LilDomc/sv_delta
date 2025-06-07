@@ -165,3 +165,33 @@ def odstrani_iz_wishlist():
     models.sv_kosarica.odstrani_iz_wishlist(user_id, product_id)
     return redirect(url_for("prikazi_wishlist"))
 
+def izpis_cene():
+    user = session.get("user")
+    if not user:
+        return redirect("/prijava")
+
+    user_id = user["userID"]
+    kosarica = models.sv_kosarica.pridobi_kosarico(user_id)
+
+    skupna_cena = sum(item[2] for item in kosarica)  # Cena iz kosarice
+    popust = 0
+    koda = ""
+
+    # Ensure test promo codes are present
+    #models.sv_kosarica.vstavi_placeholder_kode()
+
+    if request.method == "POST":
+        koda = request.form.get("promo_koda", "").strip()
+        if koda:
+            popust = models.sv_kosarica.preveri_promo_kodo(koda) or 0
+
+    koncna_cena = max(skupna_cena - popust, 0)
+
+    return render_template(
+        "sv_izpis_kosarice.html",
+        kosarica=kosarica,
+        skupna_cena=skupna_cena,
+        popust=popust,
+        koncna_cena=koncna_cena,
+        vnesena_koda=koda
+    )

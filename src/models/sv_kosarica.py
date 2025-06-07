@@ -164,5 +164,42 @@ def odstrani_iz_wishlist(user_id, product_id):
     conn.commit()
     cursor.close()
     conn.close()
+    
+""" def vstavi_placeholder_kode():
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    kode = [
+        ("WELCOME10", 10.00),
+        ("SUMMER15", 15.00),
+        ("SAVE5", 5.00),
+    ]
+
+    for koda, vrednost in kode:
+        cursor.execute('''
+            INSERT INTO promo_kode (koda, vrednost_kode)
+            SELECT %s, %s
+            WHERE NOT EXISTS (
+                SELECT 1 FROM promo_kode WHERE koda = %s
+            )
+        ''', (koda, vrednost, koda))
+
+    conn.commit() """
+
+def pridobi_kosarico(user_id):
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute('''
+            SELECT k.productID, k.ime_produkta, k.cena_produkta, p.kolicina
+            FROM kosarica k
+            JOIN products p ON k.productID = p.productID
+            WHERE k.userID = %s
+        ''', (user_id,))
+        return cursor.fetchall()
+    finally:
+        cursor.close()
+        conn.close()
 
 

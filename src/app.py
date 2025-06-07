@@ -275,3 +275,8 @@ def show_all_vracila():
 @login_required(role='employee')  # employee only
 def insert_qa():
     return controllers.sv_qa_insert.insert_question()
+
+@f_app.route("/kosarica", methods=["GET", "POST"])
+@login_required()
+def izpis_kosarice():
+    return controllers.sv_kosarica.izpis_cene()
